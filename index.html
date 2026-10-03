@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AirSkyHero</title>
+<meta name="description" content="AirSkyHero honours pilots, cabin crew and passengers whose courage saved lives in the sky, organised by country.">
+<style>
+  :root {
+    --bg: #f6f8fb; --surface: #ffffff; --text: #14202e; --muted: #5a6b7d;
+    --line: #dde4ec; --accent: #1f5fae; --accent-soft: #e5eefa; --gold: #b07d12;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0e141b; --surface: #161f29; --text: #e6edf5; --muted: #98a8b9;
+      --line: #263342; --accent: #6aa5ec; --accent-soft: #1b2b3e; --gold: #e0b44c;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 16px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); }
+  a { color: var(--accent); }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 16px; }
+
+  /* Header */
+  header { position: sticky; top: 0; z-index: 10; background: var(--surface); border-bottom: 1px solid var(--line); }
+  header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 12px; height: 60px; }
+  .logo { display: flex; align-items: center; gap: 8px; font-weight: 700; font-size: 1.2rem; color: var(--text); text-decoration: none; }
+  .logo svg { width: 28px; height: 28px; color: var(--accent); }
+  .logo span { color: var(--accent); }
+  nav { display: flex; gap: 4px; }
+  nav a { text-decoration: none; color: var(--muted); padding: 6px 10px; border-radius: 6px; font-size: .95rem; }
+  nav a:hover { background: var(--accent-soft); color: var(--accent); }
+
+  /* Featured */
+  .featured { padding: 40px 0 24px; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .08em; font-size: .75rem; font-weight: 600; color: var(--gold); margin: 0 0 8px; }
+  .feature-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 24px; display: grid; grid-template-columns: 140px 1fr; gap: 24px; align-items: start; }
+  .portrait { width: 140px; height: 140px; border-radius: 50%; background: var(--accent-soft); display: grid; place-items: center; font-size: 2.6rem; font-weight: 700; color: var(--accent); }
+  .feature-card h1 { margin: 0 0 4px; font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.2; }
+  .meta { color: var(--muted); margin: 0 0 12px; }
+  .placeholder { border: 1px dashed var(--line); border-radius: 8px; padding: 10px 12px; color: var(--muted); font-style: italic; }
+
+  /* Controls */
+  .heroes { padding: 16px 0 48px; }
+  .heroes h2 { margin: 0 0 4px; }
+  .controls { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 8px; margin: 16px 0 8px; }
+  .controls input, .controls select { width: 100%; font: inherit; padding: 9px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); color: var(--text); }
+  .count { color: var(--muted); font-size: .9rem; margin: 0 0 16px; }
+
+  /* Country groups + cards */
+  .country { margin: 28px 0 0; }
+  .country h3 { font-size: 1.1rem; margin: 0 0 10px; padding-bottom: 6px; border-bottom: 1px solid var(--line); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; }
+  .card h4 { margin: 0; font-size: 1.05rem; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .tag { font-size: .75rem; padding: 2px 8px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
+  .card .flight { font-weight: 600; font-size: .9rem; color: var(--muted); margin: 0; }
+  .card p { margin: 0; font-size: .95rem; }
+  .card .src { margin-top: auto; padding-top: 6px; font-size: .85rem; }
+  .empty { color: var(--muted); padding: 24px 0; }
+
+  .about { border-top: 1px solid var(--line); padding: 32px 0 48px; color: var(--muted); }
+  .about h2 { color: var(--text); }
+
+  @media (max-width: 640px) {
+    nav a { padding: 6px 6px; font-size: .9rem; }
+    .feature-card { grid-template-columns: 1fr; }
+    .portrait { width: 96px; height: 96px; font-size: 1.8rem; }
+    .controls { grid-template-columns: 1fr 1fr; }
+    .controls input { grid-column: 1 / -1; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="AirSkyHero home">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+      Air<span>Sky</span>Hero
+    </a>
+    <nav aria-label="Main">
+      <a href="#featured">Featured</a>
+      <a href="#heroes">Heroes</a>
+      <a href="#about">About</a>
+    </nav>
+  </div>
+</header>
+
+<main id="top">
+  <!-- Featured hero (front page) -->
+  <section class="featured wrap" id="featured">
+    <p class="eyebrow">Featured hero</p>
+    <article class="feature-card">
+      <div class="portrait" aria-hidden="true">SM</div>
+      <div>
+        <h1>Smit Machchhar</h1>
+        <!-- TODO: fill in role, country and year, e.g. "Captain · India · 2024" -->
+        <p class="meta">Role · Country · Year</p>
+        <!-- TODO: replace with Smit's story and a source link -->
+        <p class="placeholder">Story coming soon. This profile will tell Smit Machchhar's story once the details and sources are added.</p>
+      </div>
+    </article>
+  </section>
+
+  <!-- All heroes, grouped by country -->
+  <section class="heroes wrap" id="heroes">
+    <h2>Sky heroes by country</h2>
+    <p class="meta">Pilots, cabin crew and passengers whose actions saved lives in the air.</p>
+
+    <div class="controls" role="search">
+      <input id="q" type="search" placeholder="Search name, flight or story…" aria-label="Search heroes">
+      <select id="country" aria-label="Filter by country"><option value="">All countries</option></select>
+      <select id="role" aria-label="Filter by role"><option value="">All roles</option></select>
+      <select id="decade" aria-label="Filter by decade"><option value="">All years</option></select>
+    </div>
+    <p class="count" id="count" aria-live="polite"></p>
+    <div id="list"></div>
+  </section>
+
+  <section class="about wrap" id="about">
+    <h2>About AirSkyHero</h2>
+    <p>AirSkyHero remembers people who showed courage and skill in the sky, many of whom gave their lives to save others. Every entry links to a public source. If you spot an error, please let us know.</p>
+  </section>
+</main>
+
+<script>
+const HEROES = [
+  { name: "Chesley \"Sully\" Sullenberger", role: "Pilot", country: "United States", year: 2009,
+    flight: "US Airways Flight 1549",
+    story: "After a bird strike knocked out both engines shortly after takeoff from LaGuardia, the captain ditched the Airbus A320 on the Hudson River. All 155 people aboard survived.",
+    source: "https://en.wikipedia.org/wiki/US_Airways_Flight_1549" },
+  { name: "Jeffrey Skiles", role: "Pilot", country: "United States", year: 2009,
+    flight: "US Airways Flight 1549",
+    story: "First officer on the 'Miracle on the Hudson'. He worked through the engine-restart checklist while the captain flew the glide to the river. All 155 aboard survived.",
+    source: "https://en.wikipedia.org/wiki/US_Airways_Flight_1549" },
+  { name: "Tammie Jo Shults", role: "Pilot", country: "United States", year: 2018,
+    flight: "Southwest Airlines Flight 1380",
+    story: "A former US Navy pilot, she landed the Boeing 737 safely in Philadelphia after an uncontained engine failure broke a cabin window and caused a rapid decompression.",
+    source: "https://en.wikipedia.org/wiki/Southwest_Airlines_Flight_1380" },
+  { name: "Al Haynes", role: "Pilot", country: "United States", year: 1989,
+    flight: "United Airlines Flight 232",
+    story: "When an engine failure destroyed all hydraulics on the DC-10, his crew steered using engine thrust alone and reached Sioux City, Iowa. 184 of the 296 people aboard survived.",
+    source: "https://en.wikipedia.org/wiki/United_Airlines_Flight_232" },
+  { name: "Dennis Fitch", role: "Pilot", country: "United States", year: 1989,
+    flight: "United Airlines Flight 232",
+    story: "A United training check airman travelling as a passenger, he went to the cockpit and worked the throttles to help steer the crippled DC-10 to Sioux City.",
+    source: "https://en.wikipedia.org/wiki/United_Airlines_Flight_232" },
+  { name: "Arland D. Williams Jr.", role: "Passenger", country: "United States", year: 1982,
+    flight: "Air Florida Flight 90",
+    story: "After the crash into the icy Potomac River, he repeatedly passed the rescue helicopter's lifeline to other survivors. He drowned before he could be rescued himself.",
+    source: "https://en.wikipedia.org/wiki/Air_Florida_Flight_90" },
+  { name: "Passengers and crew of Flight 93", role: "Passenger", country: "United States", year: 2001,
+    flight: "United Airlines Flight 93",
+    story: "On September 11, passengers and crew fought back against the hijackers. The aircraft crashed near Shanksville, Pennsylvania, short of its intended target.",
+    source: "https://en.wikipedia.org/wiki/United_Airlines_Flight_93" },
+  { name: "Neerja Bhanot", role: "Cabin crew", country: "India", year: 1986,
+    flight: "Pan Am Flight 73",
+    story: "The senior purser alerted the cockpit when the aircraft was hijacked in Karachi and helped passengers escape. She was killed shielding children, and was awarded the Ashoka Chakra posthumously.",
+    source: "https://en.wikipedia.org/wiki/Neerja_Bhanot" },
+  { name: "Robert Piché", role: "Pilot", country: "Canada", year: 2001,
+    flight: "Air Transat Flight 236",
+    story: "A fuel leak caused both engines of the Airbus A330 to fail over the Atlantic. He glided the aircraft to a landing at Lajes in the Azores, and all 306 people aboard survived.",
+    source: "https://en.wikipedia.org/wiki/Air_Transat_Flight_236" },
+  { name: "Damir Yusupov", role: "Pilot", country: "Russia", year: 2019,
+    flight: "Ural Airlines Flight 178",
+    story: "After bird strikes damaged both engines just after takeoff near Moscow, he landed the Airbus A321 in a cornfield. All 233 people aboard survived.",
+    source: "https://en.wikipedia.org/wiki/Ural_Airlines_Flight_178" },
+  { name: "Liu Chuanjian", role: "Pilot", country: "China", year: 2018,
+    flight: "Sichuan Airlines Flight 8633",
+    story: "The cockpit windshield blew out at cruising altitude. He flew the Airbus A319 manually in freezing, deafening conditions to a safe landing in Chengdu, and no one aboard was killed.",
+    source: "https://en.wikipedia.org/wiki/Sichuan_Airlines_Flight_8633" },
+  { name: "Eric Moody", role: "Pilot", country: "United Kingdom", year: 1982,
+    flight: "British Airways Flight 9",
+    story: "All four engines of the Boeing 747 failed after it flew through volcanic ash over Indonesia. His crew restarted them and landed in Jakarta, and everyone aboard survived.",
+    source: "https://en.wikipedia.org/wiki/British_Airways_Flight_9" },
+  { name: "Nigel Ogden", role: "Cabin crew", country: "United Kingdom", year: 1990,
+    flight: "British Airways Flight 5390",
+    story: "When a cockpit windscreen blew out and the captain was pulled partly out of the aircraft, this flight attendant held on to him until the aircraft landed safely at Southampton.",
+    source: "https://en.wikipedia.org/wiki/British_Airways_Flight_5390" },
+  { name: "Alastair Atchison", role: "Pilot", country: "United Kingdom", year: 1990,
+    flight: "British Airways Flight 5390",
+    story: "With the captain pinned half outside the broken windscreen, the first officer flew the BAC One-Eleven alone to an emergency landing at Southampton. Everyone survived.",
+    source: "https://en.wikipedia.org/wiki/British_Airways_Flight_5390" },
+  { name: "Barbara Jane Harrison", role: "Cabin crew", country: "United Kingdom", year: 1968,
+    flight: "BOAC Flight 712",
+    story: "When an engine fire broke out after takeoff from Heathrow, she helped passengers escape the burning aircraft and died trying to save others. She was awarded the George Cross posthumously.",
+    source: "https://en.wikipedia.org/wiki/Barbara_Jane_Harrison" },
+  { name: "Richard de Crespigny", role: "Pilot", country: "Australia", year: 2010,
+    flight: "Qantas Flight 32",
+    story: "An uncontained engine failure caused severe damage to the Airbus A380 after takeoff from Singapore. His crew worked through dozens of system failures and landed safely, and all 469 people aboard survived.",
+    source: "https://en.wikipedia.org/wiki/Qantas_Flight_32" },
+  { name: "Leul Abate", role: "Pilot", country: "Ethiopia", year: 1996,
+    flight: "Ethiopian Airlines Flight 961",
+    story: "Hijackers forced the Boeing 767 to fly until it ran out of fuel. He ditched it in the sea off the Comoros, and 50 people survived what would otherwise have been a crash with no survivors.",
+    source: "https://en.wikipedia.org/wiki/Ethiopian_Airlines_Flight_961" },
+  { name: "Uli Derickson", role: "Cabin crew", country: "Germany", year: 1985,
+    flight: "TWA Flight 847",
+    story: "During the hijacking, the purser used her German to talk with the hijackers, calmed and protected passengers, and paid for fuel in Algiers with her own credit card.",
+    source: "https://en.wikipedia.org/wiki/Uli_Derickson" }
+];
+
+const $ = id => document.getElementById(id);
+const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const decadeOf = y => Math.floor(y / 10) * 10;
+const uniq = arr => [...new Set(arr)];
+
+function fill(select, values, label = v => v) {
+  values.forEach(v => select.add(new Option(label(v), v)));
+}
+fill($("country"), uniq(HEROES.map(h => h.country)).sort());
+fill($("role"), uniq(HEROES.map(h => h.role)).sort());
+fill($("decade"), uniq(HEROES.map(h => decadeOf(h.year))).sort((a, b) => b - a), d => d + "s");
+
+function render() {
+  const q = $("q").value.trim().toLowerCase();
+  const country = $("country").value, role = $("role").value, decade = $("decade").value;
+
+  const matches = HEROES.filter(h =>
+    (!country || h.country === country) &&
+    (!role || h.role === role) &&
+    (!decade || decadeOf(h.year) === +decade) &&
+    (!q || [h.name, h.flight, h.story, h.country].join(" ").toLowerCase().includes(q))
+  );
+
+  $("count").textContent = matches.length + (matches.length === 1 ? " hero" : " heroes");
+
+  if (!matches.length) {
+    $("list").innerHTML = '<p class="empty">No heroes match those filters.</p>';
+    return;
+  }
+
+  const byCountry = {};
+  matches.forEach(h => (byCountry[h.country] ||= []).push(h));
+
+  $("list").innerHTML = Object.keys(byCountry).sort().map(c => `
+    <section class="country">
+      <h3>${esc(c)}</h3>
+      <div class="grid">
+        ${byCountry[c].sort((a, b) => a.year - b.year).map(h => `
+          <article class="card">
+            <h4>${esc(h.name)}</h4>
+            <div class="tags"><span class="tag">${esc(h.role)}</span><span class="tag">${h.year}</span></div>
+            <p class="flight">${esc(h.flight)}</p>
+            <p>${esc(h.story)}</p>
+            <a class="src" href="${esc(h.source)}" target="_blank" rel="noopener">Source ↗</a>
+          </article>`).join("")}
+      </div>
+    </section>`).join("");
+}
+
+["q", "country", "role", "decade"].forEach(id => $(id).addEventListener("input", render));
+render();
+</script>
+</body>
+</html>
