@@ -1,0 +1,12 @@
+{
+  "name": "airskyhero",
+  "private": true,
+  "description": "AirSkyHero: heroes of the sky from around the world.",
+  "scripts": {
+    "dev": "vite --open",
+    "phone": "vite --host"
+  },
+  "devDependencies": {
+    "vite": "^7.0.0"
+  }
+}
