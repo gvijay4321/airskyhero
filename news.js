@@ -22,7 +22,8 @@ const thumb = (src, label) => `<span class="n-fallback">${esc(label)}</span>` +
   (src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : "");
 const cardText = n => `<div class="n-text">
   <span class="n-src">${esc(n.outlet || "")}${n.date ? " · " + newsDate(n.date) : ""}</span>
-  ${n.title ? `<span class="n-title">${esc(n.title)}</span>` : ""}</div>`;
+  ${n.title ? `<span class="n-title">${esc(n.title)}</span>` : ""}
+  ${n.imageCredit ? `<span class="n-credit">Photo: ${esc(n.imageCredit)}</span>` : ""}</div>`;
 
 const videoCard = v => `
   <div class="n-card">
@@ -32,7 +33,7 @@ const videoCard = v => `
   </div>`;
 const articleCard = a => `
   <a class="n-card" href="${esc(a.url)}" target="_blank" rel="noopener">
-    <div class="n-thumb">${thumb(a.image, a.outlet)}</div>
+    <div class="n-thumb">${thumb(a.image && !/^https?:/.test(a.image) ? "/" + a.image.replace(/^\//, "") : a.image, a.outlet)}</div>
     ${cardText({ ...a, title: a.title || `Read the ${a.outlet} report ↗` })}
   </a>`;
 const grid = cards => `<div class="n-grid">${cards.join("")}</div>`;

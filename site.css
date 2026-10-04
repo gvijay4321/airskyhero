@@ -61,6 +61,7 @@ a.n-card:hover, a.n-card:focus-visible { border-color: var(--accent); transform:
 .n-text { padding: 10px 12px 12px; display: flex; flex-direction: column; gap: 4px; }
 .n-src { font-size: .75rem; color: var(--muted); }
 .n-title { font-size: .9rem; font-weight: 600; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+.n-credit { font-size: .68rem; color: var(--muted); opacity: .8; }
 .news-search { display: flex; flex-wrap: wrap; gap: 8px; font-size: .85rem; }
 .news-search a { border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; }
 .news-search a:hover { border-color: var(--accent); }
