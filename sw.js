@@ -1,8 +1,8 @@
 // AirSkyHero service worker: makes the site installable and usable offline.
 // Pages and hero data are fetched fresh when online (so updates show right away)
 // and fall back to the cached copy when offline.
-const CACHE = "airskyhero-v4";
-const SHELL = ["./", "index.html", "heroes.js", "manifest.webmanifest", "icon.svg", "icon-192.png"];
+const CACHE = "airskyhero-v5";
+const SHELL = ["./", "index.html", "site.css", "news.js", "heroes.js", "manifest.webmanifest", "icon.svg", "icon-192.png"];
 
 self.addEventListener("install", e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));

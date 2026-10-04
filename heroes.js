@@ -7,6 +7,8 @@
 // news: optional coverage shown in the hero's story, newest first. type is "video" (YouTube link, plays in the page)
 //   or "article". title, date (YYYY-MM-DD) and image (the article's preview picture) are optional. Every hero also gets "latest news" search links automatically.
 // newsQuery: optional search words for those links (defaults to the hero's name and flight).
+// slug: optional page address (airskyhero.com/<slug>/); defaults to the name, e.g. "smit-machchhar".
+// After editing this file, run "npm run build" to update the hero pages, share images and sitemap.
 const HEROES = [
   { id: "machchhar", name: "Smit Machchhar", role: "Pilot", country: "India", year: 2026,
     featured: true, developing: true,
@@ -155,3 +157,5 @@ const HEROES = [
     image: "images/derickson.jpg", imageKind: "scene", imageAlt: "Trans World Airlines Boeing 727",
     imageCredit: "Jon Proctor · GFDL 1.2", imageCreditUrl: "https://commons.wikimedia.org/wiki/File:Boeing_727-231(Adv),_Trans_World_Airlines_(TWA)_JP5958649.jpg" }
 ];
+
+if (typeof module !== "undefined") module.exports = HEROES; // lets scripts/build.mjs read the list
