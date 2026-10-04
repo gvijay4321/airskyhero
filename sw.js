@@ -1,7 +1,7 @@
 // AirSkyHero service worker: makes the site installable and usable offline.
 // Pages and hero data are fetched fresh when online (so updates show right away)
 // and fall back to the cached copy when offline.
-const CACHE = "airskyhero-v3";
+const CACHE = "airskyhero-v4";
 const SHELL = ["./", "index.html", "heroes.js", "manifest.webmanifest", "icon.svg", "icon-192.png"];
 
 self.addEventListener("install", e => {
@@ -18,6 +18,7 @@ self.addEventListener("activate", e => {
 
 self.addEventListener("fetch", e => {
   if (e.request.method !== "GET") return;
+  if (/goatcounter\.com|zgo\.at/.test(new URL(e.request.url).hostname)) return; // visit counter: never cache
   e.respondWith(
     fetch(e.request)
       .then(res => {
