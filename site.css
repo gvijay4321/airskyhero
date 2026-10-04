@@ -98,8 +98,8 @@ a.n-card:hover, a.n-card:focus-visible { border-color: var(--accent); transform:
 .card { text-align: left; color: var(--text); text-decoration: none; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 16px; display: flex; flex-direction: column; gap: 6px; cursor: pointer; transition: border-color .15s, transform .15s; }
 .card:hover, .card:focus-visible { border-color: var(--accent); transform: translateY(-2px); outline: none; }
 .card h4 { margin: 0; font-size: 1.05rem; }
-.thumb { margin: -16px -16px 6px; aspect-ratio: 16 / 9; border-radius: 11px 11px 0 0; overflow: hidden; background: var(--accent-soft); display: grid; place-items: center; }
-.thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.thumb { position: relative; margin: -16px -16px 6px; aspect-ratio: 16 / 9; border-radius: 11px 11px 0 0; overflow: hidden; background: var(--accent-soft); display: grid; place-items: center; }
+.thumb img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; }
 .thumb img.face { object-position: 50% 30%; }
 .thumb .initials { font-size: 2rem; font-weight: 700; color: var(--accent-strong); opacity: .7; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
