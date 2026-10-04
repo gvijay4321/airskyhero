@@ -15,7 +15,7 @@ const HEROES = [
   { id: "machchhar", name: "Smit Machchhar", role: "Pilot", country: "India", year: 2026,
     featured: true, developing: true,
     date: "30 September 2026", flight: "flydubai Flight 1073", aircraft: "Boeing 737 MAX 8", place: "Tabuk, Saudi Arabia",
-    story: "Captain Smit Machchhar was flying flydubai Flight 1073 from Dubai to Tel Aviv when, according to initial reports, he was attacked in the cockpit by the first officer and the aircraft went into a rapid descent. Though seriously injured, he is reported to have opened the cockpit door, allowing passengers and crew to restrain the attacker. Off-duty pilots travelling on board took over and the Boeing 737 MAX 8 landed safely at Tabuk, Saudi Arabia, with all 174 passengers alive. The investigation is ongoing.",
+    story: "Captain Smit Machchhar was flying flydubai Flight 1073 from Dubai to Tel Aviv when, according to initial reports, he was attacked in the cockpit by the first officer and the aircraft went into a rapid descent. Though seriously injured, he is reported to have opened the cockpit door, allowing passengers and crew to restrain the attacker. Off-duty pilots travelling on board took over and the Boeing 737 MAX 8 landed safely at Tabuk, Saudi Arabia, with all 174 passengers alive. On 2 October, Mankind Pharma announced ₹1 crore for him and his family in recognition of his courage. The investigation is ongoing.",
     source: "https://en.wikipedia.org/wiki/Flydubai_Flight_1073",
     news: [
       { type: "video", title: "Captain Smit Machchhar's Wife Says, 'Very Delighted That PM Modi Spoke To Him'", outlet: "Moneycontrol", url: "https://www.youtube.com/watch?v=ry80jwnw2nA" },
