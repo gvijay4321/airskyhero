@@ -190,3 +190,37 @@ dialog::backdrop { background: rgba(4,8,12,.75); backdrop-filter: blur(3px); }
 .g-links a { white-space: normal; font-size: 1rem; }
 .guide .hp-home { display: inline-block; margin-top: 32px; }
 .hp-guide { margin: 0 0 28px; padding: 12px 14px; border: 1px solid var(--accent); border-radius: 10px; background: var(--surface-2); }
+.g-hero { margin: 0 0 18px; }
+.g-map { margin: 8px 0 6px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+.g-map svg { width: 100%; height: auto; display: block; }
+.m-body { fill: var(--surface-2); stroke: var(--muted); stroke-width: 1.5; }
+.m-wing path { fill: var(--surface-2); stroke: var(--muted); stroke-width: 1.2; }
+.m-near { fill: rgba(224, 93, 93, .16); stroke: #e05d5d; stroke-dasharray: 5 4; }
+.m-far { fill: var(--accent-soft); stroke: var(--accent); stroke-dasharray: 5 4; opacity: .9; }
+.m-door { stroke: var(--text); stroke-width: 3; }
+.m-seats rect { fill: var(--muted); opacity: .45; }
+.m-exit rect { fill: #3fb68b; }
+.m-alert circle { fill: #e05d5d; }
+.m-alert text { fill: #fff; font: 700 18px system-ui, sans-serif; }
+.m-small { fill: var(--muted); font: 600 12px system-ui, sans-serif; }
+.m-label { font: 700 18px system-ui, sans-serif; }
+.m-label-near { fill: #e05d5d; }
+.m-label-far { fill: var(--accent); }
+.g-legend { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; font-size: .92rem; }
+.g-legend > div { padding: 10px 12px; border-radius: 8px; background: var(--surface-2); border-left: 4px solid; }
+.g-legend b { display: block; }
+.g-legend span { display: block; margin-top: 4px; color: var(--muted); }
+.g-near { border-color: #e05d5d !important; }
+.g-far { border-color: var(--accent) !important; }
+.g-note { margin: 0 0 8px; font-size: .88rem; color: var(--muted); }
+.g-side { float: right; width: 200px; margin: 4px 0 12px 20px; }
+.g-side img { width: 100%; height: auto; border-radius: 10px; display: block; }
+.g-side figcaption { font-size: .78rem; color: var(--muted); margin-top: 6px; }
+.guide section::after { content: ""; display: block; clear: both; }
+@media (max-width: 560px) {
+  .g-legend { grid-template-columns: 1fr; }
+  .g-side { float: none; width: auto; max-width: 260px; margin: 4px auto 14px; }
+  .g-map { padding: 8px; }
+  .m-label { font-size: 32px; }
+  .m-small { font-size: 24px; }
+}
