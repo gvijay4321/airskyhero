@@ -224,3 +224,8 @@ dialog::backdrop { background: rgba(4,8,12,.75); backdrop-filter: blur(3px); }
   .m-label { font-size: 32px; }
   .m-small { font-size: 24px; }
 }
+.m-wc rect { fill: var(--surface); stroke: var(--muted); }
+.m-wc text { fill: var(--muted); font: 700 12px system-ui, sans-serif; }
+.g-story { margin: 0 0 14px; padding: 10px 12px; border-left: 3px solid var(--gold); background: var(--surface-2); border-radius: 0 8px 8px 0; line-height: 1.6; }
+.g-story a { white-space: nowrap; font-size: .9rem; }
+@media (max-width: 560px) { .m-wc text { font-size: 18px; } }
