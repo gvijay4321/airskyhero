@@ -108,6 +108,7 @@ ${MARK}
     <nav aria-label="Main">
       <a href="/#map-section">Map</a>
       <a href="/#heroes">Heroes</a>
+      <a href="/what-passengers-can-do/">Safety</a>
       <a href="/#about">About</a>
     </nav>
   </div>
@@ -129,6 +130,7 @@ ${facts.map(([k, v]) => `      <div class="fact"><dt>${k}</dt><dd>${esc(v)}</dd>
     </dl>
 ${h.developing ? `    <p class="developing">This is a recent event and an investigation is under way. Details may change as more is confirmed.</p>\n` : ""}    <p class="hp-story">${esc(h.story)}</p>
     <p class="hp-source">Source: <a href="${esc(h.source)}" target="_blank" rel="noopener">${esc(h.source.replace(/^https?:\/\/(www\.)?/, ""))} ↗</a></p>
+    <p class="hp-guide">If something goes wrong on your flight: <a href="/what-passengers-can-do/">what passengers can do, close by or farther away →</a></p>
     ${shareHtml(h)}
     <section class="news" aria-labelledby="d-news-h">${newsHtml(h)}
     </section>
@@ -171,7 +173,7 @@ console.log(`Hero pages: ${ordered.length} (${changed} updated)`);
 
 /* ---------- Sitemap ---------- */
 const today = new Date().toISOString().slice(0, 10);
-const urls = [`${SITE}/`, ...ordered.map(heroUrl)];
+const urls = [`${SITE}/`, `${SITE}/what-passengers-can-do/`, ...ordered.map(heroUrl)];
 write("sitemap.xml", `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 ${urls.map(u => `  <url>\n    <loc>${u}</loc>\n    <lastmod>${today}</lastmod>\n  </url>`).join("\n")}
