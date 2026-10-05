@@ -146,14 +146,14 @@ if (FEATURED) {
     </div>`;
   $("f-cta").addEventListener("click", () => { location.hash = "hero-" + f.id; });
 
-  // Latest coverage under the featured card: all videos, then the newest articles.
+  // Latest coverage under the featured card: all videos, then the newest articles, in one swipeable row.
   const { videos, articles } = splitNews(f);
   if (videos.length || articles.length) {
     $("f-news").hidden = false;
     $("f-news").innerHTML = `
       <div class="f-news-head"><h2>Latest on ${esc(f.name)}</h2>
         <button class="f-all" id="f-all">All ${videos.length + articles.length} stories &amp; videos →</button></div>
-      ${grid([...videos.map(videoCard), ...articles.slice(0, 6).map(articleCard)])}`;
+      ${grid([...videos.map(videoCard), ...articles.slice(0, 12).map(articleCard)])}`;
       $("f-all").addEventListener("click", () => { location.hash = "hero-" + f.id; });
   }
 } else {

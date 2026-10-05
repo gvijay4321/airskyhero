@@ -36,7 +36,12 @@ const articleCard = a => `
     <div class="n-thumb">${thumb(a.image && !/^https?:/.test(a.image) ? "/" + a.image.replace(/^\//, "") : a.image, a.outlet)}</div>
     ${cardText({ ...a, title: a.title || `Read the ${a.outlet} report ↗` })}
   </a>`;
-const grid = cards => `<div class="n-grid">${cards.join("")}</div>`;
+// A swipeable row of cards; arrow buttons scroll it a page at a time on devices with a mouse.
+const grid = cards => `<div class="n-rail">
+  <div class="n-grid">${cards.join("")}</div>
+  ${cards.length > 1 ? `<button class="n-nav n-prev" type="button" data-rail="-1" aria-label="Previous" disabled>‹</button>
+  <button class="n-nav n-next" type="button" data-rail="1" aria-label="Next">›</button>` : ""}
+</div>`;
 const splitNews = h => {
   const items = h.news || [];
   const videos = items.filter(n => n.type === "video" && youtubeId(n.url));
@@ -48,8 +53,8 @@ function newsHtml(h) {
   const q = encodeURIComponent(h.newsQuery || `${h.name.replace(/"[^"]*"\s*/g, "")} ${h.flight}`);
   return `
     <h3 id="d-news-h">News &amp; videos</h3>
-    ${videos.length ? `<h4>Videos</h4>${grid(videos.map(videoCard))}` : ""}
-    ${articles.length ? `<h4>Articles</h4>${grid(articles.map(articleCard))}` : ""}
+    ${videos.length ? `<h4>Videos · ${videos.length}</h4>${grid(videos.map(videoCard))}` : ""}
+    ${articles.length ? `<h4>Articles · ${articles.length}</h4>${grid(articles.map(articleCard))}` : ""}
     <div class="news-search">
       ${ext(`https://news.google.com/search?q=${q}`, "Latest news ↗")}
       ${ext(`https://www.youtube.com/results?search_query=${q}&sp=CAI%253D`, "Latest videos ↗")}
@@ -78,7 +83,28 @@ if (typeof document !== "undefined") {
   // Phones with a share sheet get a "More…" button that opens it (see .can-share in site.css).
   if (navigator.share) document.documentElement.classList.add("can-share");
 
+  // Card rows: arrows scroll by one screenful, and grey out at either end.
+  const syncRail = rail => {
+    const g = rail.querySelector(".n-grid"), [prev, next] = rail.querySelectorAll(".n-nav");
+    if (!prev) return;
+    prev.disabled = g.scrollLeft < 4;
+    next.disabled = g.scrollLeft + g.clientWidth > g.scrollWidth - 4;
+  };
+  document.addEventListener("scroll", e => {
+    if (e.target.classList && e.target.classList.contains("n-grid")) syncRail(e.target.parentElement);
+  }, true);
+  const syncAll = () => document.querySelectorAll(".n-rail").forEach(syncRail);
+  addEventListener("resize", syncAll);
+  new MutationObserver(syncAll).observe(document.documentElement, { childList: true, subtree: true });
+  addEventListener("DOMContentLoaded", syncAll);
+
   document.addEventListener("click", e => {
+    const nav = e.target.closest("[data-rail]");
+    if (nav) {
+      const g = nav.parentElement.querySelector(".n-grid");
+      g.scrollBy({ left: Math.sign(+nav.dataset.rail) * g.clientWidth * 0.9, behavior: "smooth" });
+      return;
+    }
     // Swap a video card's play button for the YouTube player.
     const yt = e.target.closest("[data-yt]");
     if (yt) {
