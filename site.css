@@ -242,16 +242,27 @@ dialog::backdrop { background: rgba(4,8,12,.75); backdrop-filter: blur(3px); }
 
 /* Who helped */
 .helpers-h { margin: 0 0 10px; font-size: 1.05rem; }
+.helpers, .helpers-h, #f-helpers { scroll-margin-top: 76px; }
 .helpers { list-style: none; margin: 0 0 22px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 10px; }
 .helpers li { padding: 10px 12px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; line-height: 1.45; }
 .helpers b { display: block; }
 .h-role { display: block; font-size: .78rem; color: var(--gold); text-transform: uppercase; letter-spacing: .05em; margin: 2px 0 4px; }
 .h-did { display: block; font-size: .9rem; color: var(--muted); }
 .helpers li.has-pic { display: grid; grid-template-columns: 56px 1fr; gap: 10px; align-items: start; }
-.helpers li img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 25%; background: var(--surface); }
+.helpers li img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 25%; background: var(--surface); border: 2px solid currentColor; box-sizing: border-box; }
 .helpers b a { color: inherit; }
 .h-credit { display: block; margin-top: 4px; font-size: .68rem; color: var(--muted); opacity: .8; }
 .h-credit a { color: inherit; }
 .h-src { display: block; margin-top: 6px; font-size: .72rem; color: var(--muted); }
 .h-src a { display: inline-block; min-width: 1.6em; padding: 0 4px; margin-right: 2px; text-align: center; border: 1px solid var(--line); border-radius: 4px; text-decoration: none; color: var(--muted); }
 .h-src a:hover { border-color: var(--accent); color: var(--accent-strong); }
+.h-icon { width: 56px; height: 56px; border-radius: 50%; display: grid; place-items: center; border: 2px solid currentColor; background: var(--surface); box-sizing: border-box; }
+.h-icon svg { width: 30px; height: 30px; }
+.h-icon svg { width: 28px; height: 28px; }
+.h-pilot { color: #6fa8ff; }
+.h-crew { color: #e6b84f; }
+.h-passenger { color: #4fc3b0; }
+.h-medic { color: #ef6b6b; }
+.h-rescue { color: #f39a4a; }
+.h-atc { color: #b48cf2; }
+.h-official { color: #93a3b5; }

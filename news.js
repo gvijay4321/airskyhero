@@ -62,6 +62,29 @@ function newsHtml(h) {
 }
 
 /* ---------- Who helped: everyone on the hero's flight, from helpers.js ---------- */
+// People without a free photo get a small icon for what they did, worked out from their role.
+const ROLE_ICONS = {
+  medic: '<path d="M10 3h4v7h7v4h-7v7h-4v-7H3v-4h7z" fill="currentColor" stroke="none"/>',
+  atc: '<path d="M4 15v-3a8 8 0 0 1 16 0v3"/><rect x="2.5" y="14" width="4.5" height="6.5" rx="1.5"/><rect x="17" y="14" width="4.5" height="6.5" rx="1.5"/>',
+  rescue: '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/><path d="M5.6 5.6l3.5 3.5M14.9 14.9l3.5 3.5M18.4 5.6l-3.5 3.5M9.1 14.9l-3.5 3.5"/>',
+  pilot: '<path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z" fill="currentColor" stroke="none"/>',
+  crew: '<circle cx="12" cy="10" r="3.6"/><path d="M7.6 6.6c1.6-2.3 7.2-2.3 8.8 0v1.2H7.6z" fill="currentColor"/><path d="M5 21.5c.4-4 3.3-6.5 7-6.5s6.6 2.5 7 6.5"/><path d="M9.5 18h5"/>',
+  official: '<rect x="3" y="7" width="18" height="13" rx="2"/><path d="M9 7V5a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2M3 13h18"/>',
+  passenger: '<path d="M7 2.5h3l1.6 10H18a2 2 0 0 1 2 2V16h-9.4a2 2 0 0 1-2-1.7z"/><path d="M12.5 16 11 21.5M17 16l1 5.5M9 21.5h11"/>'
+};
+const roleKind = role => {
+  const r = role.toLowerCase();
+  if (/doctor|nurse|dentist|paramedic|\bdr\b/.test(r)) return "medic";
+  if (/controller|tracon|approach/.test(r)) return "atc";
+  if (/diver|helicopter|ferry|rescue|bystander|police/.test(r)) return "rescue";
+  if (/captain|officer|pilot|engineer|airman|off-duty crew/.test(r)) return "pilot";
+  if (/attendant|steward|purser|cabin|crew/.test(r)) return "crew";
+  if (/director|manager/.test(r)) return "official";
+  return "passenger";
+};
+const roleIcon = role => { const k = roleKind(role);
+  return `<span class="h-icon h-${k}" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${ROLE_ICONS[k]}</svg></span>`; };
+
 // helpers: the HELPERS list (flight name -> people); heroes: HEROES, used to link people who have their own page.
 // The hero whose page this is is left out of their own list.
 function helpersHtml(h, helpers, heroes) {
@@ -73,7 +96,7 @@ function helpersHtml(h, helpers, heroes) {
     <ul class="helpers">${people.map(p => {
       const link = p.heroId && page(p.heroId);
       const name = link ? `<a href="${link}">${esc(p.name)}</a>` : esc(p.name);
-      const pic = p.photo ? `<img src="/${esc(p.photo.src)}" alt="" loading="lazy" width="56" height="56">` : "";
+      const pic = p.photo ? `<img class="h-${roleKind(p.role)}" src="/${esc(p.photo.src)}" alt="" loading="lazy" width="56" height="56">` : roleIcon(p.role);
       const credit = p.photo ? `<span class="h-credit">Photo: <a href="${esc(p.photo.page)}" target="_blank" rel="noopener">${esc(p.photo.credit)}</a></span>` : "";
       const sources = (p.sources || []).length ? `<span class="h-src">Sources: ${p.sources.map((u, i) =>
         `<a href="${esc(u)}" target="_blank" rel="noopener" title="${esc(u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0])}">${i + 1}</a>`).join(" ")}</span>` : "";
