@@ -40,7 +40,8 @@ nav a:hover { background: var(--accent-soft); color: var(--accent-strong); }
 .badge-live { display: inline-flex; align-items: center; gap: 6px; font-size: .75rem; font-weight: 600; color: #f3a6a6; }
 .badge-live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: #e05d5d; }
 .developing { margin: 0 0 16px; padding: 10px 12px; border-left: 3px solid #e05d5d; background: var(--surface-2); border-radius: 0 8px 8px 0; font-size: .9rem; color: var(--muted); }
-.f-news { margin-top: 20px; }
+.f-news, .f-helpers { margin-top: 20px; }
+.f-helpers .helpers { margin-bottom: 0; }
 .f-news-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin: 0 0 12px; }
 .f-news-head h2 { margin: 0; font-size: 1.25rem; }
 .f-all { border: 1px solid var(--gold); background: transparent; color: var(--gold); border-radius: 8px; padding: 6px 12px; cursor: pointer; font: inherit; font-size: .9rem; }

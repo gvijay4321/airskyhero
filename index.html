@@ -47,6 +47,7 @@
     <p class="eyebrow">Featured hero</p>
     <!-- Filled from the hero marked featured: true in heroes.js -->
     <article class="feature-card" id="feature"></article>
+    <div class="f-helpers" id="f-helpers" hidden></div>
     <div class="f-news" id="f-news" hidden></div>
   </section>
 
@@ -147,6 +148,14 @@ if (FEATURED) {
       ${shareHtml(f)}
     </div>`;
   $("f-cta").addEventListener("click", () => { location.hash = "hero-" + f.id; });
+
+  // Everyone who helped on the featured flight, shown in full on the home page.
+  const helpers = helpersHtml(f, HELPERS, HEROES);
+  if (helpers) {
+    $("f-helpers").hidden = false;
+    $("f-helpers").innerHTML = helpers.replace('<h3 class="helpers-h">Who helped</h3>',
+      `<div class="f-news-head"><h2>Who helped on ${esc(f.flight)}</h2></div>`);
+  }
 
   // Latest coverage under the featured card: all videos, then the newest articles, in one swipeable row.
   const { videos, articles } = splitNews(f);
