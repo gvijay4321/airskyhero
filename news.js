@@ -61,6 +61,13 @@ function newsHtml(h) {
     </div>`;
 }
 
+/* ---------- Who helped: optional list of the people behind a group story ---------- */
+const helpersHtml = h => !h.helpers ? "" : `
+    <h3 class="helpers-h">Who helped</h3>
+    <ul class="helpers">${h.helpers.map(p => `
+      <li><b>${esc(p.name)}</b> <span class="h-role">${esc(p.role)}</span><span class="h-did">${esc(p.did)}</span></li>`).join("")}
+    </ul>`;
+
 /* ---------- Share buttons ---------- */
 function shareHtml(h) {
   const url = heroUrl(h);
@@ -127,5 +134,5 @@ if (typeof document !== "undefined") {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { SITE, esc, heroSlug, heroPath, heroUrl, shareImage, newsDate, splitNews, videoCard, articleCard, grid, newsHtml, shareHtml };
+  module.exports = { SITE, esc, heroSlug, heroPath, heroUrl, shareImage, newsDate, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, shareHtml };
 }

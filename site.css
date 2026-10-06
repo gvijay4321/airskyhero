@@ -238,3 +238,11 @@ dialog::backdrop { background: rgba(4,8,12,.75); backdrop-filter: blur(3px); }
 .g-story { margin: 0 0 14px; padding: 10px 12px; border-left: 3px solid var(--gold); background: var(--surface-2); border-radius: 0 8px 8px 0; line-height: 1.6; }
 .g-story a { white-space: nowrap; font-size: .9rem; }
 @media (max-width: 560px) { .m-wc text { font-size: 18px; } }
+
+/* Who helped */
+.helpers-h { margin: 0 0 10px; font-size: 1.05rem; }
+.helpers { list-style: none; margin: 0 0 22px; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 240px), 1fr)); gap: 10px; }
+.helpers li { padding: 10px 12px; background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; line-height: 1.45; }
+.helpers b { display: block; }
+.h-role { display: block; font-size: .78rem; color: var(--gold); text-transform: uppercase; letter-spacing: .05em; margin: 2px 0 4px; }
+.h-did { display: block; font-size: .9rem; color: var(--muted); }

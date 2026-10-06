@@ -98,6 +98,7 @@
     <dl class="facts" id="d-facts"></dl>
     <p class="developing" id="d-developing" hidden>This is a recent event and an investigation is under way. Details may change as more is confirmed.</p>
     <p id="d-story"></p>
+    <div id="d-helpers"></div>
     <div id="d-share"></div>
     <section class="news" id="d-news" aria-labelledby="d-news-h"></section>
     <div class="d-foot">
@@ -317,6 +318,7 @@ function openHero(h) {
   ];
   $("d-facts").innerHTML = facts.map(([k, v]) => `<div class="fact"><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
   $("d-story").textContent = h.story;
+  $("d-helpers").innerHTML = helpersHtml(h);
   $("d-developing").hidden = !h.developing;
   $("d-news").innerHTML = newsHtml(h);
   $("d-share").innerHTML = shareHtml(h);
