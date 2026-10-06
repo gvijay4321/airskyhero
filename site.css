@@ -246,3 +246,11 @@ dialog::backdrop { background: rgba(4,8,12,.75); backdrop-filter: blur(3px); }
 .helpers b { display: block; }
 .h-role { display: block; font-size: .78rem; color: var(--gold); text-transform: uppercase; letter-spacing: .05em; margin: 2px 0 4px; }
 .h-did { display: block; font-size: .9rem; color: var(--muted); }
+.helpers li.has-pic { display: grid; grid-template-columns: 56px 1fr; gap: 10px; align-items: start; }
+.helpers li img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: 50% 25%; background: var(--surface); }
+.helpers b a { color: inherit; }
+.h-credit { display: block; margin-top: 4px; font-size: .68rem; color: var(--muted); opacity: .8; }
+.h-credit a { color: inherit; }
+.h-src { display: block; margin-top: 6px; font-size: .72rem; color: var(--muted); }
+.h-src a { display: inline-block; min-width: 1.6em; padding: 0 4px; margin-right: 2px; text-align: center; border: 1px solid var(--line); border-radius: 4px; text-decoration: none; color: var(--muted); }
+.h-src a:hover { border-color: var(--accent); color: var(--accent-strong); }

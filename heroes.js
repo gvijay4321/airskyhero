@@ -45,17 +45,6 @@ const HEROES = [
       { type: "article", title: "Flydubai Incident Highlights: Israel Minister Calls For Naming Lounge At Main Airport After Smit Machchhar", outlet: "NDTV", url: "https://www.ndtv.com/world-news/flydubai-flight-fz1073-incident-live-updates-indian-pilot-smit-machchhar-omani-co-pilot-crash-attempt-tabuk-landing-dubai-uae-netanyahu-trump-iran-war-12128203", image: "https://c.ndtvimg.com/2026-10/sglmqrng_flydubai_625x300_01_October_26.jpeg?im=FeatureCrop,algorithm=dnn,width=800,height=450" },
       { type: "article", title: "What happened inside the Flydubai flight to Israel?", outlet: "CNN", date: "2026-09-30", url: "https://www.cnn.com/2026/09/30/middleeast/flydubai-israel-plane-pilot-hijacking-incident-latam-hnk-intl", image: "https://media.cnn.com/api/v1/images/stellar/prod/still-23030774-75135-still.jpg?c=16x9&q=w_800,c_fill" }
     ],
-    // Everyone reported to have helped (Times of Israel, The National, Israel Hayom).
-    helpers: [
-      { name: "Tali Manes", role: "Passenger", did: "Waiting outside the front toilet for her 6-year-old daughter, she heard the struggle in the cockpit and raised the alarm." },
-      { name: "Tzvika Manes", role: "Passenger", did: "Rushed from the front row, got into the cockpit and helped overpower the attacker." },
-      { name: "Yaniv Hayun", role: "Passenger", did: "Got into the cockpit, helped overpower the attacker and steadied the controls." },
-      { name: "Asaf Rajuan", role: "Passenger", did: "Got into the cockpit and helped overpower the attacker." },
-      { name: "Dr Shota Musayev", role: "Passenger", did: "Helped overpower the attacker, then gave the badly wounded captain lifesaving first aid." },
-      { name: "Two off-duty flydubai pilots", role: "Off-duty crew", did: "Travelling as passengers, they took the controls and landed the plane safely at Tabuk. They have not been officially named; reports say one is from South Africa and one from New Zealand." },
-      { name: "David Kimotho", role: "Lead flight attendant", did: "Gave the captain first aid on the cabin floor and kept order, telling panicking passengers to sit down and stop filming." },
-      { name: "John Muchina", role: "Cabin crew", did: "Gave the captain first aid alongside Kimotho, checking on him and keeping him talking." }
-    ],
     // Photo supplied by the site owner; credit not yet known. Remove on request from Smit, his family or the photographer.
     image: "images/machchhar-portrait.jpg", imageKind: "portrait", imageAlt: "Captain Smit Machchhar smiling in the cockpit in his pilot's uniform" },
   { id: "fz1073-passengers", name: "Passengers of flydubai Flight 1073", role: "Passenger", country: "Israel", year: 2026,
@@ -63,13 +52,6 @@ const HEROES = [
     date: "30 September 2026", flight: "flydubai Flight 1073", aircraft: "Boeing 737 MAX 8", place: "Tabuk, Saudi Arabia",
     story: "When the wounded captain, Smit Machchhar, managed to open the cockpit door of flydubai Flight 1073, passengers rushed in. Tali Manes had raised the alarm after hearing the struggle while waiting outside the front toilet for her daughter. Her husband Tzvika Manes, Yaniv Hayun, Asaf Rajuan and Dr Shota Musayev got into the cockpit and overpowered the first officer, and Musayev treated the captain's wounds, while off-duty flydubai pilots took over and landed the plane at Tabuk. Israel's President Isaac Herzog has recommended the four men for the Presidential Award for Civilian Heroism.",
     source: "https://www.timesofisrael.com/liveblog_entry/herzog-recommends-four-men-from-flydubai-flight-fz1073-for-presidential-award-for-civilian-heroism/",
-    helpers: [
-      { name: "Tali Manes", role: "Passenger", did: "Waiting outside the front toilet for her 6-year-old daughter, she heard the struggle in the cockpit and raised the alarm." },
-      { name: "Tzvika Manes", role: "Passenger", did: "Rushed from the front row, got into the cockpit and helped overpower the attacker." },
-      { name: "Yaniv Hayun", role: "Passenger", did: "Got into the cockpit, helped overpower the attacker and steadied the controls." },
-      { name: "Asaf Rajuan", role: "Passenger", did: "Got into the cockpit and helped overpower the attacker." },
-      { name: "Dr Shota Musayev", role: "Passenger", did: "Helped overpower the attacker, then gave the badly wounded captain lifesaving first aid." }
-    ],
     news: [
       { type: "article", title: "Kenyan crew's untold role in Flydubai drama", outlet: "Israel Hayom", date: "2026-10-05", url: "https://www.israelhayom.com/2026/10/05/flydubai-kenyan-flight-attendants-captain-swahili/", image: "images/news/dubai-airport-dxb.jpg", imageCredit: "Andy Mabbett · CC BY-SA 4.0" },
       { type: "article", title: "What really happened aboard flydubai FZ1073 during attempted terror attack", outlet: "Khaleej Times", url: "https://www.khaleejtimes.com/business/aviation/what-really-happened-flydubai-fz1073-terror-attack", image: "images/news/ben-gurion.jpg", imageCredit: "Deror avi · Attribution" },
@@ -85,12 +67,8 @@ const HEROES = [
   { id: "fz1073-crew", name: "David Kimotho and John Muchina", role: "Cabin crew", country: "Kenya", year: 2026,
     developing: true,
     date: "30 September 2026", flight: "flydubai Flight 1073", aircraft: "Boeing 737 MAX 8", place: "Tabuk, Saudi Arabia",
-    story: "Lead flight attendant David Kimotho and his colleague John Muchina, both from Kenya, gave first aid to Captain Smit Machchhar as he lay bleeding on the cabin floor of flydubai Flight 1073 after the cockpit attack, speaking to each other in Swahili as they checked on him and kept him talking. Kimotho also kept order in the cabin, telling panicking passengers to sit down and stop filming. The UAE's aviation authority praised the crew's \"remarkable courage and speed of response\".",
+    story: "Lead flight attendant David Kimotho and his colleague John Muchina, both from Kenya, gave first aid to Captain Smit Machchhar as he lay bleeding on the cabin floor of flydubai Flight 1073 after the cockpit attack, speaking to each other in Swahili as they checked on him and kept him talking. Kimotho also kept order in the cabin, telling panicking passengers to sit down. The UAE's aviation authority praised the crew's \"remarkable courage and speed of response\".",
     source: "https://www.israelhayom.com/2026/10/05/flydubai-kenyan-flight-attendants-captain-swahili/",
-    helpers: [
-      { name: "David Kimotho", role: "Lead flight attendant", did: "Gave the captain first aid on the cabin floor and kept order, telling panicking passengers to sit down and stop filming." },
-      { name: "John Muchina", role: "Cabin crew", did: "Gave the captain first aid alongside Kimotho, checking on him and keeping him talking." }
-    ],
     news: [
       { type: "article", title: "Kenyan crew's untold role in Flydubai drama", outlet: "Israel Hayom", date: "2026-10-05", url: "https://www.israelhayom.com/2026/10/05/flydubai-kenyan-flight-attendants-captain-swahili/", image: "images/news/dubai-airport-dxb.jpg", imageCredit: "Andy Mabbett · CC BY-SA 4.0" }
     ],

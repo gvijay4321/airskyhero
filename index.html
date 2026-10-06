@@ -114,6 +114,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" defer></script>
 <script src="/heroes.js"></script>
+<script src="/helpers.js"></script>
 <script src="/news.js"></script>
 <!-- Visit counting by GoatCounter (no cookies). Counts are private: only visible in the owner's dashboard
      at https://airskyhero.goatcounter.com. Visits from localhost are never counted.
@@ -318,7 +319,7 @@ function openHero(h) {
   ];
   $("d-facts").innerHTML = facts.map(([k, v]) => `<div class="fact"><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("");
   $("d-story").textContent = h.story;
-  $("d-helpers").innerHTML = helpersHtml(h);
+  $("d-helpers").innerHTML = helpersHtml(h, HELPERS, HEROES);
   $("d-developing").hidden = !h.developing;
   $("d-news").innerHTML = newsHtml(h);
   $("d-share").innerHTML = shareHtml(h);

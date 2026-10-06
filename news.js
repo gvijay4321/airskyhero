@@ -61,12 +61,27 @@ function newsHtml(h) {
     </div>`;
 }
 
-/* ---------- Who helped: optional list of the people behind a group story ---------- */
-const helpersHtml = h => !h.helpers ? "" : `
+/* ---------- Who helped: everyone on the hero's flight, from helpers.js ---------- */
+// helpers: the HELPERS list (flight name -> people); heroes: HEROES, used to link people who have their own page.
+// The hero whose page this is is left out of their own list.
+function helpersHtml(h, helpers, heroes) {
+  const people = (helpers?.[h.flight] || []).filter(p => p.heroId !== h.id);
+  if (!people.length) return "";
+  const page = id => { const o = (heroes || []).find(x => x.id === id); return o ? heroPath(o) : null; };
+  return `
     <h3 class="helpers-h">Who helped</h3>
-    <ul class="helpers">${h.helpers.map(p => `
-      <li><b>${esc(p.name)}</b> <span class="h-role">${esc(p.role)}</span><span class="h-did">${esc(p.did)}</span></li>`).join("")}
+    <ul class="helpers">${people.map(p => {
+      const link = p.heroId && page(p.heroId);
+      const name = link ? `<a href="${link}">${esc(p.name)}</a>` : esc(p.name);
+      const pic = p.photo ? `<img src="/${esc(p.photo.src)}" alt="" loading="lazy" width="56" height="56">` : "";
+      const credit = p.photo ? `<span class="h-credit">Photo: <a href="${esc(p.photo.page)}" target="_blank" rel="noopener">${esc(p.photo.credit)}</a></span>` : "";
+      const sources = (p.sources || []).length ? `<span class="h-src">Sources: ${p.sources.map((u, i) =>
+        `<a href="${esc(u)}" target="_blank" rel="noopener" title="${esc(u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0])}">${i + 1}</a>`).join(" ")}</span>` : "";
+      return `
+      <li class="${pic ? "has-pic" : ""}">${pic}<div><b>${name}</b> <span class="h-role">${esc(p.role)}</span><span class="h-did">${esc(p.did)}</span>${sources}${credit}</div></li>`;
+    }).join("")}
     </ul>`;
+}
 
 /* ---------- Share buttons ---------- */
 function shareHtml(h) {
