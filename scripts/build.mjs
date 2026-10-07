@@ -56,9 +56,23 @@ function related(h) {
   return HEROES.filter(o => o !== h).sort((a, b) => rank(a) - rank(b)).slice(0, 3);
 }
 
+// Optional sections from heroes.js: timeline (dated events with numbered source links) and faq (questions and answers).
+const srcLinks = urls => (urls || []).length ? ` <span class="h-src">Sources: ${urls.map((u, i) =>
+  `<a href="${esc(u)}" target="_blank" rel="noopener" title="${esc(u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0])}">${i + 1}</a>`).join(" ")}</span>` : "";
+const timelineHtml = h => !h.timeline ? "" : `    <h2 class="hp-h">Timeline</h2>
+    <ol class="timeline">
+${h.timeline.map(t => `      <li><span class="tl-date">${esc(t.date)}</span><span class="tl-text">${esc(t.text)}${srcLinks(t.sources)}</span></li>`).join("\n")}
+    </ol>
+`;
+const faqHtml = h => !h.faq ? "" : `    <h2 class="hp-h">Questions people ask</h2>
+    <div class="faq">
+${h.faq.map(f => `      <details><summary>${esc(f.q)}</summary><p>${esc(f.a)}${srcLinks(f.sources)}</p></details>`).join("\n")}
+    </div>
+`;
+
 function heroPage(h, i) {
-  const title = `${h.name}: ${h.flight} (${h.year}) | AirSkyHero`;
-  const description = clip(h.story, 158);
+  const title = `${h.seoTitle || `${h.name}: ${h.flight} (${h.year})`} | AirSkyHero`;
+  const description = h.seoDescription || clip(h.story, 158);
   const prev = ordered[i - 1], next = ordered[i + 1];
   const facts = [
     ["Flight", h.flight], ["Date", h.date], ["Aircraft", h.aircraft], ["Location", h.place],
@@ -71,6 +85,10 @@ function heroPage(h, i) {
     about: { "@type": h.role === "Passenger" && /^Passengers/.test(h.name) ? "Thing" : "Person", name: h.name, nationality: h.country },
     publisher: { "@type": "Organization", name: "AirSkyHero", url: SITE },
     ...(videos.length ? { video: videos.map(v => ({ "@type": "VideoObject", name: v.title || v.outlet, embedUrl: v.url })) } : {})
+  };
+  const faqLd = h.faq && {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    mainEntity: h.faq.map(f => ({ "@type": "Question", name: f.q, acceptedAnswer: { "@type": "Answer", text: f.a } }))
   };
   return `<!doctype html>
 ${MARK}
@@ -97,7 +115,7 @@ ${MARK}
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="stylesheet" href="/site.css">
 <script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>
-</head>
+${faqLd ? `<script type="application/ld+json">${JSON.stringify(faqLd).replace(/</g, "\\u003c")}</script>\n` : ""}</head>
 <body>
 
 <header>
@@ -130,7 +148,7 @@ ${h.imageCredit ? `      <figcaption>Photo: <a href="${esc(h.imageCreditUrl || "
 ${facts.map(([k, v]) => `      <div class="fact"><dt>${k}</dt><dd>${esc(v)}</dd></div>`).join("\n")}
     </dl>
 ${h.developing ? `    <p class="developing">This is a recent event and an investigation is under way. Details may change as more is confirmed.</p>\n` : ""}    <p class="hp-story">${esc(h.story)}</p>
-${helpersHtml(h, HELPERS, HEROES).replace(/^\n/, "")}${HELPERS[h.flight] ? "\n" : ""}    <p class="hp-source">Source: <a href="${esc(h.source)}" target="_blank" rel="noopener">${esc(h.source.replace(/^https?:\/\/(www\.)?/, ""))} ↗</a></p>
+${timelineHtml(h)}${helpersHtml(h, HELPERS, HEROES).replace(/^\n/, "")}${HELPERS[h.flight] ? "\n" : ""}${faqHtml(h)}    <p class="hp-source">Source: <a href="${esc(h.source)}" target="_blank" rel="noopener">${esc(h.source.replace(/^https?:\/\/(www\.)?/, ""))} ↗</a></p>
     <p class="hp-guide">If something goes wrong on your flight: <a href="/what-passengers-can-do/">what passengers can do, close by or farther away →</a></p>
     ${shareHtml(h)}
     <section class="news" aria-labelledby="d-news-h">${newsHtml(h)}
