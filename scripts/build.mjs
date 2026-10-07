@@ -190,6 +190,20 @@ for (const d of fs.readdirSync(ROOT, { withFileTypes: true })) {
 }
 console.log(`Hero pages: ${ordered.length} (${changed} updated)`);
 
+/* ---------- Home page links ---------- */
+// Plain links to every hero page inside the home page's list, so search engines can find the pages
+// without running JavaScript. The page script replaces them with the hero cards.
+{
+  const home = fs.readFileSync(path.join(ROOT, "index.html"), "utf8");
+  const countries = [...new Set(ordered.map(h => h.country))];
+  const links = countries.map(c => `
+      <section class="country"><h3>${esc(c)}</h3><ul>${ordered.filter(h => h.country === c).map(h =>
+        `<li><a href="${heroPath(h)}">${esc(h.name)}: ${esc(h.flight)} (${h.year})</a></li>`).join("")}</ul></section>`).join("");
+  const updated = home.replace(/(<!-- hero-links:[^>]*-->)[\s\S]*?(<!-- \/hero-links -->)/, `$1${links}\n    $2`);
+  if (updated === home && !home.includes("<!-- hero-links:")) throw new Error('index.html is missing the "hero-links" markers inside #list.');
+  if (write("index.html", updated)) console.log("Home page hero links updated");
+}
+
 /* ---------- Sitemap ---------- */
 const today = new Date().toISOString().slice(0, 10);
 const urls = [`${SITE}/`, `${SITE}/what-passengers-can-do/`, ...ordered.map(heroUrl)];
