@@ -283,3 +283,18 @@ dialog::backdrop { background: rgba(4,8,12,.75); backdrop-filter: blur(3px); }
 .h-rescue { color: #f39a4a; }
 .h-atc { color: #b48cf2; }
 .h-official { color: #93a3b5; }
+
+/* Acts of kindness page */
+.k-countries { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 8px; }
+.k-countries a { padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; background: var(--surface-2); color: inherit; text-decoration: none; font-size: .92rem; }
+.k-countries a:hover { border-color: var(--gold); }
+.k-countries span { color: var(--gold); font-weight: 600; margin-left: 2px; }
+.kindness h2 { scroll-margin-top: 76px; }
+.k-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.k-card { padding: 12px 14px; background: var(--surface-2); border: 1px solid var(--line); border-left: 3px solid var(--gold); border-radius: 0 10px 10px 0; line-height: 1.6; scroll-margin-top: 76px; }
+.k-card h3 { margin: 0 0 2px; font-size: 1.05rem; }
+.k-card p { margin: 0; }
+.k-card .k-meta { margin-bottom: 6px; font-size: .85rem; color: var(--muted); }
+.kind .f-all { display: inline-block; margin-top: 6px; }
+.kind { border-top: 1px solid var(--line); padding-block: 32px 40px; }
+.kind h2 { margin: 0 0 4px; }
