@@ -298,3 +298,4 @@ dialog::backdrop { background: rgba(4,8,12,.75); backdrop-filter: blur(3px); }
 .kind .f-all { display: inline-block; margin-top: 6px; }
 .kind { border-top: 1px solid var(--line); padding-block: 32px 40px; }
 .kind h2 { margin: 0 0 4px; }
+.kindness .map-box { margin: 4px 0 14px; }

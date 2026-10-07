@@ -206,6 +206,60 @@ for (const d of fs.readdirSync(ROOT, { withFileTypes: true })) {
 console.log(`Hero pages: ${ordered.length} (${changed} updated)`);
 
 /* ---------- Acts of kindness page ---------- */
+// World map on the page, drawn in the browser like the home page map. Clicking a country jumps to its stories.
+const KIND_MAP_JS = `// Our country names -> names used by the world-atlas map data.
+const MAP_NAME = { "United States": "United States of America" };
+const NUDGE = { "United States": [-98, 39], "Canada": [-100, 57] };
+function pick(c) {
+  document.querySelectorAll("#map .land.has").forEach(p => p.classList.toggle("selected", p.dataset.c === c));
+  location.hash = KIND[c].id;
+}
+addEventListener("DOMContentLoaded", async () => {
+  const status = document.getElementById("map-status"), tip = document.getElementById("tip");
+  try {
+    const world = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
+    const features = topojson.feature(world, world.objects.countries).features;
+    const ours = Object.fromEntries(Object.keys(KIND).map(c => [MAP_NAME[c] || c, c]));
+    const projection = d3.geoNaturalEarth1().fitExtent([[8, 8], [952, 492]], { type: "Sphere" });
+    const path = d3.geoPath(projection);
+    const svg = d3.select("#map");
+    svg.append("path").attr("class", "sphere").attr("d", path({ type: "Sphere" }));
+    svg.append("path").attr("class", "grat").attr("d", path(d3.geoGraticule10()));
+    const label = c => c + " · " + KIND[c].n + (KIND[c].n === 1 ? " story" : " stories");
+    svg.append("g").selectAll("path").data(features).join("path")
+      .attr("d", path)
+      .attr("class", d => "land" + (ours[d.properties.name] ? " has" : ""))
+      .attr("data-c", d => ours[d.properties.name] || null)
+      .attr("tabindex", d => ours[d.properties.name] ? 0 : null)
+      .attr("role", d => ours[d.properties.name] ? "button" : null)
+      .attr("aria-label", d => ours[d.properties.name] ? label(ours[d.properties.name]) : null)
+      .filter(d => ours[d.properties.name])
+      .on("click", (e, d) => pick(ours[d.properties.name]))
+      .on("keydown", (e, d) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(ours[d.properties.name]); } })
+      .on("mousemove", (e, d) => {
+        const box = document.getElementById("map").parentElement.getBoundingClientRect();
+        tip.textContent = label(ours[d.properties.name]);
+        tip.style.left = (e.clientX - box.left + 12) + "px";
+        tip.style.top = (e.clientY - box.top + 12) + "px";
+        tip.style.opacity = 1;
+      })
+      .on("mouseleave", () => { tip.style.opacity = 0; });
+    svg.append("g").selectAll("text")
+      .data(features.filter(d => ours[d.properties.name]))
+      .join("text").attr("class", "pin")
+      .attr("transform", d => {
+        const c = ours[d.properties.name];
+        const [x, y] = NUDGE[c] ? projection(NUDGE[c]) : path.centroid(d);
+        return "translate(" + x + "," + (y + 4) + ")";
+      })
+      .text(d => KIND[ours[d.properties.name]].n);
+    status.remove();
+  } catch (err) {
+    status.className = "map-error";
+    status.textContent = "The map couldn't load. Use the country buttons below instead.";
+  }
+});`;
+
 // airskyhero.com/acts-of-kindness/: stories from kindness.js, grouped by country.
 {
   const ids = new Set();
@@ -265,6 +319,11 @@ ${HEADER}
       <h1>Kindness at 35,000 feet</h1>
     </div>
     <p class="hp-story">Not every hero of the sky lands a broken plane. These are true stories of cabin crew, pilots, passengers and whole towns who looked after strangers on a flight. Every story is checked against at least three independent sources, linked under it.</p>
+    <div class="map-box">
+      <svg id="map" viewBox="0 0 960 500" role="img" aria-label="World map of acts of kindness by country"></svg>
+      <div class="map-loading" id="map-status">Loading map…</div>
+      <div class="tooltip" id="tip" aria-hidden="true"></div>
+    </div>
     <nav class="k-countries" aria-label="Countries">${countries.map(c =>
       `<a href="#${cid(c)}">${esc(c)} <span>${KINDNESS.filter(k => k.country === c).length}</span></a>`).join("")}</nav>
 ${countries.map(c => `    <section aria-labelledby="${cid(c)}">
@@ -276,8 +335,12 @@ ${countries.map(c => `    <section aria-labelledby="${cid(c)}">
   <a class="hp-home" href="/#heroes">See the heroes of the sky →</a>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" defer></script>
 <script data-goatcounter="https://airskyhero.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script>
+const KIND = ${JSON.stringify(Object.fromEntries(countries.map(c => [c, { n: KINDNESS.filter(k => k.country === c).length, id: cid(c) }])))};
+${KIND_MAP_JS}
 if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js");
 </script>
 </body>

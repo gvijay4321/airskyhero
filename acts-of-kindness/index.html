@@ -49,6 +49,11 @@
       <h1>Kindness at 35,000 feet</h1>
     </div>
     <p class="hp-story">Not every hero of the sky lands a broken plane. These are true stories of cabin crew, pilots, passengers and whole towns who looked after strangers on a flight. Every story is checked against at least three independent sources, linked under it.</p>
+    <div class="map-box">
+      <svg id="map" viewBox="0 0 960 500" role="img" aria-label="World map of acts of kindness by country"></svg>
+      <div class="map-loading" id="map-status">Loading map…</div>
+      <div class="tooltip" id="tip" aria-hidden="true"></div>
+    </div>
     <nav class="k-countries" aria-label="Countries"><a href="#k-australia">Australia <span>1</span></a><a href="#k-canada">Canada <span>1</span></a><a href="#k-finland">Finland <span>1</span></a><a href="#k-hungary">Hungary <span>1</span></a><a href="#k-india">India <span>2</span></a><a href="#k-indonesia">Indonesia <span>1</span></a><a href="#k-israel">Israel <span>1</span></a><a href="#k-mexico">Mexico <span>2</span></a><a href="#k-netherlands">Netherlands <span>1</span></a><a href="#k-new-zealand">New Zealand <span>1</span></a><a href="#k-nigeria">Nigeria <span>1</span></a><a href="#k-pakistan">Pakistan <span>1</span></a><a href="#k-philippines">Philippines <span>1</span></a><a href="#k-saudi-arabia">Saudi Arabia <span>1</span></a><a href="#k-south-africa">South Africa <span>1</span></a><a href="#k-turkey">Turkey <span>1</span></a><a href="#k-united-kingdom">United Kingdom <span>1</span></a><a href="#k-united-states">United States <span>3</span></a></nav>
     <section aria-labelledby="k-australia">
       <h2 id="k-australia">Australia</h2>
@@ -254,8 +259,63 @@
   <a class="hp-home" href="/#heroes">See the heroes of the sky →</a>
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.9.0/d3.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js" defer></script>
 <script data-goatcounter="https://airskyhero.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script>
+const KIND = {"Australia":{"n":1,"id":"k-australia"},"Canada":{"n":1,"id":"k-canada"},"Finland":{"n":1,"id":"k-finland"},"Hungary":{"n":1,"id":"k-hungary"},"India":{"n":2,"id":"k-india"},"Indonesia":{"n":1,"id":"k-indonesia"},"Israel":{"n":1,"id":"k-israel"},"Mexico":{"n":2,"id":"k-mexico"},"Netherlands":{"n":1,"id":"k-netherlands"},"New Zealand":{"n":1,"id":"k-new-zealand"},"Nigeria":{"n":1,"id":"k-nigeria"},"Pakistan":{"n":1,"id":"k-pakistan"},"Philippines":{"n":1,"id":"k-philippines"},"Saudi Arabia":{"n":1,"id":"k-saudi-arabia"},"South Africa":{"n":1,"id":"k-south-africa"},"Turkey":{"n":1,"id":"k-turkey"},"United Kingdom":{"n":1,"id":"k-united-kingdom"},"United States":{"n":3,"id":"k-united-states"}};
+// Our country names -> names used by the world-atlas map data.
+const MAP_NAME = { "United States": "United States of America" };
+const NUDGE = { "United States": [-98, 39], "Canada": [-100, 57] };
+function pick(c) {
+  document.querySelectorAll("#map .land.has").forEach(p => p.classList.toggle("selected", p.dataset.c === c));
+  location.hash = KIND[c].id;
+}
+addEventListener("DOMContentLoaded", async () => {
+  const status = document.getElementById("map-status"), tip = document.getElementById("tip");
+  try {
+    const world = await d3.json("https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json");
+    const features = topojson.feature(world, world.objects.countries).features;
+    const ours = Object.fromEntries(Object.keys(KIND).map(c => [MAP_NAME[c] || c, c]));
+    const projection = d3.geoNaturalEarth1().fitExtent([[8, 8], [952, 492]], { type: "Sphere" });
+    const path = d3.geoPath(projection);
+    const svg = d3.select("#map");
+    svg.append("path").attr("class", "sphere").attr("d", path({ type: "Sphere" }));
+    svg.append("path").attr("class", "grat").attr("d", path(d3.geoGraticule10()));
+    const label = c => c + " · " + KIND[c].n + (KIND[c].n === 1 ? " story" : " stories");
+    svg.append("g").selectAll("path").data(features).join("path")
+      .attr("d", path)
+      .attr("class", d => "land" + (ours[d.properties.name] ? " has" : ""))
+      .attr("data-c", d => ours[d.properties.name] || null)
+      .attr("tabindex", d => ours[d.properties.name] ? 0 : null)
+      .attr("role", d => ours[d.properties.name] ? "button" : null)
+      .attr("aria-label", d => ours[d.properties.name] ? label(ours[d.properties.name]) : null)
+      .filter(d => ours[d.properties.name])
+      .on("click", (e, d) => pick(ours[d.properties.name]))
+      .on("keydown", (e, d) => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(ours[d.properties.name]); } })
+      .on("mousemove", (e, d) => {
+        const box = document.getElementById("map").parentElement.getBoundingClientRect();
+        tip.textContent = label(ours[d.properties.name]);
+        tip.style.left = (e.clientX - box.left + 12) + "px";
+        tip.style.top = (e.clientY - box.top + 12) + "px";
+        tip.style.opacity = 1;
+      })
+      .on("mouseleave", () => { tip.style.opacity = 0; });
+    svg.append("g").selectAll("text")
+      .data(features.filter(d => ours[d.properties.name]))
+      .join("text").attr("class", "pin")
+      .attr("transform", d => {
+        const c = ours[d.properties.name];
+        const [x, y] = NUDGE[c] ? projection(NUDGE[c]) : path.centroid(d);
+        return "translate(" + x + "," + (y + 4) + ")";
+      })
+      .text(d => KIND[ours[d.properties.name]].n);
+    status.remove();
+  } catch (err) {
+    status.className = "map-error";
+    status.textContent = "The map couldn't load. Use the country buttons below instead.";
+  }
+});
 if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js");
 </script>
 </body>
