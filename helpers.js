@@ -486,6 +486,20 @@ const HELPERS = {
       ]
     }
   ],
+  "Air Mauritanie, Nouakchott to Gran Canaria": [
+    {
+      "name": "Ahmedou Mohamed Lemine",
+      "role": "Captain",
+      "heroId": "lemine",
+      "did": "Told passengers in French, which the hijacker did not speak, to get ready, then braked hard and sped up on landing to knock the gunman off his feet so crew and passengers could overpower him.",
+      "sources": [
+        "https://www.nbcnews.com/id/wbna17183946",
+        "https://lecalame.info/?q=node/11305",
+        "https://www.boolumbal.org/Ouverture-du-proces-du-pirate-d-Air-Mauritanie_a2317.html",
+        "https://www.aljazeera.com/news/2007/2/16/mauritanian-hijacker-sought-asylum"
+      ]
+    }
+  ],
   "TWA Flight 847": [
     {
       "name": "Uli Derickson",
