@@ -110,7 +110,7 @@
   </figure>
   <div class="d-body">
     <dl class="facts" id="d-facts"></dl>
-    <p class="developing" id="d-developing" hidden>This is a recent event and an investigation is under way. Details may change as more is confirmed.</p>
+    <p class="developing" id="d-developing" hidden></p>
     <p id="d-story"></p>
     <div id="d-helpers"></div>
     <div id="d-share"></div>
@@ -156,29 +156,25 @@ if (FEATURED) {
       ${f.developing ? '<span class="badge-live">Developing story</span>' : ""}
       <h1>${esc(f.name)}</h1>
       <p class="meta">${esc(f.role)} · ${esc(f.country)} · ${esc(f.flight)} · ${esc(f.date)}</p>
-      <p class="f-story">${esc(f.story)}</p>
-      <button class="f-cta" id="f-cta">Read full story →</button>
+      ${f.teaser ? `<p class="f-story">${esc(f.teaser)}</p>` : ""}
+      <a class="f-cta" href="${heroPath(f)}">Read full story →</a>
       ${shareHtml(f)}
     </div>`;
-  $("f-cta").addEventListener("click", () => { location.hash = "hero-" + f.id; });
 
-  // Everyone who helped on the featured flight, shown in full on the home page.
-  const helpers = helpersHtml(f, HELPERS, HEROES);
+  // Who helped on the featured flight: names here, what each person did on the hero's own page.
+  const helpers = helpersHtml(f, HELPERS, HEROES, { short: true });
   if (helpers) {
     $("f-helpers").hidden = false;
     $("f-helpers").innerHTML = helpers.replace('<h3 class="helpers-h">Who helped</h3>',
       `<div class="f-news-head"><h2>Who helped on ${esc(f.flight)}</h2></div>`);
   }
 
-  // Latest coverage under the featured card: all videos, then the newest articles, in one swipeable row.
-  const { videos, articles } = splitNews(f);
-  if (videos.length || articles.length) {
+  // Coverage lives on the hero's own page only, so the two pages never list the same stories.
+  const stories = (f.news || []).length;
+  if (stories) {
     $("f-news").hidden = false;
-    $("f-news").innerHTML = `
-      <div class="f-news-head"><h2>Latest on ${esc(f.name)}</h2>
-        <button class="f-all" id="f-all">All ${videos.length + articles.length} stories &amp; videos →</button></div>
-      ${grid([...videos.map(videoCard), ...articles.slice(0, 12).map(articleCard)])}`;
-      $("f-all").addEventListener("click", () => { location.hash = "hero-" + f.id; });
+    $("f-news").innerHTML = `<div class="f-news-head"><h2>Latest on ${esc(f.name)}</h2>
+      <a class="f-all" href="${heroPath(f)}#d-news-h">All ${stories} stories &amp; videos →</a></div>`;
   }
 } else {
   $("featured").hidden = true;
@@ -231,7 +227,7 @@ function render() {
             <h4>${esc(h.name)}</h4>
             <div class="tags"><span class="tag">${esc(h.role)}</span><span class="tag">${h.year}</span></div>
             <p class="flight">${esc(h.flight)}</p>
-            <p>${esc(h.story)}</p>
+            <p>${esc(h.place)} · ${esc(h.date)}${h.aboard ? ` · ${h.survived} of ${h.aboard} survived` : ""}</p>
             <span class="more">Read story →</span>
           </a>`).join("")}
       </div>
@@ -239,6 +235,7 @@ function render() {
 }
 
 ["q", "country", "role", "decade"].forEach(id => $(id).addEventListener("input", render));
+// Cards show facts only: the story itself is on the hero's page, so the two never repeat each other.
 // Cards link to each hero's own page; a plain click opens the quick view instead
 // (Ctrl/Cmd-click or "open in new tab" still goes to the page).
 $("list").addEventListener("click", e => {
@@ -343,6 +340,7 @@ function openHero(h) {
   $("d-story").textContent = h.story;
   $("d-helpers").innerHTML = helpersHtml(h, HELPERS, HEROES);
   $("d-developing").hidden = !h.developing;
+  $("d-developing").textContent = h.developing ? developingText(h) : "";
   $("d-news").innerHTML = newsHtml(h);
   $("d-share").innerHTML = shareHtml(h);
   $("d-page").href = heroPath(h);

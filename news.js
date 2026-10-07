@@ -61,6 +61,9 @@ function newsHtml(h) {
     </div>`;
 }
 
+// A hero's name inside a sentence: "Passengers of …" becomes "passengers of …".
+const inSentence = name => /^Passengers/.test(name) ? name[0].toLowerCase() + name.slice(1) : name;
+
 /* ---------- Who helped: everyone on the hero's flight, from helpers.js ---------- */
 // People without a free photo get a small icon for what they did, worked out from their role.
 const ROLE_ICONS = {
@@ -87,12 +90,25 @@ const roleIcon = role => { const k = roleKind(role);
 
 // helpers: the HELPERS list (flight name -> people); heroes: HEROES, used to link people who have their own page.
 // The hero whose page this is is left out of their own list.
-function helpersHtml(h, helpers, heroes) {
+// What each person did is written out on one page per flight only (the flight's first hero in heroes.js), so no
+// two pages repeat it. Other heroes from that flight, and short: true (the home page), list names and roles with
+// a link to that page.
+function helpersHtml(h, helpers, heroes, { short = false } = {}) {
   const people = (helpers?.[h.flight] || []).filter(p => p.heroId !== h.id);
   if (!people.length) return "";
   const page = id => { const o = (heroes || []).find(x => x.id === id); return o ? heroPath(o) : null; };
-  return `
+  const owner = (heroes || []).find(o => o.flight === h.flight) || h;
+  if (short || owner !== h) {
+    return `
     <h3 class="helpers-h">Who helped</h3>
+    <p class="helpers-note">Besides ${esc(inSentence(h.name))}, ${people.length === 1 ? "one person" : `${people.length} people`} helped on ${esc(h.flight)}. What each of them did, with sources, is on <a href="${heroPath(owner)}#who-helped">${esc(owner.name)}'s page</a>.</p>
+    <ul class="helpers-short">${people.map(p => {
+      const link = p.heroId && page(p.heroId);
+      return `<li>${link ? `<a href="${link}">${esc(p.name)}</a>` : esc(p.name)} <span class="h-role">${esc(p.role)}</span></li>`;
+    }).join("")}</ul>`;
+  }
+  return `
+    <h3 class="helpers-h" id="who-helped">Who helped</h3>
     <ul class="helpers">${people.map(p => {
       const link = p.heroId && page(p.heroId);
       const name = link ? `<a href="${link}">${esc(p.name)}</a>` : esc(p.name);
@@ -105,6 +121,11 @@ function helpersHtml(h, helpers, heroes) {
     }).join("")}
     </ul>`;
 }
+
+/* ---------- Developing story note ---------- */
+// Worded for each hero, so heroes from the same recent flight do not share an identical paragraph.
+const developingText = h =>
+  `${h.flight} on ${h.date} is still under investigation, so details of what ${inSentence(h.name)} did may change as more is confirmed.`;
 
 /* ---------- Share buttons ---------- */
 function shareHtml(h) {
@@ -172,5 +193,5 @@ if (typeof document !== "undefined") {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { SITE, esc, heroSlug, heroPath, heroUrl, shareImage, newsDate, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, shareHtml };
+  module.exports = { SITE, esc, heroSlug, heroPath, heroUrl, shareImage, newsDate, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
 }
