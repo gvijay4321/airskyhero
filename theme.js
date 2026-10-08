@@ -9,6 +9,6 @@
     root.dataset.theme = next;
     try { localStorage.setItem("theme", next); } catch (e) {}
     var meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = next === "light" ? "#ffffff" : "#18181b";
+    if (meta) meta.content = next === "light" ? "#ffffff" : "#0b1118";
   });
 })();
