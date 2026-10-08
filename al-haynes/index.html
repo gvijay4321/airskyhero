@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Al Haynes: United Airlines Flight 232 (1989) | AirSkyHero</title>
 <meta name="description" content="When an engine failure destroyed all hydraulics on the DC-10, his crew steered using engine thrust alone and reached Sioux City, Iowa. 184 of the 296 people…">
-<meta name="theme-color" content="#0b1118">
+<meta name="theme-color" content="#18181b">
 <link rel="canonical" href="https://airskyhero.com/al-haynes/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="AirSkyHero">
@@ -21,26 +21,32 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
+<script src="/theme.js"></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@type":"Article","headline":"Al Haynes: United Airlines Flight 232","description":"When an engine failure destroyed all hydraulics on the DC-10, his crew steered using engine thrust alone and reached Sioux City, Iowa. 184 of the 296 people…","url":"https://airskyhero.com/al-haynes/","image":"https://airskyhero.com/share/al-haynes.jpg","about":{"@type":"Person","name":"Al Haynes","nationality":"United States"},"publisher":{"@type":"Organization","name":"AirSkyHero","url":"https://airskyhero.com"}}</script>
 </head>
 <body>
 
+<!-- site-header: written by scripts/build.mjs -->
 <header>
-  <div class="wrap">
-    <a class="logo" href="/" aria-label="AirSkyHero home">
-      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
-      <span>Air<b>Sky</b>Hero</span>
-    </a>
-    <nav aria-label="Main">
-      <a href="/#map-section">Map</a>
-      <a href="/#heroes">Heroes</a>
-      <a href="/acts-of-kindness/">Kindness</a>
-      <a href="/what-passengers-can-do/">Safety</a>
-      <a href="/#about">About</a>
-    </nav>
+  <div class="wrap top">
+    <a class="logo" href="/" aria-label="AirSkyHero home"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg><span>AirSky<b>Hero</b></span></a>
+    <div class="ticker" aria-label="Newest heroes">
+      <div class="ticker-track"><ul><li><a href="/smit-machchhar/">Smit Machchhar: flydubai Flight 1073</a></li><li><a href="/passengers-of-flydubai-flight-1073/">Passengers of flydubai Flight 1073: flydubai Flight 1073</a></li><li><a href="/david-kimotho-and-john-muchina/">David Kimotho and John Muchina: flydubai Flight 1073</a></li><li><a href="/damir-yusupov/">Damir Yusupov: Ural Airlines Flight 178</a></li><li><a href="/tammie-jo-shults/">Tammie Jo Shults: Southwest Airlines Flight 1380</a></li><li><a href="/liu-chuanjian/">Liu Chuanjian: Sichuan Airlines Flight 8633</a></li><li><a href="/richard-de-crespigny/">Richard de Crespigny: Qantas Flight 32</a></li><li><a href="/chesley-sully-sullenberger/">Chesley &quot;Sully&quot; Sullenberger: US Airways Flight 1549</a></li></ul><ul aria-hidden="true" inert><li><a href="/smit-machchhar/">Smit Machchhar: flydubai Flight 1073</a></li><li><a href="/passengers-of-flydubai-flight-1073/">Passengers of flydubai Flight 1073: flydubai Flight 1073</a></li><li><a href="/david-kimotho-and-john-muchina/">David Kimotho and John Muchina: flydubai Flight 1073</a></li><li><a href="/damir-yusupov/">Damir Yusupov: Ural Airlines Flight 178</a></li><li><a href="/tammie-jo-shults/">Tammie Jo Shults: Southwest Airlines Flight 1380</a></li><li><a href="/liu-chuanjian/">Liu Chuanjian: Sichuan Airlines Flight 8633</a></li><li><a href="/richard-de-crespigny/">Richard de Crespigny: Qantas Flight 32</a></li><li><a href="/chesley-sully-sullenberger/">Chesley &quot;Sully&quot; Sullenberger: US Airways Flight 1549</a></li></ul></div>
+    </div>
+    <div class="tools">
+      <a class="ic-btn" id="search-btn" href="/#heroes" aria-label="Search heroes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+      <button class="ic-btn" id="theme-btn" type="button" aria-label="Switch between light and dark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path class="moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></svg></button>
+    </div>
   </div>
 </header>
+<nav class="cats" aria-label="Sections">
+  <div class="wrap cats-row"><a class="cat" href="/"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>Latest</a><a class="cat" href="/#map-section"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span>Map</a><a class="cat" href="/#heroes" aria-current="page"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3l-5.5 2.9 1-6.2L3 9.6l6.2-.9z"/></svg></span>Heroes</a><a class="cat" href="/?role=Pilot#heroes"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/></svg></span>Pilots</a><a class="cat" href="/?role=Cabin+crew#heroes"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg></span>Cabin crew</a><a class="cat" href="/?role=Passenger#heroes"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 10V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5M7 18v-6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v6M5 18h14M7 18v3M17 18v3"/></svg></span>Passengers</a><a class="cat" href="/acts-of-kindness/"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/></svg></span>Kindness</a><a class="cat" href="/what-passengers-can-do/"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/></svg></span>Safety</a><a class="cat" href="/#about"><span class="cat-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></svg></span>About</a></div>
+</nav>
+<!-- /site-header -->
 
 <main class="wrap hero-page">
   <p class="crumbs"><a href="/">Home</a> › <a href="/#heroes">Heroes</a> › United States</p>

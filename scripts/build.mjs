@@ -51,21 +51,70 @@ for (const h of ordered) {
 /* ---------- Hero pages ---------- */
 const PLANE = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>`;
 
-const HEADER = `<header>
-  <div class="wrap">
-    <a class="logo" href="/" aria-label="AirSkyHero home">
-      ${PLANE}
-      <span>Air<b>Sky</b>Hero</span>
-    </a>
-    <nav aria-label="Main">
-      <a href="/#map-section">Map</a>
-      <a href="/#heroes">Heroes</a>
-      <a href="/acts-of-kindness/">Kindness</a>
-      <a href="/what-passengers-can-do/">Safety</a>
-      <a href="/#about">About</a>
-    </nav>
+// Fonts, theme colour and the light/dark switch, added to the <head> of every page.
+const THEME_COLOR = "#18181b";
+const HEAD_LINKS = `<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/site.css">
+<script src="/theme.js"></script>`;
+
+// Header shared by every page: logo, a ticker of the newest heroes, search and theme buttons,
+// then the row of round section buttons. "active" is the section button marked as the current page.
+const icon = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const ICONS = {
+  latest: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  map: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
+  heroes: '<path d="m12 3 2.8 5.7 6.2.9-4.5 4.4 1 6.2L12 17.3l-5.5 2.9 1-6.2L3 9.6l6.2-.9z"/>',
+  pilots: '<path d="M17.8 19.2 16 11l3.5-3.5C21 6 21.5 4 21 3c-1-.5-3 0-4.5 1.5L13 8 4.8 6.2c-.5-.1-.9.1-1.1.5l-.3.5c-.2.5-.1 1 .3 1.3L9 12l-2 3H4l-1 1 3 2 2 3 1-1v-3l3-2 3.5 5.3c.3.4.8.5 1.3.3l.5-.2c.4-.3.6-.7.5-1.2z"/>',
+  crew: '<circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/>',
+  passengers: '<path d="M8 10V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v5M7 18v-6a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v6M5 18h14M7 18v3M17 18v3"/>',
+  kindness: '<path d="M19 14c1.5-1.5 3-3.2 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.8 0-3 .5-4.5 2-1.5-1.5-2.7-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4 3 5.5l7 7z"/>',
+  safety: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
+  about: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'
+};
+const SECTIONS = [
+  ["latest", "Latest", "/"],
+  ["map", "Map", "/#map-section"],
+  ["heroes", "Heroes", "/#heroes"],
+  ["pilots", "Pilots", "/?role=Pilot#heroes"],
+  ["crew", "Cabin crew", "/?role=Cabin+crew#heroes"],
+  ["passengers", "Passengers", "/?role=Passenger#heroes"],
+  ["kindness", "Kindness", "/acts-of-kindness/"],
+  ["safety", "Safety", "/what-passengers-can-do/"],
+  ["about", "About", "/#about"]
+];
+// Newest first, developing stories ahead of the rest.
+const tickerItems = [...HEROES].sort((a, b) => !!b.developing - !!a.developing || b.year - a.year).slice(0, 8)
+  .map(h => `<li><a href="${heroPath(h)}">${esc(h.name)}: ${esc(h.flight)}</a></li>`).join("");
+const header = active => `<!-- site-header: written by scripts/build.mjs -->
+<header>
+  <div class="wrap top">
+    <a class="logo" href="/" aria-label="AirSkyHero home">${PLANE}<span>AirSky<b>Hero</b></span></a>
+    <div class="ticker" aria-label="Newest heroes">
+      <div class="ticker-track"><ul>${tickerItems}</ul><ul aria-hidden="true" inert>${tickerItems}</ul></div>
+    </div>
+    <div class="tools">
+      <a class="ic-btn" id="search-btn" href="/#heroes" aria-label="Search heroes">${icon('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>')}</a>
+      <button class="ic-btn" id="theme-btn" type="button" aria-label="Switch between light and dark">${icon('<path class="moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g>')}</button>
+    </div>
   </div>
-</header>`;
+</header>
+<nav class="cats" aria-label="Sections">
+  <div class="wrap cats-row">${SECTIONS.map(([key, label, href]) =>
+    `<a class="cat" href="${href}"${key === active ? ' aria-current="page"' : ""}><span class="cat-ic">${icon(ICONS[key])}</span>${label}</a>`).join("")}</div>
+</nav>
+<!-- /site-header -->`;
+
+// Pages not generated here (home and the safety guide) get the same header and <head> links.
+for (const [file, active] of [["index.html", "latest"], ["what-passengers-can-do/index.html", "safety"]]) {
+  const html = fs.readFileSync(path.join(ROOT, file), "utf8");
+  const updated = html
+    .replace(/(?:<!-- site-header:[^>]*-->[\s\S]*?<!-- \/site-header -->|<header>[\s\S]*?<\/header>)/, header(active))
+    .replace(/(?:<link rel="preconnect"[^>]*>\n)*(?:<link href="https:\/\/fonts[^>]*>\n)?<link rel="stylesheet" href="\/site.css">(?:\n<script src="\/theme.js"><\/script>)?/, HEAD_LINKS)
+    .replace(/<meta name="theme-color" content="[^"]*">/, `<meta name="theme-color" content="${THEME_COLOR}">`);
+  if (write(file, updated)) console.log(`${file}: header updated`);
+}
 
 const heroCard = h => `
         <a class="card" href="${heroPath(h)}">
@@ -126,7 +175,7 @@ ${MARK}
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
-<meta name="theme-color" content="#0b1118">
+<meta name="theme-color" content="${THEME_COLOR}">
 <link rel="canonical" href="${heroUrl(h)}">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="AirSkyHero">
@@ -141,12 +190,12 @@ ${MARK}
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/site.css">
+${HEAD_LINKS}
 <script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>
 ${faqLd ? `<script type="application/ld+json">${JSON.stringify(faqLd).replace(/</g, "\\u003c")}</script>\n` : ""}</head>
 <body>
 
-${HEADER}
+${header("heroes")}
 
 <main class="wrap hero-page">
   <p class="crumbs"><a href="/">Home</a> › <a href="/#heroes">Heroes</a> › ${esc(h.country)}</p>
@@ -290,7 +339,7 @@ ${MARK}
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>${esc(title)} | AirSkyHero</title>
 <meta name="description" content="${esc(description)}">
-<meta name="theme-color" content="#0b1118">
+<meta name="theme-color" content="${THEME_COLOR}">
 <link rel="canonical" href="${SITE}/${KIND_SLUG}/">
 <meta property="og:type" content="article">
 <meta property="og:site_name" content="AirSkyHero">
@@ -304,12 +353,12 @@ ${MARK}
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="icon" href="/icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<link rel="stylesheet" href="/site.css">
+${HEAD_LINKS}
 <script type="application/ld+json">${JSON.stringify(ld).replace(/</g, "\\u003c")}</script>
 </head>
 <body>
 
-${HEADER}
+${header("kindness")}
 
 <main class="wrap hero-page guide kindness">
   <p class="crumbs"><a href="/">Home</a> › Acts of kindness</p>
