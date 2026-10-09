@@ -188,9 +188,11 @@ if (FEATURED) {
     </div>`;
 
   // Beside the lead story: the newest news stories and videos about any hero, like a news site's "latest" column.
-  // Only dated items are listed, so the order is always newest first.
+  // Only dated items are listed. Main stories (top: true) from the last 3 days come first, then the rest, newest first.
+  const recent = new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 10);
+  const isMain = n => n.top && n.date >= recent;
   const LATEST = HEROES.flatMap(h => (h.news || []).filter(n => n.date).map(n => ({ ...n, hero: h.name })))
-    .sort((a, b) => b.date.localeCompare(a.date));
+    .sort((a, b) => isMain(b) - isMain(a) || b.date.localeCompare(a.date));
   const isVideo = n => n.type === "video" && youtubeId(n.url);
   const pic = n => isVideo(n) ? `https://i.ytimg.com/vi/${youtubeId(n.url)}/hqdefault.jpg`
     : n.image && !/^https?:/.test(n.image) ? "/" + n.image.replace(/^\//, "") : n.image;

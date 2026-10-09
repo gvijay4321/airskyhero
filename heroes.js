@@ -7,7 +7,8 @@
 // developing: true marks a recent event whose details may still change.
 // news: optional coverage shown in the hero's story, newest first. type is "video" (YouTube link, plays in the page)
 //   or "article". title, date (YYYY-MM-DD) and image (the article's preview picture) are optional, but give videos their YouTube
-//   upload date so Google can list them as videos. Every hero also gets "latest news" search links automatically.
+//   upload date so Google can list them as videos. top: true marks a main story (a major development such as an award
+//   or official finding); for 3 days after its date it is listed first in the home page's Latest news. Every hero also gets "latest news" search links automatically.
 //   Pictures should not repeat: if an article reuses a photo already on the page, use another freely licensed
 //   picture saved in images/news/ and add imageCredit: "Author · Licence".
 // newsQuery: optional search words for those links (defaults to the hero's name and flight).
@@ -60,7 +61,7 @@ const HEROES = [
       { q: "Is this Smit Machchhar's official website?", a: "No. AirSkyHero is an independent site about heroes of the sky. It is not run by or connected to Captain Machchhar, his family or flydubai." }
     ],
     news: [
-      { type: "article", title: "Indian flydubai pilot Smit Machchhar to receive Israel’s Presidential Award for Civilian Heroism", outlet: "The Tribune", date: "2026-10-09", url: "https://www.tribuneindia.com/news/bravery/indian-flydubai-pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism" },
+      { type: "article", title: "Indian flydubai pilot Smit Machchhar to receive Israel’s Presidential Award for Civilian Heroism", outlet: "The Tribune", date: "2026-10-09", top: true, url: "https://www.tribuneindia.com/news/bravery/indian-flydubai-pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism" },
       { type: "article", title: "Hero flydubai captain was always ‘two steps’ ahead when on duty", outlet: "The National", date: "2026-10-08", url: "https://www.thenationalnews.com/news/uae/2026/10/08/hero-flydubai-captain-was-always-two-steps-ahead-when-on-duty/" },
       { type: "video", title: "Big Health Update On Smit Machchhar: Indian Pilot Recovering Well In UAE", outlet: "CNN-News18", date: "2026-10-03", url: "https://www.youtube.com/watch?v=L2ijp7-o1bc" },
       { type: "video", title: "Captain Smit Machchhar's Wife Says, 'Very Delighted That PM Modi Spoke To Him'", outlet: "Moneycontrol", date: "2026-10-02", url: "https://www.youtube.com/watch?v=ry80jwnw2nA" },
