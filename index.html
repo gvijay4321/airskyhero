@@ -25,7 +25,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
+<script src="/theme.js"></script>
+<script src="/theme.js"></script>
 <script src="/theme.js"></script>
 </head>
 <body>
@@ -55,8 +63,8 @@
     <div class="latest">
       <!-- Lead story: the hero marked featured: true in heroes.js -->
       <article class="feature-card" id="feature"></article>
-      <!-- The newest other heroes, filled by the script below -->
-      <ol class="side" id="side" aria-label="Newest heroes"></ol>
+      <!-- The newest news stories and videos, filled by the script below -->
+      <ol class="side" id="side" aria-label="Latest news"></ol>
     </div>
     <div class="f-helpers" id="f-helpers" hidden></div>
     <div class="f-news" id="f-news" hidden></div>
@@ -179,13 +187,19 @@ if (FEATURED) {
       ${shareHtml(f)}
     </div>`;
 
-  // Beside the lead story: the newest other heroes, like a news site's "latest" column.
-  $("side").innerHTML = [...HEROES].filter(h => h !== f).sort((a, b) => !!b.developing - !!a.developing || b.year - a.year).slice(0, 5)
-    .map(h => `<li><a class="s-card" href="${heroPath(h)}">
-      <span class="s-thumb">${h.image
-        ? `<img src="${esc(h.image)}" alt="" class="${h.imageKind === "portrait" ? "face" : ""}" loading="lazy">`
-        : `<span class="initials" aria-hidden="true">${esc(initials(h.name))}</span>`}</span>
-      <span class="s-text"><span class="label">${esc(h.role)} · ${h.year}</span><span class="s-title">${esc(h.name)}: ${esc(h.flight)}</span></span>
+  // Beside the lead story: the newest news stories and videos about any hero, like a news site's "latest" column.
+  // Only dated items are listed, so the order is always newest first.
+  const LATEST = HEROES.flatMap(h => (h.news || []).filter(n => n.date).map(n => ({ ...n, hero: h.name })))
+    .sort((a, b) => b.date.localeCompare(a.date));
+  const isVideo = n => n.type === "video" && youtubeId(n.url);
+  const pic = n => isVideo(n) ? `https://i.ytimg.com/vi/${youtubeId(n.url)}/hqdefault.jpg`
+    : n.image && !/^https?:/.test(n.image) ? "/" + n.image.replace(/^\//, "") : n.image;
+  $("side").innerHTML = LATEST.slice(0, 5).map(n => `<li><a class="s-card" href="${esc(n.url)}" target="_blank" rel="noopener">
+      <span class="s-thumb${isVideo(n) ? " s-video" : ""}">${pic(n)
+        ? `<img src="${esc(pic(n))}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ""}
+        <span class="initials" aria-hidden="true">${esc(initials(n.outlet || n.hero))}</span></span>
+      <span class="s-text"><span class="label">${isVideo(n) ? "Video" : "News"} · ${esc(newsDate(n.date))}</span>
+        <span class="s-title">${esc(n.title || n.outlet)}</span><span class="s-src">${esc(n.outlet)} · ${esc(n.hero)}</span></span>
     </a></li>`).join("");
 
   // Who helped on the featured flight: names here, what each person did on the hero's own page.
@@ -196,12 +210,13 @@ if (FEATURED) {
       `<div class="f-news-head"><h2>Who helped on ${esc(f.flight)}</h2></div>`);
   }
 
-  // Coverage lives on the hero's own page only, so the two pages never list the same stories.
-  const stories = (f.news || []).length;
-  if (stories) {
+  // More of the same feed: articles and videos together, newest first; videos play in the page.
+  const more = LATEST.slice(5, 29);
+  if (more.length) {
     $("f-news").hidden = false;
-    $("f-news").innerHTML = `<div class="f-news-head"><h2>Latest on ${esc(f.name)}</h2>
-      <a class="f-all" href="${heroPath(f)}#d-news-h">All ${stories} stories &amp; videos →</a></div>`;
+    $("f-news").innerHTML = `<div class="f-news-head"><h2>More latest news</h2>
+      <a class="f-all" href="${heroPath(f)}#d-news-h">All stories on ${esc(f.name)} →</a></div>
+      ${grid(more.map(n => (isVideo(n) ? videoCard : articleCard)(n)))}`;
   }
 } else {
   $("featured").hidden = true;
