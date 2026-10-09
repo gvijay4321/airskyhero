@@ -6,7 +6,8 @@
 //   worded differently from story so the home page and the hero's page don't repeat each other.
 // developing: true marks a recent event whose details may still change.
 // news: optional coverage shown in the hero's story, newest first. type is "video" (YouTube link, plays in the page)
-//   or "article". title, date (YYYY-MM-DD) and image (the article's preview picture) are optional. Every hero also gets "latest news" search links automatically.
+//   or "article". title, date (YYYY-MM-DD) and image (the article's preview picture) are optional, but give videos their YouTube
+//   upload date so Google can list them as videos. Every hero also gets "latest news" search links automatically.
 //   Pictures should not repeat: if an article reuses a photo already on the page, use another freely licensed
 //   picture saved in images/news/ and add imageCredit: "Author · Licence".
 // newsQuery: optional search words for those links (defaults to the hero's name and flight).
@@ -57,9 +58,9 @@ const HEROES = [
       { q: "Is this Smit Machchhar's official website?", a: "No. AirSkyHero is an independent site about heroes of the sky. It is not run by or connected to Captain Machchhar, his family or flydubai." }
     ],
     news: [
-      { type: "video", title: "Big Health Update On Smit Machchhar: Indian Pilot Recovering Well In UAE", outlet: "CNN-News18", url: "https://www.youtube.com/watch?v=L2ijp7-o1bc" },
-      { type: "video", title: "Captain Smit Machchhar's Wife Says, 'Very Delighted That PM Modi Spoke To Him'", outlet: "Moneycontrol", url: "https://www.youtube.com/watch?v=ry80jwnw2nA" },
-      { type: "video", title: "UAE Crown Prince Sheikh Hamdan visits Captain Smit Machchhar in hospital", outlet: "DD India", url: "https://www.youtube.com/watch?v=xEnbfqlHN3g" },
+      { type: "video", title: "Big Health Update On Smit Machchhar: Indian Pilot Recovering Well In UAE", outlet: "CNN-News18", date: "2026-10-03", url: "https://www.youtube.com/watch?v=L2ijp7-o1bc" },
+      { type: "video", title: "Captain Smit Machchhar's Wife Says, 'Very Delighted That PM Modi Spoke To Him'", outlet: "Moneycontrol", date: "2026-10-02", url: "https://www.youtube.com/watch?v=ry80jwnw2nA" },
+      { type: "video", title: "UAE Crown Prince Sheikh Hamdan visits Captain Smit Machchhar in hospital", outlet: "DD India", date: "2026-10-03", url: "https://www.youtube.com/watch?v=xEnbfqlHN3g" },
       { type: "article", title: "US House bill honours Indian pilot Smit Machchhar for thwarting attempted terror attack on flydubai flight", outlet: "The Tribune", date: "2026-10-06", url: "https://www.tribuneindia.com/news/captain-smit-machchhar/us-house-bill-honours-indian-pilot-smit-machchhar-for-thwarting-attempted-terror-attack-on-flydubai-flight", image: "images/news/us-capitol.jpg", imageCredit: "Architect of the Capitol · Public domain" },
       { type: "article", title: "Co-pilot planned Flydubai attack before joining airline, two Israeli officials say", outlet: "US News (Reuters)", date: "2026-10-05", url: "https://www.usnews.com/news/world/articles/2026-10-05/co-pilot-planned-flydubai-attack-before-hired-by-airline-two-israeli-officials-say", image: "images/news/ben-gurion-t3.jpg", imageCredit: "Djampa · CC BY-SA 4.0" },
       { type: "article", title: "FlyDubai co-pilot allegedly planned to crash Israel-bound jet at Ben Gurion Airport", outlet: "Fox News", url: "https://www.foxnews.com/world/flydubai-copilot-allegedly-planned-crash-israel-bound-jet-ben-gurion-airport", image: "images/news/ben-gurion-hall.jpg", imageCredit: "Ralf Roletschek · GFDL 1.2" },

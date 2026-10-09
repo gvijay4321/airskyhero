@@ -193,5 +193,5 @@ if (typeof document !== "undefined") {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { SITE, esc, heroSlug, heroPath, heroUrl, shareImage, newsDate, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
+  module.exports = { SITE, esc, youtubeId, heroSlug, heroPath, heroUrl, shareImage, newsDate, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
 }
