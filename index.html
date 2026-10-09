@@ -34,7 +34,11 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
+<script src="/theme.js"></script>
 <script src="/theme.js"></script>
 <script src="/theme.js"></script>
 <script src="/theme.js"></script>
@@ -205,10 +209,11 @@ if (FEATURED) {
 
   // Beside the lead story: the newest news stories and videos about any hero, like a news site's "latest" column.
   // Only dated items are listed. Main stories (top: true) from the last 3 days come first, then the rest, newest first.
+  // A story carried by several outlets is listed once.
   const recent = new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 10);
   const isMain = n => n.top && n.date >= recent;
-  const LATEST = HEROES.flatMap(h => (h.news || []).filter(n => n.date).map(n => ({ ...n, hero: h.name })))
-    .sort((a, b) => isMain(b) - isMain(a) || b.date.localeCompare(a.date));
+  const LATEST = uniqueStories(HEROES.flatMap(h => (h.news || []).filter(n => n.date).map(n => ({ ...n, hero: h.name })))
+    .sort((a, b) => isMain(b) - isMain(a) || b.date.localeCompare(a.date)));
   const isVideo = n => n.type === "video" && youtubeId(n.url);
   // "Today", "Yesterday" or "3 days ago" for the past week, then the date. Stories from the last two days are marked new.
   const today = new Date().toISOString().slice(0, 10);
