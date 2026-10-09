@@ -16,6 +16,16 @@ const shareImage = h => `${SITE}/share/${heroSlug(h)}.jpg`;
 /* ---------- News: video and article cards, plus live search links ---------- */
 const youtubeId = url => (url.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/)([\w-]{11})/) || [])[1];
 const newsDate = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
+// Drops later items that report the same story as one already kept: most of the words in the shorter
+// headline appear in the other (e.g. two outlets on the same award), or the link is the same.
+const titleWords = t => new Set((t || "").toLowerCase().replace(/['’]s/g, "").match(/[a-z0-9]{3,}/g) || []);
+const sameStory = (a, b) => {
+  if (a.url === b.url) return true;
+  const x = titleWords(a.title), y = titleWords(b.title);
+  const shared = [...x].filter(w => y.has(w)).length;
+  return Math.min(x.size, y.size) >= 4 && shared >= 0.8 * Math.min(x.size, y.size);
+};
+const uniqueStories = list => list.reduce((kept, n) => (kept.some(k => sameStory(k, n)) ? kept : [...kept, n]), []);
 const ext = (url, html) => `<a href="${esc(url)}" target="_blank" rel="noopener">${html}</a>`;
 // Outlet name sits under the picture, so it shows if the picture is missing or fails to load.
 const thumb = (src, label) => `<span class="n-fallback">${esc(label)}</span>` +
@@ -193,5 +203,5 @@ if (typeof document !== "undefined") {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { SITE, esc, youtubeId, heroSlug, heroPath, heroUrl, shareImage, newsDate, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
+  module.exports = { SITE, esc, youtubeId, heroSlug, heroPath, heroUrl, shareImage, newsDate, uniqueStories, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
 }
