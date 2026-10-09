@@ -21,7 +21,7 @@ const ext = (url, html) => `<a href="${esc(url)}" target="_blank" rel="noopener"
 const thumb = (src, label) => `<span class="n-fallback">${esc(label)}</span>` +
   (src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : "");
 const cardText = n => `<div class="n-text">
-  <span class="n-src">${esc(n.outlet || "")}${n.date ? " · " + newsDate(n.date) : ""}</span>
+  <span class="n-src">${esc(n.outlet || "")}${n.date ? " · " + (n.when || newsDate(n.date)) : ""}</span>
   ${n.title ? `<span class="n-title">${esc(n.title)}</span>` : ""}${n.hero ? `<span class="n-src">${esc(n.hero)}</span>` : ""}
   ${n.imageCredit ? `<span class="n-credit">Photo: ${esc(n.imageCredit)}</span>` : ""}</div>`;
 
