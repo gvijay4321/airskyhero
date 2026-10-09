@@ -11,6 +11,8 @@
 //   or official finding); for 3 days after its date it is listed first in the home page's Latest news. Every hero also gets "latest news" search links automatically.
 //   Pictures should not repeat: if an article reuses a photo already on the page, use another freely licensed
 //   picture saved in images/news/ and add imageCredit: "Author · Licence".
+//   Articles without an image get a drawn thumbnail automatically (an icon for the headline's topic: award, health,
+//   inquiry, family, meeting, first-hand account, or a plane), so only add an image when a good free one exists.
 //   Before adding a story, search every hero's news (not only this hero's) for the same story from another outlet:
 //   heroes from the same flight often share coverage, and the home page's Latest news would list it twice.
 // newsQuery: optional search words for those links (defaults to the hero's name and flight).

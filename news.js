@@ -18,7 +18,7 @@ const youtubeId = url => (url.match(/(?:youtu\.be\/|[?&]v=|\/shorts\/|\/embed\/)
 const newsDate = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" });
 // Drops later items that report the same story as one already kept: most of the words in the shorter
 // headline appear in the other (e.g. two outlets on the same award), or the link is the same.
-const titleWords = t => new Set((t || "").toLowerCase().replace(/['’]s/g, "").match(/[a-z0-9]{3,}/g) || []);
+const titleWords = t => new Set((t || "").toLowerCase().replace(/['’]s\b/g, "").match(/[a-z0-9]{3,}/g) || []);
 const sameStory = (a, b) => {
   if (a.url === b.url) return true;
   const x = titleWords(a.title), y = titleWords(b.title);
@@ -27,8 +27,35 @@ const sameStory = (a, b) => {
 };
 const uniqueStories = list => list.reduce((kept, n) => (kept.some(k => sameStory(k, n)) ? kept : [...kept, n]), []);
 const ext = (url, html) => `<a href="${esc(url)}" target="_blank" rel="noopener">${html}</a>`;
-// Outlet name sits under the picture, so it shows if the picture is missing or fails to load.
-const thumb = (src, label) => `<span class="n-fallback">${esc(label)}</span>` +
+// Our own drawn thumbnail for a story without a picture (nothing to license): an icon picked from the headline's
+// topic, on a tinted background whose angle varies by headline so neighbouring cards don't look identical.
+const ICONS = {
+  award: '<circle cx="12" cy="9" r="5.5"/><circle cx="12" cy="9" r="2"/><path d="M8.6 13.4 7 21l5-2.6 5 2.6-1.6-7.6"/>',
+  health: '<path d="M12 20s-7.5-4.6-7.5-10.2A4.2 4.2 0 0 1 12 7.3a4.2 4.2 0 0 1 7.5 2.5C19.5 15.4 12 20 12 20z"/><path d="M7.5 12h2.2l1.3-2.2 2 4 1.3-1.8h2.2"/>',
+  inquiry: '<circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 5.5 5.5"/>',
+  family: '<circle cx="9" cy="8" r="3.2"/><path d="M3 20.5a6 6 0 0 1 12 0"/><circle cx="17.2" cy="9.2" r="2.5"/><path d="M16 14.3a5 5 0 0 1 5 5.2"/>',
+  meeting: '<path d="M4 5h16v11H10l-5 4v-4H4z"/><path d="M8 9.5h8M8 12.5h5"/>',
+  account: '<path fill="currentColor" stroke="none" d="M7.5 7a3 3 0 0 0-.4 6c-.3 1.4-1.2 2.6-2.6 3.4l.6.9C8 16 10.5 13.4 10.5 10a3 3 0 0 0-3-3zm9 0a3 3 0 0 0-.4 6c-.3 1.4-1.2 2.6-2.6 3.4l.6.9c2.9-1.3 5.4-3.9 5.4-7.3a3 3 0 0 0-3-3z"/>',
+  flight: '<path fill="currentColor" stroke="none" d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/>'
+};
+// First match wins, so "Mother Teresa award" is an award, not family news.
+const TOPICS = [
+  ["award", /award|honou?r|medal|chakra|garima|prize|felicitat|recognis|recogniz|commend/],
+  ["health", /health|hospital|recover|injur|wound|surgery|doctor|dentist|treat|icu|stable|discharg/],
+  ["inquiry", /investigat|probe|inquiry|police|court|charge|arrest|planned|motive|officials say|report/],
+  ["family", /family|wife|husband|mother|father|son\b|daughter|parents|brother|sister|home ?town/],
+  ["meeting", /\bvisit|\bmeets?\b|\bspoke|\bcalls?\b|\bmodi\b|prince|president|minister|ambassador|\bthank/],
+  ["account", /recall|recount|describe|interview|says|tells|speaks|['‘’"“].*['‘’"”]/]
+];
+const topicOf = n => (TOPICS.find(([, re]) => re.test((n.title || "").toLowerCase())) || ["flight"])[0];
+const topicArt = n => {
+  const t = topicOf(n), angle = [...(n.title || n.url || "")].reduce((h, c) => (h * 31 + c.charCodeAt(0)) % 360, 7);
+  return `<span class="art art-${t}" style="--angle:${angle}deg" aria-hidden="true">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">${ICONS[t]}</svg>
+    <span class="art-src">${esc(n.outlet || "")}</span></span>`;
+};
+// The drawn thumbnail sits under the picture, so it shows if the picture is missing or fails to load.
+const thumb = (src, n) => topicArt(n) +
   (src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : "");
 const cardText = n => `<div class="n-text">
   <span class="n-src">${esc(n.outlet || "")}${n.date ? " · " + (n.when || newsDate(n.date)) : ""}</span>
@@ -37,13 +64,13 @@ const cardText = n => `<div class="n-text">
 
 const videoCard = v => `
   <div class="n-card">
-    <div class="n-thumb">${thumb(`https://i.ytimg.com/vi/${youtubeId(v.url)}/hqdefault.jpg`, v.outlet || "Video")}
+    <div class="n-thumb">${thumb(`https://i.ytimg.com/vi/${youtubeId(v.url)}/hqdefault.jpg`, v)}
       <button data-yt="${youtubeId(v.url)}" aria-label="Play video: ${esc(v.title || v.outlet)}"></button></div>
     ${cardText(v)}
   </div>`;
 const articleCard = a => `
   <a class="n-card" href="${esc(a.url)}" target="_blank" rel="noopener">
-    <div class="n-thumb">${thumb(a.image && !/^https?:/.test(a.image) ? "/" + a.image.replace(/^\//, "") : a.image, a.outlet)}</div>
+    <div class="n-thumb">${thumb(a.image && !/^https?:/.test(a.image) ? "/" + a.image.replace(/^\//, "") : a.image, a)}</div>
     ${cardText({ ...a, title: a.title || `Read the ${a.outlet} report ↗` })}
   </a>`;
 // A swipeable row of cards; arrow buttons scroll it a page at a time on devices with a mouse.
@@ -203,5 +230,5 @@ if (typeof document !== "undefined") {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { SITE, esc, youtubeId, heroSlug, heroPath, heroUrl, shareImage, newsDate, uniqueStories, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
+  module.exports = { SITE, esc, youtubeId, heroSlug, heroPath, heroUrl, shareImage, newsDate, uniqueStories, topicArt, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
 }
