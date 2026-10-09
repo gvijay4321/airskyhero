@@ -63,6 +63,8 @@ const HEROES = [
     news: [
       { type: "article", title: "Indian flydubai pilot Smit Machchhar to receive Israel’s Presidential Award for Civilian Heroism", outlet: "The Tribune", date: "2026-10-09", top: true, url: "https://www.tribuneindia.com/news/bravery/indian-flydubai-pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism" },
       { type: "article", title: "Hero flydubai captain was always ‘two steps’ ahead when on duty", outlet: "The National", date: "2026-10-08", url: "https://www.thenationalnews.com/news/uae/2026/10/08/hero-flydubai-captain-was-always-two-steps-ahead-when-on-duty/" },
+      { type: "article", title: "Captain Smit Machchhar showing steady health improvement: MEA", outlet: "Telangana Today", date: "2026-10-07", url: "https://telanganatoday.com/captain-smit-machchhar-showing-steady-health-improvement-mea" },
+      { type: "article", title: "'Couldn't sleep all night': Captain Smit Machchhar's family recounts flydubai ordeal", outlet: "Khaleej Times", date: "2026-10-04", url: "https://www.khaleejtimes.com/uae/indian-pilot-smit-machchhar-family-emotional-flydubai-incident" },
       { type: "video", title: "Big Health Update On Smit Machchhar: Indian Pilot Recovering Well In UAE", outlet: "CNN-News18", date: "2026-10-03", url: "https://www.youtube.com/watch?v=L2ijp7-o1bc" },
       { type: "video", title: "Captain Smit Machchhar's Wife Says, 'Very Delighted That PM Modi Spoke To Him'", outlet: "Moneycontrol", date: "2026-10-02", url: "https://www.youtube.com/watch?v=ry80jwnw2nA" },
       { type: "video", title: "UAE Crown Prince Sheikh Hamdan visits Captain Smit Machchhar in hospital", outlet: "DD India", date: "2026-10-03", url: "https://www.youtube.com/watch?v=xEnbfqlHN3g" },
