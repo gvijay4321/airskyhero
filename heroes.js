@@ -64,6 +64,7 @@ const HEROES = [
     ],
     news: [
       { type: "article", title: "Indian flydubai pilot Smit Machchhar to receive Israel’s Presidential Award for Civilian Heroism", outlet: "The Tribune", date: "2026-10-09", top: true, url: "https://www.tribuneindia.com/news/bravery/indian-flydubai-pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism" },
+      { type: "article", title: "Captain Smit Machchhar on feet again, walks 10 steps as recovery continues after Flydubai flight attack", outlet: "WION", date: "2026-10-08", url: "https://www.wionews.com/india-news/captain-smit-machchhar-on-feet-again-takes-steps-as-recovery-continues-after-flydubai-flight-attack-1791418941442" },
       { type: "article", title: "Hero flydubai captain was always ‘two steps’ ahead when on duty", outlet: "The National", date: "2026-10-08", url: "https://www.thenationalnews.com/news/uae/2026/10/08/hero-flydubai-captain-was-always-two-steps-ahead-when-on-duty/" },
       { type: "article", title: "Captain Smit Machchhar showing steady health improvement: MEA", outlet: "Telangana Today", date: "2026-10-07", url: "https://telanganatoday.com/captain-smit-machchhar-showing-steady-health-improvement-mea" },
       { type: "article", title: "'Couldn't sleep all night': Captain Smit Machchhar's family recounts flydubai ordeal", outlet: "Khaleej Times", date: "2026-10-04", url: "https://www.khaleejtimes.com/uae/indian-pilot-smit-machchhar-family-emotional-flydubai-incident" },
