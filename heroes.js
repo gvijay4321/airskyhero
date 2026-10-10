@@ -63,6 +63,7 @@ const HEROES = [
       { q: "Is this Smit Machchhar's official website?", a: "No. AirSkyHero is an independent site about heroes of the sky. It is not run by or connected to Captain Machchhar, his family or flydubai." }
     ],
     news: [
+      { type: "article", title: "US Congressman Krishnamoorthi honours Indian pilot Smit Machchhar in Congressional Record for bravery during flydubai cockpit attack", outlet: "The Tribune", date: "2026-10-10", url: "https://www.tribuneindia.com/news/usa-news/us-congressman-krishnamoorthi-honours-indian-pilot-smit-machchhar-in-congressional-record-for-bravery-during-flydubai-cockpit-attack" },
       { type: "article", title: "Indian flydubai pilot Smit Machchhar to receive Israel’s Presidential Award for Civilian Heroism", outlet: "The Tribune", date: "2026-10-09", top: true, url: "https://www.tribuneindia.com/news/bravery/indian-flydubai-pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism" },
       { type: "article", title: "Captain Smit Machchhar on feet again, walks 10 steps as recovery continues after Flydubai flight attack", outlet: "WION", date: "2026-10-08", url: "https://www.wionews.com/india-news/captain-smit-machchhar-on-feet-again-takes-steps-as-recovery-continues-after-flydubai-flight-attack-1791418941442" },
       { type: "article", title: "Hero flydubai captain was always ‘two steps’ ahead when on duty", outlet: "The National", date: "2026-10-08", url: "https://www.thenationalnews.com/news/uae/2026/10/08/hero-flydubai-captain-was-always-two-steps-ahead-when-on-duty/" },
