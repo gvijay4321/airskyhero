@@ -30,6 +30,39 @@ const FACTS = [
       "https://www.thisdayinaviation.com/tag/stewardess/",
       "https://stuckattheairport.com/2024/05/15/airlines-once-had-stewardess-nurses-so-did-trains/"
     ] },
+  { id: "no-row-13", topic: "Life on board",
+    title: "Some planes have no row 13, and some no row 17",
+    summary: "Plenty of airlines, among them Air France, Iberia, Ryanair and Lufthansa, skip row 13 on at least some of their planes, jumping straight from 12 to 14. Lufthansa goes further and leaves out row 17 too, because 17 is the unlucky number in Italy and Brazil. In Roman numerals 17 is XVII, which can be rearranged into VIXI, Latin for 'I have lived', in other words 'my life is over'. Lufthansa has no problem with a Gate 13 or a flight numbered 13, though.",
+    sources: [
+      "https://thepointsguy.com/airline/why-airplanes-dont-have-a-13th-row/",
+      "https://www.airlinereporter.com/tag/row-17/",
+      "https://www.euronews.com/travel/2023/03/21/which-airlines-skip-row-13-and-where-does-the-superstition-come-from"
+    ] },
+  { id: "why-cabin-lights-dim-for-landing", topic: "Life on board",
+    title: "The lights go down for landing so your eyes are ready",
+    summary: "Take-off and landing are the riskiest minutes of a flight, so the crew dim the cabin lights to let everyone's eyes get used to the dark in advance. If the plane has to be evacuated at night or through smoke, nobody loses precious seconds waiting to see. A darker cabin also makes the exit signs and floor lights stand out, and with the blinds up the crew can look outside for fire or debris.",
+    sources: [
+      "https://www.afar.com/magazine/why-airplanes-dim-cabin-lights-for-takeoff-and-landing",
+      "https://sunset.com/?p=9546",
+      "https://www.islands.com/1906249/unsettling-reason-why-plane-lights-dim-low-during-takeoff-landing/"
+    ] },
+  { id: "hidden-crew-bedrooms", topic: "Life on board",
+    title: "Long-haul jets have secret bedrooms for the crew",
+    summary: "Behind a locked door that most passengers would take for a cupboard, many long-haul jets hide a ladder or staircase leading to rows of small bunks. On planes such as the Boeing 787 and Airbus A350 these crew rest areas sit above the passenger cabin, while some older jets tuck them below the floor. Pilots often have their own little rest area near the cockpit, with the cabin crew's bunks above the back of the plane.",
+    sources: [
+      "https://travelnoire.com/crew-rest-compartments-hidden-on-planes",
+      "https://www.rd.com/?p=308727",
+      "https://gulfnews.com/amp/story/business%2Faviation%2Fuae-travel-secret-compartments-hidden-features-on-planes-you-didnt-know-existed-1.500146411"
+    ] },
+  { id: "shower-at-40000-feet", topic: "Life on board",
+    title: "You can take a shower on an Emirates A380",
+    summary: "Emirates A380s with a first-class cabin have two 'Shower Spa' bathrooms at the front of the upper deck, one on each side of the staircase. First-class passengers book a slot of about half an hour, but the hot water is limited to five minutes, with a timer on the wall counting down.",
+    sources: [
+      "https://onemileatatime.com/guides/emirates-a380-shower/",
+      "https://viewfromthewing.com/?p=33261",
+      "https://milevalue.com/emirates-a380-first-class-shower-spa/",
+      "https://www.bangladeshmonitor.com.bd/lead-news-details/shower-40000-feet-inside-emirates-a380-first-class"
+    ] },
   { id: "pilots-eat-different-meals", topic: "Food and drink", home: true,
     title: "The two pilots usually eat different meals",
     summary: "Many airlines make sure the pilots at the controls eat different dishes, often at different times. If one meal turns out to be bad, only one of them gets sick and the other can still land the plane. It is airline policy rather than law: at Virgin Atlantic, for instance, the captain has to agree if both pilots want the same thing.",
@@ -71,6 +104,55 @@ const FACTS = [
       "https://wordhistories.net/2016/11/03/mayday/",
       "https://connexionfrance.com/magazine/mayday-emergency-call-originated-from-maidez/492218"
     ] },
+  { id: "why-plane-windows-are-round", topic: "How planes work", when: "1954",
+    title: "Plane windows are round because of two crashes in 1954",
+    summary: "The de Havilland Comet, the world's first jet airliner, had squarish cut-outs for its windows and hatches. Every flight pressurised the cabin and then let the pressure out again, and over time the stress gathered at the corners until the metal cracked. In 1954 two Comets broke apart in the air over the Mediterranean. Investigators then pumped a whole Comet up and down in a water tank until it split open at the corner of a window, and airliner windows have had rounded shapes ever since.",
+    sources: [
+      "https://www.faa.gov/lessons_learned/transport_airplane/accidents/G-ALYV",
+      "https://aeroxplorer.com/articles/airplane-windows-are-round-because-this-plane-kept-crashing",
+      "https://insideflyer.com/posts/airplane-windows-have-rounded-corners-for-safety/"
+    ] },
+  { id: "tiny-hole-in-plane-windows", topic: "How planes work",
+    title: "The tiny hole in your window has a job",
+    summary: "Airliner windows are usually made of three acrylic panes, and the little breather hole goes through the middle one. It keeps the air between the panes at cabin pressure, so the outer pane takes the strain while the middle one stays in reserve as a backup. The hole also stops the gap between the panes from fogging up, so you keep your view of the clouds.",
+    sources: [
+      "https://www.sciencealert.com/here-s-why-there-s-a-tiny-hole-in-airplane-windows",
+      "https://www.afar.com/magazine/why-airplane-windows-have-tiny-holes",
+      "https://www.bgr.com/2155765/why-airplane-windows-have-tiny-holes/"
+    ] },
+  { id: "planes-hit-by-lightning", topic: "How planes work",
+    title: "Every airliner is hit by lightning about once a year",
+    summary: "On average each airliner is struck by lightning roughly once a year, usually while climbing or descending through cloud. The electricity runs along the plane's metal skin and leaves again, often without passengers noticing anything. Jets built mostly from carbon fibre, such as the Boeing 787, have a fine metal mesh in their skin so the current travels round them in the same way.",
+    sources: [
+      "https://www.smithsonianmag.com/air-space-magazine/how-things-work-lightning-protection-161993347/",
+      "https://www.livescience.com/32638-do-planes-get-struck-by-lightning.html",
+      "https://mainblades.com/blog-posts/aircraft-and-lightning-strikes-here-is-what-the-statistics-say",
+      "https://skybrary.aero/sites/default/files/bookshelf/3354.pdf"
+    ] },
+  { id: "nitrogen-in-plane-tyres", topic: "How planes work",
+    title: "Airliner tyres are filled with nitrogen, not air",
+    summary: "The tyres on big airliners are pumped up with dry nitrogen instead of ordinary air. After a hard stop a hot tyre can give off gases, and the oxygen in normal air could make them catch fire or explode, while nitrogen does not feed a fire. Dry nitrogen also carries no moisture that could freeze at altitude. In the US it is a rule for airliners weighing more than 75,000 lb at take-off.",
+    sources: [
+      "https://howthingsfly.si.edu/ask-an-explainer/what-kind-gas-used-inflate-aircraft-tires",
+      "https://goodyearaviation.com/resources/pdf/aviation-tire-care-2024.pdf",
+      "https://www.slashgear.com/1820852/airplane-tires-filled-with-nitrogen-reason"
+    ] },
+  { id: "hidden-handrail-under-overhead-bins", topic: "How planes work",
+    title: "There's a handrail hidden under the overhead bins",
+    summary: "Run your hand along the underside of the overhead bins on many newer planes and you'll find a moulded groove made for gripping. Cabin crew use it to steady themselves as they walk the aisle, especially in turbulence. Passengers can use it too, which is kinder than grabbing the headrests of the people sitting below, though not every plane has one.",
+    sources: [
+      "https://www.rd.com/?p=308727",
+      "https://www.kenyans.co.ke/news/65889-5-hidden-features-airplanes-their-crucial-roles",
+      "https://patents.google.com/patent/US7731399B2/en"
+    ] },
+  { id: "747-six-million-parts", topic: "How planes work",
+    title: "A jumbo jet is built from about six million parts",
+    summary: "A Boeing 747 is put together from roughly six million parts, about twice as many as a Boeing 777. The pieces were made by suppliers across the United States and around the world, then brought together at Boeing's enormous factory in Everett, near Seattle.",
+    sources: [
+      "https://www.csmonitor.com/1997/1029/102997.us.us.2.html",
+      "https://monocle.com/business/manufacturing/boeing-747-8-jumbo-jet-manufacturing/",
+      "https://airwaysmag.com/photos-a-boeing-747-factory-tour"
+    ] },
   { id: "first-flight-shorter-than-747-wing", topic: "Firsts and record breakers", when: "17 December 1903", home: true,
     title: "The first flight would fit inside a jumbo jet's wings",
     summary: "Orville Wright's first powered flight at Kitty Hawk lasted 12 seconds and covered about 120 feet (37 m). The first Boeing 747 measured 195 ft 8 in from wingtip to wingtip, so the whole flight could have taken place between a jumbo's wings with room to spare. Orville noticed the same thing in 1944, when he flew in a Lockheed Constellation whose wings were longer than his first hop.",
@@ -96,6 +178,22 @@ const FACTS = [
       "https://www.pbs.org/wgbh/nova/supersonic/speed.html",
       "https://aeroreport.de/en/aviation/flying-in-the-concorde-the-fastest-of-passenger-jets",
       "https://travelweekly.co.uk/news/factfile-concorde"
+    ] },
+  { id: "first-airline-seat-sold-for-400-dollars", topic: "Firsts and record breakers", when: "1 January 1914",
+    title: "The first airline seat was sold at auction for $400",
+    summary: "The world's first scheduled passenger airline, the St. Petersburg-Tampa Airboat Line, started flying in Florida on 1 January 1914. Pilot Tony Jannus took a Benoist flying boat across Tampa Bay in about 23 minutes. His only passenger was Abram C. Pheil, a former mayor of St. Petersburg, who had won the first seat at an auction for $400. Everyone after him paid the normal fare of $5 each way.",
+    sources: [
+      "https://www.iata.org/en/about/history/flying-100-years/",
+      "https://digitalcommons.usf.edu/exhibit/gandy-collection/tony-jannus-and-the-benoist-xiv/",
+      "https://vintageaviationnews.com/?p=103131"
+    ] },
+  { id: "klm-oldest-airline-name", topic: "Firsts and record breakers", when: "7 October 1919",
+    title: "KLM is the oldest airline still using its first name",
+    summary: "KLM Royal Dutch Airlines was founded on 7 October 1919 and flew its first service, from London to Amsterdam, in May 1920. No other airline in the world has kept flying under its original name for as long, and it turned 100 in 2019.",
+    sources: [
+      "https://aviationweek.com/business-aviation/klm-royal-dutch-airlines-marked-its-100th-anniversary",
+      "https://thepointsguy.com/news/oldest-airline-klm-turns-100",
+      "https://collection.sciencemuseumgroup.org.uk/people/cp38968/klm-royal-dutch-airlines"
     ] }
 ];
 
