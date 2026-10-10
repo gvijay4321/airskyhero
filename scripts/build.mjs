@@ -426,11 +426,32 @@ const topicId = t => "f-" + heroSlug({ name: t });
     ids.add(f.id);
     if ((f.sources || []).length < 3) throw new Error(`Fun fact "${f.id}" needs at least three sources in facts.js.`);
   }
+  // Each topic gets an icon and one of four colours (t0 to t3 in site.css), in the order the topics appear.
+  const TOPIC_ICONS = {
+    "Life on board": ICONS.passengers,
+    "Food and drink": '<path d="M5 8h12v4a6 6 0 0 1-6 6h0a6 6 0 0 1-6-6zM17 9h1.5a2.5 2.5 0 0 1 0 5H16.5M8 2.5v2.5M11 2.5v2.5M14 2.5v2.5M4 21h14"/>',
+    "How planes work": '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/>',
+    "Firsts and record breakers": '<path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0zM7 6H4.5a3 3 0 0 0 3 4.5M17 6h2.5a3 3 0 0 1-3 4.5"/>'
+  };
+  const topicIcon = t => icon(TOPIC_ICONS[t] || ICONS.facts);
+  const topicClass = t => "t" + (factTopics.indexOf(t) % 4);
+  const shown = factTopics.flatMap(t => FACTS.filter(f => f.topic === t));
+  const SHARE = icon('<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/>');
   const fact = f => `
-        <li class="k-card" id="${esc(f.id)}">
-          <h3>${esc(f.title)}</h3>
-${f.when ? `          <p class="k-meta">${esc(f.when)}</p>\n` : ""}          <p>${esc(f.summary)}${srcLinks(f.sources)}</p>
+        <li class="fc" id="${esc(f.id)}">
+          <div class="fc-top"><span class="fc-no">No. ${String(shown.indexOf(f) + 1).padStart(2, "0")}</span><span class="fc-ic">${topicIcon(f.topic)}</span></div>
+${f.stat ? `          <p class="fc-stat"><b>${esc(f.stat)}</b><span>${esc(f.statLabel || "")}</span></p>\n` : ""}          <h3>${esc(f.title)}</h3>
+${f.when ? `          <p class="fc-when">${esc(f.when)}</p>\n` : ""}          <p class="fc-text">${esc(f.summary)}</p>
+          <div class="fc-foot">${srcLinks(f.sources).trim()}<button class="fc-share" type="button" data-id="${esc(f.id)}" data-title="${esc(f.title)}">${SHARE}<span>Share</span></button></div>
         </li>`;
+  const sourceCount = new Set(FACTS.flatMap(f => f.sources)).size;
+  // Banner art: a dashed flight path with a plane at the end and a couple of clouds.
+  const FLIGHT_ART = `<svg class="ff-art" viewBox="0 0 400 220" aria-hidden="true">
+      <path class="ff-cloud" d="M250 170a18 18 0 0 1 34-8 14 14 0 0 1 24 10 11 11 0 0 1 0 22h-56a12 12 0 0 1-2-24z"/>
+      <path class="ff-cloud" d="M60 70a14 14 0 0 1 26-6 11 11 0 0 1 19 8 9 9 0 0 1 0 17H62a10 10 0 0 1-2-19z"/>
+      <path class="ff-path" d="M20 200C110 190 170 120 240 90s90-40 120-70"/>
+      <g transform="translate(360 22) rotate(56)"><path class="ff-plane" d="M0-20c2 0 3 2 3 5v9l15 9v4L3 2v9l5 4v3l-8-2-8 2v-3l5-4V2l-15 5V3l15-9v-9c0-3 1-5 3-5z"/></g>
+    </svg>`;
   const title = "Fun facts about planes and flying";
   const description = `${FACTS.length} surprising true facts about airliners and air travel, from piano bars on jumbo jets to ashtrays on non-smoking flights, each checked against at least three sources.`;
   const ld = {
@@ -466,19 +487,22 @@ ${HEAD_LINKS}
 
 ${header("facts")}
 
-<main class="wrap hero-page guide kindness">
+<main class="wrap facts-page">
   <p class="crumbs"><a href="/">Home</a> › Fun facts</p>
   <article>
-    <div class="hp-head">
+    <div class="ff-hero">
+      ${FLIGHT_ART}
       <p class="eyebrow">Fun facts</p>
       <h1>Did you know?</h1>
+      <p class="ff-lead">Jumbo jets once had piano bars, and brand-new planes still come with ashtrays. Here are some of the stranger true stories behind the planes we fly on. Every fact is checked against at least three independent sources, linked under it.</p>
+      <div class="ff-nums"><span><b>${FACTS.length}</b> facts</span><span><b>${factTopics.length}</b> topics</span><span><b>${sourceCount}</b> sources</span></div>
+      <button class="ff-surprise" id="surprise" type="button" hidden>${icon(ICONS.pilots)}Surprise me</button>
     </div>
-    <p class="hp-story">Jumbo jets once had piano bars, and brand-new planes still come with ashtrays. Here are some of the stranger true stories behind the planes we fly on. Every fact is checked against at least three independent sources, linked under it.</p>
-    <nav class="k-countries" aria-label="Topics">${factTopics.map(t =>
-      `<a href="#${topicId(t)}">${esc(t)} <span>${FACTS.filter(f => f.topic === t).length}</span></a>`).join("")}</nav>
-${factTopics.map(t => `    <section aria-labelledby="${topicId(t)}">
-      <h2 id="${topicId(t)}">${esc(t)}</h2>
-      <ul class="k-list">${FACTS.filter(f => f.topic === t).map(fact).join("")}
+    <nav class="ff-topics" aria-label="Topics">${factTopics.map(t =>
+      `<a class="${topicClass(t)}" href="#${topicId(t)}">${topicIcon(t)}${esc(t)} <span>${FACTS.filter(f => f.topic === t).length}</span></a>`).join("")}</nav>
+${factTopics.map(t => `    <section class="ff-sec ${topicClass(t)}" aria-labelledby="${topicId(t)}">
+      <h2 id="${topicId(t)}"><span class="ff-sec-ic">${topicIcon(t)}</span>${esc(t)}</h2>
+      <ul class="ff-grid">${FACTS.filter(f => f.topic === t).map(fact).join("")}
       </ul>
     </section>`).join("\n")}
   </article>
@@ -487,6 +511,47 @@ ${factTopics.map(t => `    <section aria-labelledby="${topicId(t)}">
 
 <script data-goatcounter="https://airskyhero.goatcounter.com/count" async src="https://gc.zgo.at/count.js"></script>
 <script>
+const cards = [...document.querySelectorAll(".fc")];
+const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+// Cards fade in as they scroll into view.
+if ("IntersectionObserver" in window && !calm) {
+  document.documentElement.classList.add("ff-js");
+  const seen = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add("in"); seen.unobserve(e.target); }
+  }), { rootMargin: "0px 0px -40px 0px" });
+  cards.forEach(c => seen.observe(c));
+}
+// Surprise me: jump to a random fact and make it glow.
+let last;
+const surprise = document.getElementById("surprise");
+surprise.hidden = false;
+surprise.addEventListener("click", () => {
+  let card;
+  do card = cards[Math.floor(Math.random() * cards.length)]; while (cards.length > 1 && card === last);
+  last = card;
+  card.classList.add("in");
+  card.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "center" });
+  history.replaceState(null, "", "#" + card.id);
+  card.classList.remove("flash"); void card.offsetWidth; card.classList.add("flash");
+});
+// Share a link to one fact: the phone's share sheet where there is one, otherwise copy the link.
+document.addEventListener("click", async e => {
+  const b = e.target.closest(".fc-share");
+  if (!b) return;
+  const url = location.origin + location.pathname + "#" + b.dataset.id, label = b.querySelector("span");
+  try {
+    if (navigator.share) await navigator.share({ title: b.dataset.title, url });
+    else { await navigator.clipboard.writeText(url); label.textContent = "Link copied"; setTimeout(() => label.textContent = "Share", 2000); }
+  } catch (err) {}
+});
+// Mark the topic chip of the section being read.
+const chips = document.querySelectorAll(".ff-topics a");
+if ("IntersectionObserver" in window) {
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) chips.forEach(a => a.classList.toggle("on", a.hash === "#" + e.target.querySelector("h2").id));
+  }), { rootMargin: "-40% 0px -55% 0px" });
+  document.querySelectorAll(".ff-sec").forEach(s => io.observe(s));
+}
 if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js");
 </script>
 </body>
