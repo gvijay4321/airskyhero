@@ -48,7 +48,9 @@ const HEROES = [
       { date: "8 October 2026", text: "Israel's President Isaac Herzog says Machchhar will receive Israel's Presidential Award for Civilian Heroism once he recovers, as he presents the Presidential Medal for Civilian Heroism to six passengers from the flight.",
         sources: ["https://www.tribuneindia.com/news/bravery/indian-flydubai-pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism", "https://www.outlookindia.com/international/pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism"] },
       { date: "9 October 2026", text: "The UAE Attorney-General says the investigation found the first officer planned to seize the plane and crash it into the passenger terminal at Ben Gurion Airport. A forensic report found head injuries to the captain consistent with an axe. The first officer reportedly says he acted alone, and investigators are checking for accomplices.",
-        sources: ["https://gulfnews.com/business/aviation/flydubai-incident-uae-probe-reveals-what-happened-inside-the-cockpit-1.500705052", "https://tribuneindia.com/news/9-11/uae-attorney-general-says-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport"] }
+        sources: ["https://gulfnews.com/business/aviation/flydubai-incident-uae-probe-reveals-what-happened-inside-the-cockpit-1.500705052", "https://tribuneindia.com/news/9-11/uae-attorney-general-says-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport"] },
+      { date: "10 October 2026", text: "India's National Investigation Agency registers a case under the Anti-Hijacking Act and the Unlawful Activities (Prevention) Act over the attack, and says it will look into a possible wider conspiracy.",
+        sources: ["https://theprint.in/india/nia-invokes-uapa-anti-hijacking-act-in-flydubai-pilot-attack-case-to-probe-larger-conspiracy/3067756"] }
     ],
     faq: [
       { q: "Who is Captain Smit Machchhar?", a: "An Indian airline pilot who has flown the Boeing 737 for flydubai as a captain since 2022. Before that he spent about 11 years at SpiceJet in India. He has around 9,750 flying hours.",
@@ -65,6 +67,7 @@ const HEROES = [
       { q: "Is this Smit Machchhar's official website?", a: "No. AirSkyHero is an independent site about heroes of the sky. It is not run by or connected to Captain Machchhar, his family or flydubai." }
     ],
     news: [
+      { type: "article", title: "NIA invokes UAPA, Anti-Hijacking Act in FlyDubai pilot attack case; to probe larger conspiracy", outlet: "ThePrint", date: "2026-10-10", top: true, url: "https://theprint.in/india/nia-invokes-uapa-anti-hijacking-act-in-flydubai-pilot-attack-case-to-probe-larger-conspiracy/3067756" },
       { type: "article", title: "UAE Attorney-General says flydubai co-pilot planned suicide attack on Tel Aviv airport", outlet: "The Tribune", date: "2026-10-10", top: true, url: "https://tribuneindia.com/news/9-11/uae-attorney-general-says-flydubai-co-pilot-planned-suicide-attack-on-tel-aviv-airport" },
       { type: "article", title: "US Congressman Krishnamoorthi honours Indian pilot Smit Machchhar in Congressional Record for bravery during flydubai cockpit attack", outlet: "The Tribune", date: "2026-10-10", url: "https://www.tribuneindia.com/news/usa-news/us-congressman-krishnamoorthi-honours-indian-pilot-smit-machchhar-in-congressional-record-for-bravery-during-flydubai-cockpit-attack" },
       { type: "article", title: "Indian flydubai pilot Smit Machchhar to receive Israel’s Presidential Award for Civilian Heroism", outlet: "The Tribune", date: "2026-10-09", top: true, url: "https://www.tribuneindia.com/news/bravery/indian-flydubai-pilot-smit-machchhar-to-receive-israels-presidential-award-for-civilian-heroism" },
