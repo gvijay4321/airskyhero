@@ -62,7 +62,7 @@ const HEAD_LINKS = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="/site.css">
 <script src="/theme.js"></script>`;
 
-// Header shared by every page, laid out like a news site: a black bar with the red logo block, the section
+// Header shared by every page, laid out like a news site: a black bar with the blue logo block, the section
 // links, and search and theme buttons, then a grey strip with a ticker of the newest news headlines.
 // "active" is the section link marked as the current page.
 const icon = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
