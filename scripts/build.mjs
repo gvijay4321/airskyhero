@@ -55,16 +55,18 @@ for (const h of ordered) {
 const PLANE = `<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>`;
 
 // Fonts, theme colour and the light/dark switch, added to the <head> of every page.
-const THEME_COLOR = "#0b1118";
+const THEME_COLOR = "#000000";
 const HEAD_LINKS = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@500;600;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="/site.css">
 <script src="/theme.js"></script>`;
 
-// Header shared by every page: logo, a ticker of the newest news headlines, search and theme buttons,
-// then the row of round section buttons. "active" is the section button marked as the current page.
+// Header shared by every page, laid out like a news site: a black bar with the red logo block, the section
+// links, and search and theme buttons, then a grey strip with a ticker of the newest news headlines.
+// "active" is the section link marked as the current page.
 const icon = d => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+// Section icons, used on the fun facts page.
 const ICONS = {
   latest: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
   map: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/>',
@@ -77,6 +79,7 @@ const ICONS = {
   safety: '<path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m9 12 2 2 4-4"/>',
   about: '<circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/>'
 };
+const CHEVRON = icon('<path d="m9 6 6 6-6 6"/>');
 const SECTIONS = [
   ["latest", "Latest", "/"],
   ["map", "Map", "/#map-section"],
@@ -97,20 +100,22 @@ const header = active => `<!-- site-header: written by scripts/build.mjs -->
 <header>
   <div class="wrap top">
     <a class="logo" href="/" aria-label="AirSkyHero home">${PLANE}<span>AirSky<b>Hero</b></span></a>
-    <span class="t-label" aria-hidden="true">Latest</span>
-    <div class="ticker" aria-label="Latest headlines">
-      <div class="ticker-track"><ul>${tickerItems}</ul><ul aria-hidden="true" inert>${tickerItems}</ul></div>
-    </div>
+    <nav class="nav" aria-label="Sections">${SECTIONS.map(([key, label, href]) =>
+      `<a href="${href}"${key === active ? ' aria-current="page"' : ""}>${label}</a>`).join("")}</nav>
     <div class="tools">
       <a class="ic-btn" id="search-btn" href="/#heroes" aria-label="Search heroes">${icon('<circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/>')}</a>
       <button class="ic-btn" id="theme-btn" type="button" aria-label="Switch between light and dark">${icon('<path class="moon" d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/><g class="sun"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g>')}</button>
     </div>
   </div>
 </header>
-<nav class="cats" aria-label="Sections">
-  <div class="wrap cats-row">${SECTIONS.map(([key, label, href]) =>
-    `<a class="cat" href="${href}"${key === active ? ' aria-current="page"' : ""}><span class="cat-ic">${icon(ICONS[key])}</span>${label}</a>`).join("")}</div>
-</nav>
+<div class="quick">
+  <div class="wrap quick-row">
+    <span class="t-label" aria-hidden="true">Latest${CHEVRON}</span>
+    <div class="ticker" aria-label="Latest headlines">
+      <div class="ticker-track"><ul>${tickerItems}</ul><ul aria-hidden="true" inert>${tickerItems}</ul></div>
+    </div>
+  </div>
+</div>
 <!-- /site-header -->`;
 
 // Pages not generated here (home and the safety guide) get the same header and <head> links.
@@ -118,7 +123,7 @@ for (const [file, active] of [["index.html", "latest"], ["what-passengers-can-do
   const html = fs.readFileSync(path.join(ROOT, file), "utf8");
   const updated = html
     .replace(/(?:<!-- site-header:[^>]*-->[\s\S]*?<!-- \/site-header -->|<header>[\s\S]*?<\/header>)/, header(active))
-    .replace(/(?:<link rel="preconnect"[^>]*>\n)*(?:<link href="https:\/\/fonts[^>]*>\n)?<link rel="stylesheet" href="\/site.css">(?:\n<script src="\/theme.js"><\/script>)?/, HEAD_LINKS)
+    .replace(/(?:<link rel="preconnect"[^>]*>\r?\n|<link href="https:\/\/fonts[^>]*>\r?\n)*<link rel="stylesheet" href="\/site.css">(?:\r?\n<script src="\/theme.js"><\/script>)*/, HEAD_LINKS)
     .replace(/<meta name="theme-color" content="[^"]*">/, `<meta name="theme-color" content="${THEME_COLOR}">`);
   if (write(file, updated)) console.log(`${file}: header updated`);
 }
@@ -674,7 +679,7 @@ const urls = [`${SITE}/`, `${SITE}/${KIND_SLUG}/`, `${SITE}/${FACTS_SLUG}/`, `${
   const where = new Map();
   for (const p of pages) {
     const html = fs.readFileSync(path.join(ROOT, p), "utf8")
-      .replace(/<head>[\s\S]*?<\/head>|<header>[\s\S]*?<\/header>|<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, "");
+      .replace(/<head>[\s\S]*?<\/head>|<!-- site-header:[\s\S]*?<!-- \/site-header -->|<header>[\s\S]*?<\/header>|<script[\s\S]*?<\/script>|<style[\s\S]*?<\/style>/g, "");
     const blocks = html.split(/<\/?(?:p|li|h\d|summary|details|figcaption|dd|dt|div|span|a|section|td)\b[^>]*>/)
       .map(t => t.replace(/<[^>]+>/g, " ").replace(/&[a-z#0-9]+;/g, " ").replace(/\s+/g, " ").trim()).filter(t => t.length >= 60);
     for (const b of new Set(blocks)) where.set(b, [...(where.get(b) || []), p]);
