@@ -277,29 +277,22 @@ function render() {
     return;
   }
 
-  const byCountry = {};
-  visible.forEach(h => (byCountry[h.country] ||= []).push(h));
-  Object.values(byCountry).forEach(list => list.sort((a, b) => a.year - b.year));
-  // Keep "visible" in on-screen order so Previous/Next in the dialog follows the page.
-  visible = Object.keys(byCountry).sort().flatMap(c => byCountry[c]);
+  // One grid of every hero, by country and then year, so rows stay full even where a country has one hero.
+  // The country is the first label on each card. "visible" keeps this order so Previous/Next in the dialog follows the page.
+  visible = [...visible].sort((a, b) => a.country.localeCompare(b.country) || a.year - b.year);
 
-  $("list").innerHTML = Object.keys(byCountry).sort().map(c => `
-    <section class="country">
-      <h3>${esc(c)}</h3>
-      <div class="grid">
-        ${byCountry[c].map(h => `
-          <a class="card" href="${heroPath(h)}" data-id="${h.id}">
-            <div class="thumb">${h.image
-              ? `<img src="${esc(h.image)}" alt="${esc(h.imageAlt || "")}" class="${h.imageKind === "portrait" ? "face" : ""}" loading="lazy" width="640" height="360">`
-              : `<span class="initials" aria-hidden="true">${esc(initials(h.name))}</span>`}</div>
-            <h4>${esc(h.name)}</h4>
-            <div class="tags"><span class="tag">${esc(h.role)}</span><span class="tag">${h.year}</span></div>
-            <p class="flight">${esc(h.flight)}</p>
-            <p>${esc(h.place)} · ${esc(h.date)}${h.aboard ? ` · ${h.survived} of ${h.aboard} survived` : ""}</p>
-            <span class="more">Read story →</span>
-          </a>`).join("")}
-      </div>
-    </section>`).join("");
+  $("list").innerHTML = `<div class="grid">${visible.map(h => `
+      <a class="card" href="${heroPath(h)}" data-id="${h.id}">
+        <div class="thumb">${h.image
+          ? `<img src="${esc(h.image)}" alt="${esc(h.imageAlt || "")}" class="${h.imageKind === "portrait" ? "face" : ""}" loading="lazy" width="640" height="360">`
+          : `<span class="initials" aria-hidden="true">${esc(initials(h.name))}</span>`}</div>
+        <div class="tags"><span class="tag tag-country">${esc(h.country)}</span><span class="tag">${esc(h.role)}</span><span class="tag">${h.year}</span></div>
+        <h4>${esc(h.name)}</h4>
+        <p class="flight">${esc(h.flight)}</p>
+        <p>${esc(h.place)} · ${esc(h.date)}${h.aboard ? ` · ${h.survived} of ${h.aboard} survived` : ""}</p>
+        <span class="more">Read story →</span>
+      </a>`).join("")}
+    </div>`;
 }
 
 ["q", "country", "role", "decade"].forEach(id => $(id).addEventListener("input", render));
@@ -310,8 +303,8 @@ function render() {
     const v = params.get(id);
     if (v && [...$(id).options].some(o => o.value === v)) $(id).value = v;
   }
-  // Mark the matching section button as current (Pilots, Cabin crew, Passengers), not "Latest".
-  if (params.get("role")) document.querySelectorAll(".cat").forEach(a =>
+  // Mark the matching section link as current (Pilots, Cabin crew, Passengers), not "Latest".
+  if (params.get("role")) document.querySelectorAll(".nav a").forEach(a =>
     new URL(a.href).searchParams.get("role") === params.get("role") ? a.setAttribute("aria-current", "page") : a.removeAttribute("aria-current"));
 }
 // The search pill at the top fills in the hero search and jumps to the results.

@@ -133,8 +133,8 @@ const heroCard = h => `
           <div class="thumb">${h.image
             ? `<img src="${esc(abs(h.image))}" alt="${esc(h.imageAlt || "")}" class="${h.imageKind === "portrait" ? "face" : ""}" loading="lazy" width="640" height="360">`
             : `<span class="initials" aria-hidden="true">${esc(initials(h.name))}</span>`}</div>
+          <div class="tags"><span class="tag tag-country">${esc(h.country)}</span><span class="tag">${esc(h.role)}</span><span class="tag">${h.year}</span></div>
           <h4>${esc(h.name)}</h4>
-          <div class="tags"><span class="tag">${esc(h.role)}</span><span class="tag">${h.year}</span></div>
           <p class="flight">${esc(h.flight)}</p>
           <span class="more">Read story →</span>
         </a>`;
@@ -334,7 +334,8 @@ addEventListener("DOMContentLoaded", async () => {
   }
 });`;
 
-// airskyhero.com/acts-of-kindness/: stories from kindness.js, grouped by country.
+// airskyhero.com/acts-of-kindness/: stories from kindness.js in one grid, by country and then year. Each card is
+// labelled with its country, and the first card of each country carries the anchor the map and country links jump to.
 {
   const ids = new Set();
   for (const k of KINDNESS) {
@@ -344,11 +345,12 @@ addEventListener("DOMContentLoaded", async () => {
   }
   const countries = [...new Set(KINDNESS.map(k => k.country))].sort();
   const cid = c => "k-" + heroSlug({ name: c });
-  const story = k => `
-        <li class="k-card${k.image ? " k-has-pic" : ""}" id="${esc(k.id)}">
-          ${cardPic(k, "k-pic")}<div class="k-body"><h3>${esc(k.title)}</h3>
+  const sorted = [...KINDNESS].sort((a, b) => a.country.localeCompare(b.country) || a.year - b.year);
+  const story = (k, i) => `
+        <li class="k-card" id="${esc(k.id)}">${i === 0 || sorted[i - 1].country !== k.country ? `<span class="k-anchor" id="${cid(k.country)}"></span>` : ""}
+          ${cardPic(k, "k-pic")}<div class="k-body"><p class="k-country">${esc(k.country)}</p><h3>${esc(k.title)}</h3>
           <p class="k-meta">${[k.who, k.airline, k.flight, k.date].filter(Boolean).map(esc).join(" · ")}</p>
-          <p>${esc(k.summary)}${srcLinks(k.sources)}</p></div>
+          <p class="k-text">${esc(k.summary)}</p>${srcLinks(k.sources)}</div>
         </li>`;
   const title = "Acts of kindness on aeroplanes, country by country";
   const description = `${KINDNESS.length} true stories of crew and passengers looking after strangers on flights, from ${countries.length} countries, each checked against at least three sources.`;
@@ -400,11 +402,8 @@ ${header("kindness")}
     </div>
     <nav class="k-countries" aria-label="Countries">${countries.map(c =>
       `<a href="#${cid(c)}">${esc(c)} <span>${KINDNESS.filter(k => k.country === c).length}</span></a>`).join("")}</nav>
-${countries.map(c => `    <section aria-labelledby="${cid(c)}">
-      <h2 id="${cid(c)}">${esc(c)}</h2>
-      <ul class="k-list">${KINDNESS.filter(k => k.country === c).sort((a, b) => a.year - b.year).map(story).join("")}
-      </ul>
-    </section>`).join("\n")}
+    <ul class="k-list">${sorted.map(story).join("")}
+    </ul>
   </article>
   <a class="hp-home" href="/#heroes">See the heroes of the sky →</a>
 </main>
@@ -446,10 +445,12 @@ const topicId = t => "f-" + heroSlug({ name: t });
   const topicClass = t => "t" + (factTopics.indexOf(t) % 4);
   const shown = factTopics.flatMap(t => FACTS.filter(f => f.topic === t));
   const SHARE = icon('<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/>');
-  const fact = f => `
-        <li class="fc" id="${esc(f.id)}">
+  // One grid of every fact in topic order. Each card names its topic, and the first card of a topic carries
+  // the anchor the topic buttons jump to.
+  const fact = (f, i) => `
+        <li class="fc ${topicClass(f.topic)}" id="${esc(f.id)}" data-topic="${topicId(f.topic)}">${i === 0 || shown[i - 1].topic !== f.topic ? `<span class="fc-anchor" id="${topicId(f.topic)}"></span>` : ""}
           ${cardPic(f, "fc-pic")}
-          <div class="fc-top"><span class="fc-no">No. ${String(shown.indexOf(f) + 1).padStart(2, "0")}</span><span class="fc-ic">${topicIcon(f.topic)}</span></div>
+          <div class="fc-top"><span class="fc-no">${esc(f.topic)} · ${String(i + 1).padStart(2, "0")}</span><span class="fc-ic">${topicIcon(f.topic)}</span></div>
 ${f.stat ? `          <p class="fc-stat"><b>${esc(f.stat)}</b><span>${esc(f.statLabel || "")}</span></p>\n` : ""}          <h3>${esc(f.title)}</h3>
 ${f.when ? `          <p class="fc-when">${esc(f.when)}</p>\n` : ""}          <p class="fc-text">${esc(f.summary)}</p>
           <div class="fc-foot">${srcLinks(f.sources).trim()}<button class="fc-share" type="button" data-id="${esc(f.id)}" data-title="${esc(f.title)}">${SHARE}<span>Share</span></button></div>
@@ -514,11 +515,8 @@ ${header("facts")}
     </section>
     <nav class="ff-topics" aria-label="Topics">${factTopics.map(t =>
       `<a class="${topicClass(t)}" href="#${topicId(t)}">${topicIcon(t)}${esc(t)} <span>${FACTS.filter(f => f.topic === t).length}</span></a>`).join("")}</nav>
-${factTopics.map(t => `    <section class="ff-sec ${topicClass(t)}" aria-labelledby="${topicId(t)}">
-      <h2 id="${topicId(t)}"><span class="ff-sec-ic">${topicIcon(t)}</span>${esc(t)}</h2>
-      <ul class="ff-grid">${FACTS.filter(f => f.topic === t).map(fact).join("")}
-      </ul>
-    </section>`).join("\n")}
+    <ul class="ff-grid">${shown.map(fact).join("")}
+    </ul>
   </article>
   <a class="hp-home" href="/#heroes">See the heroes of the sky →</a>
 </main>
@@ -619,13 +617,13 @@ const shareScore = async b => {
 quiz.hidden = false;
 document.getElementById("quiz-btn").hidden = false;
 start();
-// Mark the topic chip of the section being read.
+// Mark the topic chip of the facts being read.
 const chips = document.querySelectorAll(".ff-topics a");
 if ("IntersectionObserver" in window) {
   const io = new IntersectionObserver(es => es.forEach(e => {
-    if (e.isIntersecting) chips.forEach(a => a.classList.toggle("on", a.hash === "#" + e.target.querySelector("h2").id));
+    if (e.isIntersecting) chips.forEach(a => a.classList.toggle("on", a.hash === "#" + e.target.dataset.topic));
   }), { rootMargin: "-40% 0px -55% 0px" });
-  document.querySelectorAll(".ff-sec").forEach(s => io.observe(s));
+  document.querySelectorAll(".fc").forEach(s => io.observe(s));
 }
 if ("serviceWorker" in navigator && location.protocol === "https:") navigator.serviceWorker.register("/sw.js");
 </script>

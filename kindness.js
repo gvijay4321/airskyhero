@@ -71,7 +71,7 @@ const KINDNESS = [
     airline: "Garuda Indonesia", flight: "GA 821, Kuala Lumpur to Jakarta", who: "Flight attendant",
     title: "Flight attendant carries an elderly pilgrim off the plane",
     summary: "When the flight landed in Jakarta, an elderly woman from an umrah pilgrim group could not leave her seat, and the wheelchair she needed had not arrived. With help from flight service manager Ninik Septinawati, flight attendant Vera carried the woman on her back from the rear of the cabin to the exit so she could make her connection. A passenger's photo went viral, and Indonesia's transport minister later gave both crew members awards.",
-    image: "https://img.jakpost.net/c/2017/01/09/2017_01_09_19173_1483955008._large.jpg", imageCredit: "thejakartapost.com", imageCreditUrl: "https://www.thejakartapost.com/travel/2017/01/09/minister-grants-awards-to-garuda-indonesia-flight-attendants-vera-and-ninik.html",
+    image: "images/kindness/garuda-cabin.jpg", imageCredit: "Gunawan Kartapranata · CC BY-SA 3.0", imageCreditUrl: "https://commons.wikimedia.org/wiki/File:Garuda_Indonesia_Aboard.JPG",
     sources: [
       "https://www.thejakartapost.com/travel/2017/01/09/minister-grants-awards-to-garuda-indonesia-flight-attendants-vera-and-ninik.html",
       "https://says.com/my/news/garuda-indonesia-flight-attendant-piggybacks-elderly-on-kl-jakarta-flight",
