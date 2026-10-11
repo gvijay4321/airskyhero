@@ -199,7 +199,7 @@ if (FEATURED) {
     <div class="f-body">
       <p class="label">${f.developing ? '<span class="badge-live">Developing story</span>' : esc(f.role)}</p>
       <h1><a href="${heroPath(f)}">${esc(f.name)}</a></h1>
-      <p class="meta">${esc(f.role)} · ${esc(f.country)} · ${esc(f.flight)} · ${esc(f.date)}</p>
+      <p class="meta">${esc(f.role)} · ${flag(f.country)}${esc(f.country)} · ${esc(f.flight)} · ${esc(f.date)}</p>
       ${f.teaser ? `<p class="f-story">${esc(f.teaser)}</p>` : ""}
       <a class="f-cta" href="${heroPath(f)}">Read full story →</a>
       ${shareHtml(f)}
@@ -210,7 +210,7 @@ if (FEATURED) {
   // A story carried by several outlets is listed once.
   const recent = new Date(Date.now() - 3 * 864e5).toISOString().slice(0, 10);
   const isMain = n => n.top && n.date >= recent;
-  const LATEST = uniqueStories(HEROES.flatMap(h => (h.news || []).filter(n => n.date).map(n => ({ ...n, hero: h.name })))
+  const LATEST = uniqueStories(HEROES.flatMap(h => (h.news || []).filter(n => n.date).map(n => ({ ...n, hero: h.name, country: h.country })))
     .sort((a, b) => isMain(b) - isMain(a) || b.date.localeCompare(a.date)));
   const isVideo = n => n.type === "video" && youtubeId(n.url);
   // "Today", "Yesterday" or "3 days ago" for the past week, then the date. Stories from the last two days are marked new.
@@ -225,7 +225,7 @@ if (FEATURED) {
       ${i < 2 ? `<span class="s-thumb${isVideo(n) ? " s-video" : ""}">${topicArt(n)}${pic(n)
         ? `<img src="${esc(pic(n))}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : ""}</span>` : ""}
       <span class="s-text"><span class="label">${isNew(n) ? '<span class="new-tag">New</span>' : ""}${isVideo(n) ? "Video" : "News"} · ${esc(when(n.date))}</span>
-        <span class="s-title">${esc(n.title || n.outlet)}</span><span class="s-src">${esc(n.outlet)} · ${esc(n.hero)}</span></span>
+        <span class="s-title">${esc(n.title || n.outlet)}</span><span class="s-src">${esc(n.outlet)} · ${flag(n.country)}${esc(n.hero)}</span></span>
     </a></li>`).join("");
 
   // Who helped on the featured flight: names here, what each person did on the hero's own page.

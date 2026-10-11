@@ -71,7 +71,7 @@ const thumb = (src, n) => topicArt(n) +
   (src ? `<img src="${esc(src)}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.remove()">` : "");
 const cardText = n => `<div class="n-text">
   <span class="n-src">${esc(n.outlet || "")}${n.date ? " · " + (n.when || newsDate(n.date)) : ""}</span>
-  ${n.title ? `<span class="n-title">${esc(n.title)}</span>` : ""}${n.hero ? `<span class="n-src">${esc(n.hero)}</span>` : ""}
+  ${n.title ? `<span class="n-title">${esc(n.title)}</span>` : ""}${n.hero ? `<span class="n-src">${flag(n.country)}${esc(n.hero)}</span>` : ""}
   ${n.imageCredit ? `<span class="n-credit">Photo: ${esc(n.imageCredit)}</span>` : ""}</div>`;
 
 const videoCard = v => `
