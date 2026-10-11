@@ -140,6 +140,9 @@ function related(h) {
   return HEROES.filter(o => o !== h).sort((a, b) => rank(a) - rank(b)).slice(0, 3);
 }
 
+// A fact or kindness story's picture, with its credit linked to where it came from. Removed if it fails to load.
+const cardPic = (x, cls) => x.image ? `<figure class="${cls}"><img src="${esc(/^https?:/.test(x.image) ? x.image : "/" + x.image.replace(/^\//, ""))}" alt="" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.remove()">${x.imageCredit
+  ? `<figcaption>Photo: ${x.imageCreditUrl ? `<a href="${esc(x.imageCreditUrl)}" target="_blank" rel="noopener">${esc(x.imageCredit)}</a>` : esc(x.imageCredit)}</figcaption>` : ""}</figure>` : "";
 // Optional sections from heroes.js: timeline (dated events with numbered source links) and faq (questions and answers).
 const srcLinks = urls => (urls || []).length ? ` <span class="h-src">Sources: ${urls.map((u, i) =>
   `<a href="${esc(u)}" target="_blank" rel="noopener" title="${esc(u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0])}">${i + 1}</a>`).join(" ")}</span>` : "";
@@ -336,10 +339,10 @@ addEventListener("DOMContentLoaded", async () => {
   const countries = [...new Set(KINDNESS.map(k => k.country))].sort();
   const cid = c => "k-" + heroSlug({ name: c });
   const story = k => `
-        <li class="k-card" id="${esc(k.id)}">
-          <h3>${esc(k.title)}</h3>
+        <li class="k-card${k.image ? " k-has-pic" : ""}" id="${esc(k.id)}">
+          ${cardPic(k, "k-pic")}<div class="k-body"><h3>${esc(k.title)}</h3>
           <p class="k-meta">${[k.who, k.airline, k.flight, k.date].filter(Boolean).map(esc).join(" · ")}</p>
-          <p>${esc(k.summary)}${srcLinks(k.sources)}</p>
+          <p>${esc(k.summary)}${srcLinks(k.sources)}</p></div>
         </li>`;
   const title = "Acts of kindness on aeroplanes, country by country";
   const description = `${KINDNESS.length} true stories of crew and passengers looking after strangers on flights, from ${countries.length} countries, each checked against at least three sources.`;
@@ -439,6 +442,7 @@ const topicId = t => "f-" + heroSlug({ name: t });
   const SHARE = icon('<circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="m8.2 10.8 7.6-4.4M8.2 13.2l7.6 4.4"/>');
   const fact = f => `
         <li class="fc" id="${esc(f.id)}">
+          ${cardPic(f, "fc-pic")}
           <div class="fc-top"><span class="fc-no">No. ${String(shown.indexOf(f) + 1).padStart(2, "0")}</span><span class="fc-ic">${topicIcon(f.topic)}</span></div>
 ${f.stat ? `          <p class="fc-stat"><b>${esc(f.stat)}</b><span>${esc(f.statLabel || "")}</span></p>\n` : ""}          <h3>${esc(f.title)}</h3>
 ${f.when ? `          <p class="fc-when">${esc(f.when)}</p>\n` : ""}          <p class="fc-text">${esc(f.summary)}</p>
@@ -496,8 +500,12 @@ ${header("facts")}
       <h1>Did you know?</h1>
       <p class="ff-lead">Jumbo jets once had piano bars, and brand-new planes still come with ashtrays. Here are some of the stranger true stories behind the planes we fly on. Every fact is checked against at least three independent sources, linked under it.</p>
       <div class="ff-nums"><span><b>${FACTS.length}</b> facts</span><span><b>${factTopics.length}</b> topics</span><span><b>${sourceCount}</b> sources</span></div>
-      <button class="ff-surprise" id="surprise" type="button" hidden>${icon(ICONS.pilots)}Surprise me</button>
+      <div class="ff-actions"><a class="ff-surprise ff-quiz-btn" id="quiz-btn" href="#quiz" hidden>${icon('<circle cx="12" cy="12" r="9"/><path d="M9.5 9.2a2.6 2.6 0 0 1 5 .9c0 1.7-2.5 2.2-2.5 3.9M12 17h.01"/>')}Take the quiz</a><button class="ff-surprise" id="surprise" type="button" hidden>${icon(ICONS.pilots)}Surprise me</button></div>
     </div>
+    <section class="quiz" id="quiz" aria-labelledby="quiz-h" hidden>
+      <div class="quiz-head"><h2 id="quiz-h">Quiz: how much do you know?</h2><p class="quiz-progress" id="quiz-progress"></p></div>
+      <div class="quiz-body" id="quiz-body" aria-live="polite"></div>
+    </section>
     <nav class="ff-topics" aria-label="Topics">${factTopics.map(t =>
       `<a class="${topicClass(t)}" href="#${topicId(t)}">${topicIcon(t)}${esc(t)} <span>${FACTS.filter(f => f.topic === t).length}</span></a>`).join("")}</nav>
 ${factTopics.map(t => `    <section class="ff-sec ${topicClass(t)}" aria-labelledby="${topicId(t)}">
@@ -544,6 +552,67 @@ document.addEventListener("click", async e => {
     else { await navigator.clipboard.writeText(url); label.textContent = "Link copied"; setTimeout(() => label.textContent = "Share", 2000); }
   } catch (err) {}
 });
+// Quiz: ten random questions from the facts, one at a time. Each answer shows the fact's picture and links to the fact.
+const QUIZ = ${JSON.stringify(FACTS.filter(f => f.quiz).map(f => ({ id: f.id, title: f.title, q: f.quiz.q, options: f.quiz.options,
+    image: f.image && (/^https?:/.test(f.image) ? f.image : "/" + f.image.replace(/^\//, "")) }))).replace(/</g, "\\u003c")};
+const quiz = document.getElementById("quiz"), body = document.getElementById("quiz-body"), progress = document.getElementById("quiz-progress");
+const shuffle = a => { a = [...a]; for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const qEsc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const ROUND = Math.min(10, QUIZ.length);
+let round, at, score;
+const best = () => { try { return +localStorage.getItem("quiz-best") || 0; } catch { return 0; } };
+const start = () => { round = shuffle(QUIZ).slice(0, ROUND); at = 0; score = 0; ask(); };
+const ask = () => {
+  const item = round[at];
+  progress.textContent = \`Question \${at + 1} of \${ROUND} · Score \${score}\`;
+  body.innerHTML = \`<p class="quiz-q">\${qEsc(item.q)}</p>
+    <div class="quiz-opts">\${shuffle(item.options.map((o, i) => ({ o, right: i === 0 }))).map(x =>
+      \`<button type="button" class="quiz-opt" data-right="\${x.right}">\${qEsc(x.o)}</button>\`).join("")}</div>
+    <div class="quiz-after" hidden></div>\`;
+};
+body.addEventListener("click", e => {
+  const opt = e.target.closest(".quiz-opt");
+  if (opt && !opt.disabled) {
+    const right = opt.dataset.right === "true", item = round[at];
+    if (right) score++;
+    body.querySelectorAll(".quiz-opt").forEach(b => { b.disabled = true; if (b.dataset.right === "true") b.classList.add("right"); });
+    if (!right) opt.classList.add("wrong");
+    progress.textContent = \`Question \${at + 1} of \${ROUND} · Score \${score}\`;
+    const after = body.querySelector(".quiz-after");
+    after.hidden = false;
+    // The fact's picture comes with the answer, so it can't give the answer away.
+    after.innerHTML = \`\${item.image ? \`<img class="quiz-pic" src="\${qEsc(item.image)}" alt="" referrerpolicy="no-referrer" onerror="this.remove()">\` : ""}<p><b>\${right ? "Right!" : "Not quite."}</b> \${qEsc(item.title)}. <a href="#\${qEsc(item.id)}" data-fact="\${qEsc(item.id)}">Read the fact →</a></p>
+      <button type="button" class="quiz-next">\${at + 1 < ROUND ? "Next question" : "See your score"}</button>\`;
+    after.querySelector(".quiz-next").focus({ preventScroll: true });
+  } else if (e.target.closest(".quiz-next")) {
+    if (++at < ROUND) ask(); else finish();
+  } else if (e.target.closest(".quiz-again")) start();
+  else if (e.target.closest(".quiz-share")) shareScore(e.target.closest(".quiz-share"));
+  else if (e.target.closest("[data-fact]")) {
+    const card = document.getElementById(e.target.closest("[data-fact]").dataset.fact);
+    if (card) { e.preventDefault(); card.classList.add("in"); card.scrollIntoView({ behavior: calm ? "auto" : "smooth", block: "center" });
+      card.classList.remove("flash"); void card.offsetWidth; card.classList.add("flash"); }
+  }
+});
+const finish = () => {
+  const old = best();
+  try { if (score > old) localStorage.setItem("quiz-best", score); } catch {}
+  const verdict = score === ROUND ? "Perfect score! You could fly the plane." : score >= ROUND * .7 ? "Great flying, captain." : score >= ROUND * .4 ? "Not bad. Read a few more facts and try again." : "Plenty to learn. Have a look at the facts below and try again.";
+  progress.textContent = "";
+  body.innerHTML = \`<div class="quiz-end"><p class="quiz-score"><b>\${score}</b> out of \${ROUND}</p><p>\${verdict}</p>
+    \${score > old && old ? "<p class=\\"quiz-best\\">New best score!</p>" : old ? \`<p class="quiz-best">Your best: \${Math.max(old, score)} out of \${ROUND}</p>\` : ""}
+    <div class="quiz-end-btns"><button type="button" class="quiz-next quiz-again">Play again</button><button type="button" class="quiz-share">Share your score</button></div></div>\`;
+};
+const shareScore = async b => {
+  const text = \`I scored \${score} out of \${ROUND} on the AirSkyHero aviation quiz. Can you beat me?\`, url = location.origin + location.pathname + "#quiz";
+  try {
+    if (navigator.share) await navigator.share({ title: "AirSkyHero quiz", text, url });
+    else { await navigator.clipboard.writeText(text + " " + url); b.textContent = "Copied, paste it anywhere"; }
+  } catch (err) {}
+};
+quiz.hidden = false;
+document.getElementById("quiz-btn").hidden = false;
+start();
 // Mark the topic chip of the section being read.
 const chips = document.querySelectorAll(".ff-topics a");
 if ("IntersectionObserver" in window) {

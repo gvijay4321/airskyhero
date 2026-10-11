@@ -1,12 +1,15 @@
 // AirSkyHero: acts of kindness on aeroplanes, shown on airskyhero.com/acts-of-kindness/ grouped by country.
 // Each story needs at least three independent reliable sources (copies of the same wire story count once).
 // country: where it happened, or the airline's country when it happened in the air. who: who showed the kindness.
+// image, imageCredit, imageCreditUrl: the card's picture. "node scripts/fill-images.mjs" fills them from a source's preview
+//   picture; where that is a logo or a poor fit, use a freely licensed one saved in images/facts/ and credit it.
 // summary: in our own words, never copied from the sources. After editing, run "npm run build".
 const KINDNESS = [
   { id: "qantas-volunteer-crew-wuhan-evacuation", country: "Australia", year: 2020, date: "3 February 2020",
     airline: "Qantas", flight: "QF6032, Wuhan to RAAF Learmonth", who: "Pilots and cabin crew, as volunteers",
     title: "Qantas crew volunteer to fly Australians out of Wuhan",
     summary: "When Australia arranged to bring its citizens out of Wuhan at the start of the coronavirus outbreak, Qantas asked staff to volunteer for the trip, and far more put their hands up than were needed. Four pilots and 14 cabin crew flew a 747 into the locked-down city and brought back more than 240 Australians, many of them children. The crew wore masks and gloves and rested apart on a sealed-off upper deck.",
+    image: "https://assets.sbs.com.au/dims4/default/5e779c5/2147483647/strip/true/crop/2843x1599+0+0/resize/1280x720!/quality/90/?url=https%3A%2F%2Fsbs-au-brightspot.s3.ap-southeast-2.amazonaws.com%2Fdrupal%2Fnews%2Fpublic%2Fbefunky-collage_22_0.jpg", imageCredit: "sbs.com.au", imageCreditUrl: "https://www.sbs.com.au/news/volunteer-qantas-crew-very-keen-to-airlift-australians-stranded-in-wuhan",
     sources: [
       "https://www.sbs.com.au/news/volunteer-qantas-crew-very-keen-to-airlift-australians-stranded-in-wuhan",
       "https://au.news.yahoo.com/how-qantas-prepared-for-evacuation-from-wuhan-002825269.html",
@@ -17,6 +20,7 @@ const KINDNESS = [
     airline: "38 diverted international flights", who: "Townspeople",
     title: "A small Newfoundland town takes in 6,600 stranded travellers after 9/11",
     summary: "When US airspace closed after the 11 September attacks, 38 airliners carrying around 6,600 passengers and crew were sent to Gander, a town of about 10,000 people. Locals turned schools, churches and halls into dormitories, cooked meals, gave out clothes and bedding, filled prescriptions for free and opened their own homes for several days. School bus drivers who were on strike went back to work to move the passengers around. Grateful passengers later set up a scholarship fund for local students, and the story became the musical Come From Away.",
+    image: "https://globalnews.ca/wp-content/uploads/2021/09/Gander-Intl-Airport.jpg?quality=65&strip=all&w=720&h=379&crop=1", imageCredit: "globalnews.ca", imageCreditUrl: "https://globalnews.ca/news/8182199/gander-n-l-9-11-anniversary/",
     sources: [
       "https://globalnews.ca/news/8182199/gander-n-l-9-11-anniversary/",
       "https://legionmagazine.com/operation-yellow-ribbon/",
@@ -26,6 +30,7 @@ const KINDNESS = [
     airline: "Finnair", flight: "Central European cities to Helsinki", who: "Airline",
     title: "Finnair cuts fares by 95% for people leaving Ukraine",
     summary: "Finland's national airline took 95% off its base fares on one-way flights to Helsinki from several Central European cities, so that Ukrainians who had escaped the war could travel on cheaply. Travellers paid only taxes and fees, and those coming from Schengen countries could fly with other ID, such as a birth certificate, instead of a passport. Finnair customers also gave more than €200,000 worth of loyalty points to UNICEF's Ukraine appeal.",
+    image: "https://www.ttgmedia.com/sites/default/files/dam/254/Finnair_A350_detail_winglet_resize.jpg", imageCredit: "ttgmedia.com", imageCreditUrl: "https://www.ttgmedia.com/news/finnair-offers-ukrainians-fleeing-russias-invasion-95-discounts-33206",
     sources: [
       "https://www.ttgmedia.com/news/finnair-offers-ukrainians-fleeing-russias-invasion-95-discounts-33206",
       "https://ittn.ie/?p=79091",
@@ -35,6 +40,7 @@ const KINDNESS = [
     airline: "Wizz Air", who: "Airline",
     title: "Wizz Air gives 100,000 free seats to Ukrainians fleeing the war",
     summary: "A week after Russia invaded Ukraine, the Budapest-based low-cost airline set aside 100,000 free seats for Ukrainian refugees. The seats were on its flights from the four countries bordering Ukraine to destinations across continental Europe, and could be used throughout March. Refugees only had to show a Ukrainian passport or ID card, and the airline also offered heavily cut 'rescue' fares to people who had already moved on to other places.",
+    image: "https://www.futuretravelexperience.com/wp-content/uploads/2022/03/Wizz-Air-refugees.jpg", imageCredit: "futuretravelexperience.com", imageCreditUrl: "https://www.futuretravelexperience.com/2022/03/wizz-air-to-provide-100000-free-tickets-to-ukrainian-refugees/",
     sources: [
       "https://www.futuretravelexperience.com/2022/03/wizz-air-to-provide-100000-free-tickets-to-ukrainian-refugees/",
       "https://www.ttgmedia.com/news/wizz-air-offers-100000-free-seats-to-ukrainian-refugees-33017",
@@ -45,6 +51,7 @@ const KINDNESS = [
     airline: "Jet Airways", flight: "9W 569, Dammam to Kochi", who: "Airline, cabin crew and a passenger",
     title: "Baby born at 35,000 feet gets free flights for life",
     summary: "A woman from Kerala went into early labour on a Jet Airways flight from Dammam to Kochi. A trained paramedic who was a passenger helped the cabin crew deliver a baby boy in the air, and the plane diverted to Mumbai, where mother and baby were taken to hospital and found to be well. Jet Airways then gave the boy, the first baby born on one of its flights, a free pass to travel with the airline for life.",
+    image: "https://images.tribuneindia.com/cms/gall_content/2017/6/2017_6$largeimg18_Sunday_2017_215958318.JPG", imageCredit: "tribuneindia.com", imageCreditUrl: "https://www.tribuneindia.com/news/archive/nation/baby-born-at-35-000-ft-gets-free-air-tickets-for-life-from-jet-airways-424194",
     sources: [
       "https://www.tribuneindia.com/news/archive/nation/baby-born-at-35-000-ft-gets-free-air-tickets-for-life-from-jet-airways-424194",
       "https://asiatimes.com/2017/06/baby-born-passenger-jet-gets-free-lifetime-flight-pass/",
@@ -54,6 +61,7 @@ const KINDNESS = [
     airline: "IndiGo", flight: "6E 171, New Delhi to Mumbai", who: "Passenger",
     title: "Doctor-turned-minister cares for a sick fellow passenger",
     summary: "About an hour into an IndiGo flight from Delhi to Mumbai, a passenger with high blood pressure felt dizzy and unwell, and the crew asked if there was a doctor on board. Bhagwat Karad, a junior finance minister who is a doctor by training, came forward and treated the man with the aircraft's medical kit until he was stable. IndiGo publicly thanked him, and Prime Minister Narendra Modi praised what he did.",
+    image: "https://www.tribuneindia.com/sortd-service/imaginary/v22-01/jpg/large/high?url=dGhldHJpYnVuZS1zb3J0ZC1wcm8tcHJvZC1zb3J0ZC9tZWRpYTBhOTA3ZjAwLTRlNjUtMTFlZi1iYzk5LTU5NWQzNjU3MDFiYS5qcGc=", imageCredit: "tribuneindia.com", imageCreditUrl: "https://www.tribuneindia.com/news/nation/union-minister-karad-gives-medical-help-to-passenger-who-felt-uneasy-giddy-on-delhi-mumbai-flight-338938",
     sources: [
       "https://www.tribuneindia.com/news/nation/union-minister-karad-gives-medical-help-to-passenger-who-felt-uneasy-giddy-on-delhi-mumbai-flight-338938",
       "https://www.wionews.com/india-news/great-gesture-indian-pm-lauds-minister-bhagwat-karad-for-helping-co-passenger-mid-flight-429930",
@@ -63,6 +71,7 @@ const KINDNESS = [
     airline: "Garuda Indonesia", flight: "GA 821, Kuala Lumpur to Jakarta", who: "Flight attendant",
     title: "Flight attendant carries an elderly pilgrim off the plane",
     summary: "When the flight landed in Jakarta, an elderly woman from an umrah pilgrim group could not leave her seat, and the wheelchair she needed had not arrived. With help from flight service manager Ninik Septinawati, flight attendant Vera carried the woman on her back from the rear of the cabin to the exit so she could make her connection. A passenger's photo went viral, and Indonesia's transport minister later gave both crew members awards.",
+    image: "https://img.jakpost.net/c/2017/01/09/2017_01_09_19173_1483955008._large.jpg", imageCredit: "thejakartapost.com", imageCreditUrl: "https://www.thejakartapost.com/travel/2017/01/09/minister-grants-awards-to-garuda-indonesia-flight-attendants-vera-and-ninik.html",
     sources: [
       "https://www.thejakartapost.com/travel/2017/01/09/minister-grants-awards-to-garuda-indonesia-flight-attendants-vera-and-ninik.html",
       "https://says.com/my/news/garuda-indonesia-flight-attendant-piggybacks-elderly-on-kl-jakarta-flight",
@@ -72,6 +81,7 @@ const KINDNESS = [
     airline: "El Al", flight: "LY 007, Tel Aviv to New York", who: "Pilots and airline",
     title: "El Al jet goes back to the gate for a girl with cancer",
     summary: "Inbar Chomsky, aged 11, was one of a group of Israeli children with cancer flying to Camp Simcha in New York. She was taken off the plane when her passport could not be found. As the jet headed for the runway, the passport turned up in another child's bag, so the pilots got permission to taxi back to the gate and collect her, and passengers cheered as she got back on board.",
+    image: "https://static-cdn.toi-media.com/www/uploads/2013/08/chai-lifeline.jpg", imageCredit: "timesofisrael.com", imageCreditUrl: "https://www.timesofisrael.com/plane-turns-back-to-pick-up-cancer-patient/",
     sources: [
       "https://www.timesofisrael.com/plane-turns-back-to-pick-up-cancer-patient/",
       "https://abcnews.com/blogs/lifestyle/2013/08/el-al-pilots-turn-back-to-retrieve-child-with-cancer",
@@ -81,6 +91,7 @@ const KINDNESS = [
     airline: "Viva Aerobus", flight: "Mexico City to Mazatlán", who: "Flight attendant and pilot",
     title: "Crew makes a boy with cancer captain of his first flight",
     summary: "Jonathan, an eight-year-old from Michoacán who had cancer, was on his first plane trip, going to see the sea for the first time on a trip arranged by a children's charity. The lead flight attendant told the passengers about him in a tearful announcement, she gave him her wings, the captain gave him his four-stripe captain's bars, and the crew named him captain of the flight. Video of the moment spread widely in Mexico. Jonathan died some weeks after the trip.",
+    image: "https://los40.com.mx/resizer/v2/T63VXQQ4FNNLBDBUHJK26OPK5Q.jpg?auth=8d024b540453582b8bca82896628a8e1100a292cd1516e2542d6a7727845dadb&quality=70&width=1200&height=675&smart=true", imageCredit: "los40.com.mx", imageCreditUrl: "https://los40.com.mx/los40/2019/08/15/viral/1565886420_100821.html",
     sources: [
       "https://los40.com.mx/los40/2019/08/15/viral/1565886420_100821.html",
       "https://www.adn40.mx/noticia/es-tendencia/notas/2019-09-19-18-52/tras-conocer-el-mar-muere-jonathan-a-causa-del-cancer/",
@@ -90,6 +101,7 @@ const KINDNESS = [
     airline: "Aeroméxico, Viva Aerobus and Volaris", flight: "Acapulco to Mexico City", who: "Airlines",
     title: "Mexican airlines fly people out of storm-hit Acapulco for free",
     summary: "Hurricane Otis wrecked Acapulco on 25 October 2023. Two days later, Mexico's three largest airlines started free humanitarian flights to Mexico City. Pregnant women, children, older people, disabled people and the sick went first, and the same planes brought doctors and supplies into the city. The air bridge ran for about two and a half weeks and carried thousands of stranded residents and tourists to safety.",
+    image: "https://mexiconewsdaily.com/wp-content/uploads/2023/11/IMG-20231027-WA0086_1_.jpg", imageCredit: "mexiconewsdaily.com", imageCreditUrl: "https://mexiconewsdaily.com/news/acapulco-airport-resumes-operations-for-domestic-flights/",
     sources: [
       "https://mexiconewsdaily.com/news/acapulco-airport-resumes-operations-for-domestic-flights/",
       "https://expansion.mx/empresas/2023/10/31/vuelos-gratis-acapulco-cdmx",
@@ -99,6 +111,7 @@ const KINDNESS = [
     airline: "KLM", flight: "Punta Cana to Amsterdam", who: "Airline, prompted by a flight attendant",
     title: "KLM detours an empty jet to bring stranded Ukrainian holidaymakers to Europe",
     summary: "When the war closed Ukraine's airspace, hundreds of Ukrainian tourists were stuck in the Dominican Republic because their charter flights home were cancelled. KLM had a repaired A330 about to fly back empty from Trinidad, and after a flight attendant with Ukrainian roots pushed for it, the airline added a stop in Punta Cana and flew 278 of them to Amsterdam. KLM paid the whole cost, and most of the passengers went on to Poland in the following days.",
+    image: "https://media.nhnieuws.nl/images/454314.572d866.jpg?width=1200&ratio=&quality=70", imageCredit: "nhnieuws.nl", imageCreditUrl: "https://www.nhnieuws.nl/nieuws/300630/klm-haalt-278-gestrande-oekrainers-op-uit-dominicaanse-republiek",
     sources: [
       "https://nltimes.nl/2022/03/06/klm-picks-stranded-ukrainian-tourists-dominican-republic",
       "https://www.nhnieuws.nl/nieuws/300630/klm-haalt-278-gestrande-oekrainers-op-uit-dominicaanse-republiek",
@@ -108,6 +121,7 @@ const KINDNESS = [
     airline: "Air New Zealand", flight: "Domestic flights to and from Christchurch", who: "Airline",
     title: "Air New Zealand flies families of the Christchurch mosque victims for free",
     summary: "After the 15 March 2019 attacks on two Christchurch mosques, Air New Zealand flew the immediate families of those killed free of charge and gave other relatives and friends cheaper compassionate fares. It also capped one-way fares to and from Christchurch at NZ$139 and refunded people who had already paid more. The airline worked with the Prime Minister's office and the Muslim community to arrange the trips, and one of the victims was one of its own engineers.",
+    image: "https://cdn.airlineratings.com/uploads/Hamid.jpg", imageCredit: "airlineratings.com", imageCreditUrl: "https://www.airlineratings.com/news/air-new-zealand-pays-tribute-to-engineer-killed-in-christchurch-massacre",
     sources: [
       "https://www.airlineratings.com/news/air-new-zealand-pays-tribute-to-engineer-killed-in-christchurch-massacre",
       "https://www.ttgasia.com/?p=45985",
@@ -117,6 +131,7 @@ const KINDNESS = [
     airline: "Air Peace", flight: "Johannesburg to Lagos", who: "Airline",
     title: "Air Peace flies Nigerians home from South Africa for free",
     summary: "After a wave of deadly xenophobic attacks on foreigners in South Africa, the founder of the private Nigerian airline Air Peace offered to fly Nigerians who wanted to leave home at no charge. The first flight brought nearly 190 people, about 30 of them children, back to Lagos. Many had lost homes or shops in the violence, and further free flights followed.",
+    image: "https://www.aljazeera.com/wp-content/uploads/2019/09/63f2d7b3d05246429b636bcbc1e0bd62_18.jpeg?resize=1200%2C675", imageCredit: "aljazeera.com", imageCreditUrl: "https://www.aljazeera.com/news/2019/09/12/nigerians-repatriated-from-south-africa-after-attacks/",
     sources: [
       "https://www.aljazeera.com/news/2019/09/12/nigerians-repatriated-from-south-africa-after-attacks/",
       "https://www.africanews.com/2019/09/12/nigerians-fleeing-xenophobia-in-south-africa-arrive-in-lagos/",
@@ -126,6 +141,7 @@ const KINDNESS = [
     airline: "Pakistan International Airlines", flight: "Islamabad to Karachi", who: "Flight attendant",
     title: "Senior steward rocks a crying baby so a tired mother can rest",
     summary: "On an early-morning PIA flight, head purser Touheed Daudpota saw a mother travelling alone with two young children who could not settle her crying baby. When other crew could not calm the child, he held the baby on his shoulder until it fell asleep so the mother could rest. Photos of the moment spread widely, and UN Women Pakistan named him a HeForShe Champion.",
+    image: "https://media.assettype.com/gulfnews%2Fimport%2F2021%2F03%2F27%2Fpakistan_17874575b7e_medium.jpg?w=1200&ar=40%3A21&auto=format%2Ccompress&ogImage=true&mode=crop&enlarge=true&overlay=false&overlay_position=bottom&overlay_width=100", imageCredit: "gulfnews.com", imageCreditUrl: "https://gulfnews.com/world/asia/pakistan/pia-flight-attendant-hailed-a-hero-for-calming-crying-baby-1.78146612",
     sources: [
       "https://gulfnews.com/world/asia/pakistan/pia-flight-attendant-hailed-a-hero-for-calming-crying-baby-1.78146612",
       "https://www.arabnews.pk/pakistan/pakistani-flight-attendant-who-became-online-sensation-for-soothing-baby-champions-gender-equality-1831496",
@@ -135,6 +151,7 @@ const KINDNESS = [
     airline: "Philippine Airlines", who: "Flight attendant",
     title: "Flight attendant breastfeeds a passenger's hungry baby",
     summary: "Soon after take-off, flight attendant Patrisha Organo heard a baby crying and found out the mother had run out of formula, and there was none on board. Organo was a new mother herself, so she offered to breastfeed the baby in the galley and fed her until she fell asleep. Her Facebook post about it was shared tens of thousands of times.",
+    image: "https://assets3.cbsnewsstatic.com/hub/i/r/2018/11/08/801daa6f-d331-4048-b1af-e844c3219a6f/thumbnail/1200x630/f0029522747bd21784878f05fbf9ded8/45614057-2359808207367208-3336993089943240704-n.jpg", imageCredit: "cbsnews.com", imageCreditUrl: "https://www.cbsnews.com/news/flight-attendant-feeds-hungry-infant-mid-flight-after-mother-runs-out-of-formula/",
     sources: [
       "https://www.cbsnews.com/news/flight-attendant-feeds-hungry-infant-mid-flight-after-mother-runs-out-of-formula/",
       "https://asiatimes.com/2018/11/filipino-flight-attendant-breastfeeds-passengers-infant/",
@@ -144,6 +161,7 @@ const KINDNESS = [
     airline: "Saudia", flight: "SV 832, Jeddah to Kuala Lumpur", who: "Pilot",
     title: "Pilot turns the plane around to reunite a mother and baby",
     summary: "Shortly after take-off from Jeddah, a passenger realised her baby had been left behind in the airport's waiting area, and she would not continue without the child. The pilot asked air traffic control for permission to return, which is very unusual, and was cleared to go back to the gate. Mother and baby were reunited, and the recording of the radio call spread widely online.",
+    image: "https://media2.foxnews.com/BrightCove/694940094001/2019/03/12/694940094001_6013086553001_6013086989001-vs.jpg", imageCredit: "foxnews.com", imageCreditUrl: "https://www.foxnews.com/travel/flight-returns-saudi-arabia-airport-mom-left-baby-waiting-area",
     sources: [
       "https://www.foxnews.com/travel/flight-returns-saudi-arabia-airport-mom-left-baby-waiting-area",
       "https://www.onmanorama.com/news/world/2019/03/12/saudi-plane-turned-back-after-mother-forgets-baby-at-jeddah-airport.html",
@@ -153,6 +171,7 @@ const KINDNESS = [
     airline: "South African Airways", flight: "Wuhan to Polokwane", who: "Pilots and cabin crew, as volunteers",
     title: "South African Airways crew volunteer to fetch citizens from Wuhan",
     summary: "Early in the COVID-19 outbreak, SAA asked for volunteers to fly into locked-down Wuhan and bring stranded South Africans home, most of them students and teachers. Pilots and cabin crew stepped forward and flew an A340 out of storage via the Philippines, bringing more than 100 citizens back to Polokwane. The crew then spent weeks in quarantine with the passengers, and President Ramaphosa later thanked the volunteers in person.",
+    image: "https://images.newsteam.io/image/400/GbSdY1y2zdN4LEhwgBqh7wEpCUqM3Yp8sAAYxqdH68wUtHeudwuVorvzEBnDXVfrNoX1JSkLhjjsopjmuYRxNrRdwYr7nsjEPFyyQDRWZTa9fvEffJ33swf9747kbUq4mng1CErUf8KU7mCwgscT1", imageCredit: "dailydispatch.co.za", imageCreditUrl: "https://www.dailydispatch.co.za/news/2020-03-15-my-flight-to-covid-19-outbreak-city-pilot-tells-of-mission-to-repatriate-south-africans/",
     sources: [
       "https://www.dailydispatch.co.za/news/2020-03-15-my-flight-to-covid-19-outbreak-city-pilot-tells-of-mission-to-repatriate-south-africans/",
       "https://www.sanews.gov.za/node/46818",
@@ -163,6 +182,7 @@ const KINDNESS = [
     airline: "Turkish Airlines", flight: "Evacuation flights from the quake-hit provinces", who: "Airline",
     title: "Free flights out of the earthquake zone for survivors",
     summary: "After the earthquakes of 6 February 2023, Turkish Airlines let survivors fly out of the affected provinces for free and kept the free flights going until 1 March. The airline says it flew about 230,000 people out of the disaster area on more than 1,300 evacuation flights. It also flew in rescue teams, volunteers and relief supplies.",
+    image: "https://idsb.tmgrup.com.tr/ly/uploads/images/2023/02/07/thumbs/800x531/255905.jpg", imageCredit: "dailysabah.com", imageCreditUrl: "https://www.dailysabah.com/business/transportation/turkish-airlines-helps-in-evacuation-transporting-volunteers-after-quake",
     sources: [
       "https://www.dailysabah.com/business/transportation/turkish-airlines-helps-in-evacuation-transporting-volunteers-after-quake",
       "https://thepeninsulaqatar.com/article/27/02/2023/turkish-airlines-continues-to-support-earthquake-victims",
@@ -172,6 +192,7 @@ const KINDNESS = [
     airline: "Etihad Airways", flight: "Manchester to Abu Dhabi", who: "Pilot and cabin crew",
     title: "Pilot takes a taxiing jet back to the gate so grandparents can reach a dying grandson",
     summary: "An elderly couple were already moving towards the runway on their way to Australia when a text told them their grandson had been rushed into intensive care. They told the cabin crew, and the captain turned the plane back to the gate. Staff unloaded their bags and had their car brought round from the car park so they could drive straight to the hospital. They were with him before he died the next day, and the airline let them use their tickets for a later trip.",
+    image: "https://dcxnozgahgy2a.cloudfront.net/AcuCustom/Sitename/DAM/097/easid-29590.jpg", imageCredit: "travelweekly.co.uk", imageCreditUrl: "https://travelweekly.co.uk/news/etihad-thanked-after-allowing-customers-off-taxiing-aircraft-to-reach-grandsons-hospital-bedside",
     sources: [
       "https://travelweekly.co.uk/news/etihad-thanked-after-allowing-customers-off-taxiing-aircraft-to-reach-grandsons-hospital-bedside",
       "https://gulfnews.com/uae/etihad-pilot-aborts-flight-for-dying-grandson-1.1709693",
@@ -182,6 +203,7 @@ const KINDNESS = [
     airline: "Southwest Airlines", flight: "Los Angeles to Denver", who: "Pilot",
     title: "Pilot holds his plane so a grandfather can say goodbye",
     summary: "Mark Dickinson learned that his young grandson in Denver was about to be taken off life support. Long security lines at LAX made him late, so he ran to the gate in his socks. His wife had called the airline, and the Southwest captain held the plane for about 12 minutes until he boarded, then met him at the jet bridge and told him the plane wasn't going anywhere without him. Dickinson reached Denver in time to say goodbye to his grandson, who died that evening.",
+    image: "https://avweb.com/wp-content/uploads/2025/04/25-4-1-Epic-1.jpg", imageCredit: "avweb.com", imageCreditUrl: "https://www.avweb.com/news/southwest-captain-delays-takeoff-for-bereaved-grandfather",
     sources: [
       "https://elliott.org/blog/southwest-airlines-pilot-holds-plane-for-murder-victims-family/",
       "https://abc7.com/archive/7897237/",
@@ -191,6 +213,7 @@ const KINDNESS = [
     airline: "Alaska Airlines", flight: "Boston to Portland, Oregon", who: "Passenger",
     title: "Teenager finger-spells into the hand of a deaf-blind passenger",
     summary: "Flight attendants asked whether anyone on board knew American Sign Language because Tim Cook, a 64-year-old man who is deaf and blind, needed help. Clara Daly, 15, had studied ASL for a year. She spelled words letter by letter into his palm so he could ask for water, check the time and talk about his life, and she went back to keep him company several times during the flight. She was only on that plane because her nonstop flight home had been cancelled, and another passenger's photo of the two of them was shared hundreds of thousands of times.",
+    image: "https://cdn.abcotvs.com/dip/images/3653782_062618-alaska-split.jpg?w=1600", imageCredit: "abc7.com", imageCreditUrl: "https://abc7.com/post/teen-steps-up-to-help-blind-and-deaf-passenger-on-flight/3653844/",
     sources: [
       "https://abc7.com/post/teen-steps-up-to-help-blind-and-deaf-passenger-on-flight/3653844/",
       "https://www.today.com/news/teen-helps-blind-deaf-man-alaska-airlines-flight-t131815",
@@ -200,6 +223,7 @@ const KINDNESS = [
     airline: "Delta Connection", flight: "Charlotte to New York JFK", who: "Flight attendant",
     title: "Flight attendant sits in the aisle to calm a frightened flyer",
     summary: "A passenger who had not flown in a long time began crying and shaking at the normal sounds of the plane. Floyd Dean-Shannon, a new flight attendant, explained each noise to her, then sat on the floor of the aisle beside her and held her hand until she had calmed down. Another passenger's photo of the moment was shared thousands of times, and Delta praised his care.",
+    image: "https://s7d2.scene7.com/is/image/TWCNews/flight_attendant_01302023", imageCredit: "spectrumlocalnews.com", imageCreditUrl: "https://spectrumlocalnews.com/nc/charlotte/news/2023/01/30/flight-attendant-goes-viral-on-flight-from-clt-to-jfk",
     sources: [
       "https://spectrumlocalnews.com/nc/charlotte/news/2023/01/30/flight-attendant-goes-viral-on-flight-from-clt-to-jfk",
       "https://www.fox9.com/news/delta-flight-attendant-sits-comforts-jittery-passenger-in-touching-photo",

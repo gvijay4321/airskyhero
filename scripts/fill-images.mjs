@@ -1,7 +1,9 @@
 // Gives every news article without an image the publisher's own preview picture (its og:image / twitter:image,
 // the picture shown when the link is shared). The picture is linked from the publisher's server, not copied.
-// Run: node scripts/fill-images.mjs   then   npm run build
-// Articles still listed as "none" (stories published without a photo) need a freely licensed picture added by hand.
+// Also gives each fun fact (facts.js) and act of kindness (kindness.js) a preview picture from one of its sources.
+// Run: node scripts/fill-images.mjs   then   npm run build   (add --standins to also replace stand-in news pictures)
+// Entries still listed as "none" (stories published without a photo) need a freely licensed picture added by hand.
+// Look at the new pictures afterwards: a source's preview picture is sometimes a poor fit, so swap those by hand.
 import fs from "node:fs";
 
 const FILE = new URL("../heroes.js", import.meta.url);
@@ -49,29 +51,64 @@ const viaChrome = async url => {
 };
 
 // Skips generic site logos and "no picture" images, which are not a picture of the story.
-const usable = src => !/logo|default_image|default-image|placeholder|fallback|favicon/i.test(src.split("?")[0].split("/").pop());
+const usable = src => !/logo|default_image|default-image|placeholder|fallback|favicon|share-image|social-share|og-default/i
+  .test(src.split("?")[0].split("/").pop());
 const imageWorks = async src => {
   try {
     const res = await fetch(src, { headers: { "user-agent": UA }, signal: AbortSignal.timeout(20000) });
     return res.ok && /^image\//.test(res.headers.get("content-type") || "");
   } catch { return false; }
 };
-const pick = async list => { for (const src of new Set(list)) if (usable(src) && await imageWorks(src)) return src; };
-
-const lines = fs.readFileSync(FILE, "utf8").split("\n");
+// Pictures already on the site are skipped, so no picture appears twice (a site's stock picture would otherwise repeat).
+const used = new Set(["heroes.js", "facts.js", "kindness.js"].flatMap(name =>
+  [...fs.readFileSync(new URL("../" + name, import.meta.url), "utf8").matchAll(/image: "([^"]+)"/g)].map(m => m[1])));
+const pick = async list => {
+  for (const src of new Set(list)) if (usable(src) && !used.has(attr(src)) && await imageWorks(src)) { used.add(attr(src)); return src; }
+};
+const findImage = async url => await pick(await viaFetch(url)) || await pick(await viaChrome(url));
+const site = url => new URL(url).hostname.replace(/^www\./, "");
+const attr = s => s.replace(/"/g, "%22");
 let added = 0;
+
+// News articles in heroes.js (one per line). With --standins, also swaps the stand-in pictures saved in images/news/
+// for the publisher's own; a story whose publisher has no picture keeps its stand-in.
+const standins = process.argv.includes("--standins");
+const lines = fs.readFileSync(FILE, "utf8").split("\n");
 for (let i = 0; i < lines.length; i++) {
   const line = lines[i];
-  if (!/type: "article"/.test(line) || /\bimage:/.test(line)) continue;
+  const standin = standins && /image: "images\/news\//.test(line);
+  if (!/type: "article"/.test(line) || (/\bimage:/.test(line) && !standin)) continue;
   const url = (line.match(/url: "([^"]+)"/) || [])[1];
   if (!url) continue;
-  const src = await pick(await viaFetch(url)) || await pick(await viaChrome(url));
+  const src = await findImage(url);
   if (src) {
-    lines[i] = line.replace(/url: "[^"]+"/, m => `${m}, image: "${src.replace(/"/g, "%22")}"`);
+    lines[i] = line.replace(/, image: "[^"]*"(, imageCredit: "[^"]*")?/, "")
+      .replace(/url: "[^"]+"/, m => `${m}, image: "${attr(src)}"`);
     added++;
     console.log("ok  ", url, "\n     ", src);
   } else console.log("none", url);
 }
-await browser?.close();
 fs.writeFileSync(FILE, lines.join("\n"));
+
+// Fun facts and acts of kindness: the first preview picture found among each entry's sources, credited to that site.
+for (const name of ["facts.js", "kindness.js"]) {
+  const file = new URL("../" + name, import.meta.url);
+  let text = fs.readFileSync(file, "utf8");
+  for (const entry of text.match(/\{ id: "[^"]+"[\s\S]*?sources: \[[\s\S]*?\]/g) || []) {
+    if (/\bimage:/.test(entry)) continue;
+    const id = entry.match(/id: "([^"]+)"/)[1];
+    let found;
+    for (const url of entry.match(/sources: \[([\s\S]*)\]/)[1].match(/https?:[^"]+/g) || []) {
+      const src = await findImage(url);
+      if (src) { found = { src, url }; break; }
+    }
+    if (!found) { console.log("none", name, id); continue; }
+    const fields = `image: "${attr(found.src)}", imageCredit: "${site(found.url)}", imageCreditUrl: "${attr(found.url)}",`;
+    text = text.replace(entry, entry.replace(/\n(\s*)sources:/, (m, indent) => `\n${indent}${fields}\n${indent}sources:`));
+    added++;
+    console.log("ok  ", name, id, "\n     ", found.src);
+  }
+  fs.writeFileSync(file, text);
+}
+await browser?.close();
 console.log(`\nAdded ${added} images.`);
