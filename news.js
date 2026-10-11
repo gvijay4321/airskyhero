@@ -5,6 +5,18 @@ const SITE = "https://airskyhero.com";
 
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
+/* ---------- Country flags beside country names ---------- */
+// Drawn flags (flag-icons), since Windows shows emoji flags as two letters. Add a country here when a hero
+// or kindness story comes from a new one; an unknown country just shows no flag.
+const FLAG_CODES = {
+  "Australia": "au", "Canada": "ca", "China": "cn", "Ethiopia": "et", "Finland": "fi", "Germany": "de", "Hungary": "hu",
+  "India": "in", "Indonesia": "id", "Israel": "il", "Kenya": "ke", "Mauritania": "mr", "Mexico": "mx", "Netherlands": "nl",
+  "New Zealand": "nz", "Nigeria": "ng", "Pakistan": "pk", "Philippines": "ph", "Russia": "ru", "Saudi Arabia": "sa",
+  "South Africa": "za", "Turkey": "tr", "United Kingdom": "gb", "United States": "us"
+};
+const flag = country => FLAG_CODES[country]
+  ? `<img class="flag" src="https://cdn.jsdelivr.net/npm/flag-icons@7.2.3/flags/4x3/${FLAG_CODES[country]}.svg" alt="" width="20" height="15" loading="lazy">` : "";
+
 /* ---------- Hero page addresses: airskyhero.com/<slug>/ ---------- */
 // slug comes from the name ("Robert Piché" -> "robert-piche") unless the hero sets slug: "...".
 const heroSlug = h => h.slug || h.name.normalize("NFD").replace(/[̀-ͯ]/g, "")
@@ -230,5 +242,5 @@ if (typeof document !== "undefined") {
 }
 
 if (typeof module !== "undefined") {
-  module.exports = { SITE, esc, youtubeId, heroSlug, heroPath, heroUrl, shareImage, newsDate, uniqueStories, topicArt, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
+  module.exports = { SITE, esc, flag, youtubeId, heroSlug, heroPath, heroUrl, shareImage, newsDate, uniqueStories, topicArt, splitNews, videoCard, articleCard, grid, newsHtml, helpersHtml, developingText, shareHtml };
 }
