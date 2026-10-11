@@ -470,10 +470,10 @@ main section[id] { scroll-margin-top: calc(var(--head-h) + 12px); }
 .ff-sec h2 { display: flex; align-items: center; gap: 12px; margin: 34px 0 16px; font-size: 1.45rem; scroll-margin-top: 140px; }
 .ff-sec-ic { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: var(--tc); background: color-mix(in srgb, var(--tc) 16%, transparent); }
 .ff-sec-ic svg { width: 22px; height: 22px; }
-.ff-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
-.fc { position: relative; padding: 18px 20px 14px; border: 1px solid var(--line); border-top: 4px solid var(--tc); border-radius: 14px; background: linear-gradient(180deg, color-mix(in srgb, var(--tc) 7%, var(--surface)), var(--surface) 140px); scroll-margin-top: 140px; transition: transform .2s, box-shadow .2s, border-color .2s; }
+.ff-grid { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.fc { display: flex; flex-direction: column; position: relative; padding: 18px 20px 14px; border: 1px solid var(--line); border-top: 4px solid var(--tc); border-radius: 2px; background: linear-gradient(180deg, color-mix(in srgb, var(--tc) 7%, var(--surface)), var(--surface) 140px); scroll-margin-top: 140px; transition: transform .2s, box-shadow .2s, border-color .2s; }
 .fc-pic, .k-pic { position: relative; margin: 0; overflow: hidden; background: var(--surface-2); }
-.fc-pic { margin: -18px -20px 14px; aspect-ratio: 16 / 9; border-radius: 10px 10px 0 0; }
+.fc-pic { margin: -18px -20px 14px; aspect-ratio: 16 / 9; }
 .fc-pic img, .k-pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
 .fc-pic figcaption, .k-pic figcaption { position: absolute; right: 6px; bottom: 6px; max-width: calc(100% - 12px); padding: 1px 7px; border-radius: 6px; background: rgba(0,0,0,.6); color: #fff; font-size: .68rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .fc-pic figcaption a, .k-pic figcaption a { color: inherit; text-decoration: none; }
@@ -487,9 +487,9 @@ main section[id] { scroll-margin-top: calc(var(--head-h) + 12px); }
 .fc-stat b { display: block; font-size: clamp(2rem, 5vw, 2.6rem); line-height: 1.05; font-weight: 700; letter-spacing: -.02em; color: var(--tc); }
 .fc-stat span { font-size: .82rem; color: var(--muted); }
 .fc h3 { margin: 0 0 4px; font-size: 1.12rem; line-height: 1.35; }
-.fc-when { display: inline-block; margin: 2px 0 8px; padding: 1px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); font-size: .78rem; color: var(--muted); }
+.fc-when { align-self: flex-start; display: inline-block; margin: 2px 0 8px; padding: 1px 10px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); font-size: .78rem; color: var(--muted); }
 .fc-text { margin: 4px 0 12px; line-height: 1.65; }
-.fc-foot { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
+.fc-foot { margin-top: auto; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px dashed var(--line); }
 .fc-foot .h-src { margin: 0; }
 .fc-share { flex: none; display: inline-flex; align-items: center; gap: 6px; padding: 5px 12px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--muted); font-size: .8rem; cursor: pointer; }
 .fc-share:hover { color: var(--tc); border-color: var(--tc); }
