@@ -171,7 +171,8 @@ function heroPage(h, i) {
     const id = youtubeId(v.url), name = v.title || v.outlet;
     return {
       "@type": "VideoObject", name, description: v.outlet ? `${name}. Video from ${v.outlet}.` : name,
-      thumbnailUrl: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, uploadDate: v.date,
+      // Google wants a full date and time with a time zone; heroes.js only has the day, so noon UTC stands in.
+      thumbnailUrl: `https://i.ytimg.com/vi/${id}/hqdefault.jpg`, uploadDate: `${v.date}T12:00:00+00:00`,
       contentUrl: `https://www.youtube.com/watch?v=${id}`, embedUrl: `https://www.youtube.com/embed/${id}`
     };
   };
